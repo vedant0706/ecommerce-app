@@ -25,6 +25,8 @@ const Cart = () => {
         }
       }
       setCartData(tempData);
+    } else {
+      setCartData([])
     }
   }, [cartItems, products]);
 

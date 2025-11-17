@@ -6,13 +6,13 @@ import axios from 'axios'
 export const ShopContext = createContext();
 
 const ShopContextProvider = (props) => {
-    const currency = "$";
-    const delivery_fee = 10;
+    const currency = "₹ ";
+    const delivery_fee = 50;
     const backendUrl = import.meta.env.VITE_BACKEND_URL;
     const [search, setSearch] = useState('');
     const [showSearch, setShowSearch] = useState(false)
     const [cartItems, setCartItems] = useState({});
-    const [products, setProducts] = useState([]);
+    const [products, setProducts]    = useState([]);
     const [token, setToken] = useState('')
     const navigate = useNavigate();
 
@@ -72,7 +72,7 @@ const ShopContextProvider = (props) => {
 
         if(token) {
             try {
-                await axios.post(backendUrl + '/api/cart/update',{itemId, size, quantity}, {header: {token}} )
+                await axios.post(backendUrl + '/api/cart/update',{itemId, size, quantity}, {headers: {token}} )
             } catch (error) {
                 console.log(error)
                 toast.error(error.message)
@@ -137,8 +137,9 @@ const ShopContextProvider = (props) => {
     
     const value = {
         products, currency, delivery_fee,
-        search,setSearch,showSearch,setShowSearch,
-        cartItems, addToCart, setCartItems,
+        search, setSearch, showSearch, setShowSearch,
+        cartItems, setProducts,
+        addToCart, setCartItems,
         getCartCount, updateQuantity, 
         getCartAmount, navigate, backendUrl,
         setToken, token,

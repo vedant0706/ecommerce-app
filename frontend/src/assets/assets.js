@@ -1,723 +1,2003 @@
-import p_img1 from './p_img1.png'
-import p_img2_1 from './p_img2_1.png'
-import p_img2_2 from './p_img2_2.png'
-import p_img2_3 from './p_img2_3.png'
-import p_img2_4 from './p_img2_4.png'
-import p_img3 from './p_img3.png'
-import p_img4 from './p_img4.png'
-import p_img5 from './p_img5.png'
-import p_img6 from './p_img6.png'
-import p_img7 from './p_img7.png'
-import p_img8 from './p_img8.png'
-import p_img9 from './p_img9.png'
-import p_img10 from './p_img10.png'
-import p_img11 from './p_img11.png'
-import p_img12 from './p_img12.png'
-import p_img13 from './p_img13.png'
-import p_img14 from './p_img14.png'
-import p_img15 from './p_img15.png'
-import p_img16 from './p_img16.png'
-import p_img17 from './p_img17.png'
-import p_img18 from './p_img18.png'
-import p_img19 from './p_img19.png'
-import p_img20 from './p_img20.png'
-import p_img21 from './p_img21.png'
-import p_img22 from './p_img22.png'
-import p_img23 from './p_img23.png'
-import p_img24 from './p_img24.png'
-import p_img25 from './p_img25.png'
-import p_img26 from './p_img26.png'
-import p_img27 from './p_img27.png'
-import p_img28 from './p_img28.png'
-import p_img29 from './p_img29.png'
-import p_img30 from './p_img30.png'
-import p_img31 from './p_img31.png'
-import p_img32 from './p_img32.png'
-import p_img33 from './p_img33.png'
-import p_img34 from './p_img34.png'
-import p_img35 from './p_img35.png'
-import p_img36 from './p_img36.png'
-import p_img37 from './p_img37.png'
-import p_img38 from './p_img38.png'
-import p_img39 from './p_img39.png'
-import p_img40 from './p_img40.png'
-import p_img41 from './p_img41.png'
-import p_img42 from './p_img42.png'
-import p_img43 from './p_img43.png'
-import p_img44 from './p_img44.png'
-import p_img45 from './p_img45.png'
-import p_img46 from './p_img46.png'
-import p_img47 from './p_img47.png'
-import p_img48 from './p_img48.png'
-import p_img49 from './p_img49.png'
-import p_img50 from './p_img50.png'
-import p_img51 from './p_img51.png'
-import p_img52 from './p_img52.png'
-
-
-import logo from './logo.png'
-import hero_img from './hero_img.png'
-import cart_icon from './cart_icon.png'
-import bin_icon from './bin_icon.png'
-import dropdown_icon from './dropdown_icon.png'
-import exchange_icon from './exchange_icon.png'
-import profile_icon from './profile_icon.png'
-import quality_icon from './quality_icon.png'
-import search_icon from './search_icon.png'
-import star_dull_icon from './star_dull_icon.png'
-import star_icon from './star_icon.png'
-import support_img from './support_img.png'
-import menu_icon from './menu_icon.png'
-import about_img from './about_img.png'
-import contact_img from './contact_img.png'
-import razorpay_logo from './razorpay_logo.png'
-import stripe_logo from './stripe_logo.png'
-import cross_icon from './cross_icon.png'
+import logo from "./logo.png";
+import hero_img from "./hero_img.png";
+import cart_icon from "./cart_icon.png";
+import bin_icon from "./bin_icon.png";
+import dropdown_icon from "./dropdown_icon.png";
+import exchange_icon from "./exchange_icon.png";
+import profile_icon from "./profile_icon.png";
+import quality_icon from "./quality_icon.png";
+import search_icon from "./search_icon.png";
+import star_dull_icon from "./star_dull_icon.png";
+import star_icon from "./star_icon.png";
+import support_img from "./support_img.png";
+import menu_icon from "./menu_icon.png";
+import about_img from "./about_img.png";
+import contact_img from "./contact_img.png";
+import razorpay_logo from "./razorpay_logo.png";
+import stripe_logo from "./stripe_logo.png";
+import cross_icon from "./cross_icon.png";
+import header_img from "./header_img.jpg";
+import nav1_logo from "./nav1_logo.png";
 
 export const assets = {
-    logo,
-    hero_img,
-    cart_icon,
-    dropdown_icon,
-    exchange_icon,
-    profile_icon,
-    quality_icon,
-    search_icon,
-    star_dull_icon,
-    star_icon,
-    bin_icon,
-    support_img,
-    menu_icon,
-    about_img,
-    contact_img,
-    razorpay_logo,
-    stripe_logo,
-    cross_icon
-}
+  logo,
+  hero_img,
+  cart_icon,
+  dropdown_icon,
+  exchange_icon,
+  profile_icon,
+  quality_icon,
+  search_icon,
+  star_dull_icon,
+  star_icon,
+  bin_icon,
+  support_img,
+  menu_icon,
+  about_img,
+  contact_img,
+  razorpay_logo,
+  stripe_logo,
+  cross_icon,
+  header_img,
+  nav1_logo,
+};
+
+import GK_1 from "./all_clothes/GK_1.avif";
+import GK_1_1 from "./all_clothes/GK_1_1.jpg";
+import GK_1_2 from "./all_clothes/GK_1_2.jpg";
+import GK_2 from "./all_clothes/GK_2.avif";
+import GK_2_1 from "./all_clothes/GK_2_1.jpg";
+import GK_2_2 from "./all_clothes/GK_2_2.jpg";
+import GK_3 from "./all_clothes/GK_3.avif";
+import GK_3_1 from "./all_clothes/GK_3_1.jpg";
+import GK_4 from "./all_clothes/GK_4.avif";
+import GK_4_1 from "./all_clothes/GK_4_1.jpg";
+import GK_5 from "./all_clothes/GK_5.avif";
+import GK_5_1 from "./all_clothes/GK_5_1.jpg";
+import GK_6 from "./all_clothes/GK_6.avif";
+import GK_6_1 from "./all_clothes/GK_6_1.jpg";
+import GK_7 from "./all_clothes/GK_7.avif";
+import GK_8 from "./all_clothes/GK_8.jpg";
+import GK_8_1 from "./all_clothes/GK_8_1.jpg";
+import GK_9 from "./all_clothes/GK_9.jpg";
+import GK_10 from "./all_clothes/GK_10.jpg";
+import GK_11 from "./all_clothes/GK_11.webp";
+import GK_12 from "./all_clothes/GK_12.jpg";
+import GK_13 from "./all_clothes/GK_13.jpg";
+import GK_14 from "./all_clothes/GK_14.jpg";
+import GK_15 from "./all_clothes/GK_15.jpg";
+import GK_15_1 from "./all_clothes/GK_15_1.jpg";
+
+import GKB_1 from "./all_clothes/GKB_1.jpg";
+import GKB_2 from "./all_clothes/GKB_2.jpg";
+import GKB_3 from "./all_clothes/GKB_3.jpg";
+import GKB_4 from "./all_clothes/GKB_4.jpg";
+import GKB_5 from "./all_clothes/GKB_5.jpg";
+import GKB_6 from "./all_clothes/GKB_6.jpg";
+import GKB_7 from "./all_clothes/GKB_7.jpg";
+import GKB_8 from "./all_clothes/GKB_8.jpg";
+
+import BK_1 from "./all_clothes/BK_1.jpg";
+import BK_1_1 from "./all_clothes/BK_1_1.jpg";
+import BK_2 from "./all_clothes/BK_2.avif";
+import BK_2_1 from "./all_clothes/BK_2_1.jpg";
+import BK_3 from "./all_clothes/BK_3.jpg";
+import BK_4 from "./all_clothes/BK_4.avif";
+import BK_4_1 from "./all_clothes/BK_4_1.jpg";
+import BK_5 from "./all_clothes/BK_5.jpg";
+import BK_5_1 from "./all_clothes/BK_5_1.jpg";
+import BK_6 from "./all_clothes/BK_6.avif";
+import BK_7 from "./all_clothes/BK_7.avif";
+import BK_7_1 from "./all_clothes/BK_7_1.jpg";
+import BK_7_2 from "./all_clothes/BK_7_2.jpg";
+import BK_8 from "./all_clothes/BK_8.jpg";
+import BK_8_1 from "./all_clothes/BK_8_1.avif";
+import BK_9 from "./all_clothes/BK_9.avif";
+import BK_10 from "./all_clothes/BK_10.avif";
+import BK_10_1 from "./all_clothes/BK_10_1.jpg";
+
+import jeans_1 from "./all_clothes/jeans_1.jpg";
+import jeans_2 from "./all_clothes/jeans_2.jpg";
+import jeans_2_1 from "./all_clothes/jeans_2_1.jpg";
+import jeans_3 from "./all_clothes/jeans_3.jpg";
+import jeans_4 from "./all_clothes/jeans_4.jpg";
+import jeans_4_1 from "./all_clothes/jeans_4_1.jpg";
+import jeans_4_2 from "./all_clothes/jeans_4_2.jpg";
+import jeans_5 from "./all_clothes/jeans_5.jpg";
+import jeans_5_1 from "./all_clothes/jeans_5_1.jpg";
+import jeans_6 from "./all_clothes/jeans_6.jpg";
+import jeans_7 from "./all_clothes/jeans_7.jpg";
+import jeans_8 from "./all_clothes/jeans_8.jpg";
+import jeans_9 from "./all_clothes/jeans_9.jpg";
+import jeans_9_1 from "./all_clothes/jeans_9_1.jpg";
+import jeans_10 from "./all_clothes/jeans_10.jpg";
+import jeans_10_1 from "./all_clothes/jeans_10_1.jpg";
+import jeans_10_2 from "./all_clothes/jeans_10_2.jpg";
+import jeans_10_3 from "./all_clothes/jeans_10_3.jpg";
+import jeans_11 from "./all_clothes/jeans_11.jpg";
+import jeans_11_1 from "./all_clothes/jeans_11_1.jpg";
+import jeans_11_2 from "./all_clothes/jeans_11_2.jpg";
+import jeans_12 from "./all_clothes/jeans_12.jpg";
+import jeans_12_1 from "./all_clothes/jeans_12_1.jpg";
+import jeans_13 from "./all_clothes/jeans_13.jpg";
+import jeans_13_1 from "./all_clothes/jeans_13_1.jpg";
+import jeans_14 from "./all_clothes/jeans_14.jpg";
+import jeans_14_1 from "./all_clothes/jeans_14_1.jpg";
+import jeans_15 from "./all_clothes/jeans_15.jpg";
+import jeans_16 from "./all_clothes/jeans_16.jpg";
+import jeans_16_1 from "./all_clothes/jeans_16_1.jpg";
+import jeans_17 from "./all_clothes/jeans_17.jpg";
+import jeans_17_1 from "./all_clothes/jeans_17_1.jpg";
+import jeans_17_2 from "./all_clothes/jeans_17_2.jpg";
+import jeans_18 from "./all_clothes/jeans_18.jpg";
+import jeans_18_1 from "./all_clothes/jeans_18_1.jpg";
+import jeans_18_2 from "./all_clothes/jeans_18_2.jpg";
+import jeans_19 from "./all_clothes/jeans_19.jpg";
+import jeans_20 from "./all_clothes/jeans_20.jpg";
+
+import top_1 from "./all_clothes/top_1.webp";
+import top_1_1 from "./all_clothes/top_1_1.jpg";
+import top_2 from "./all_clothes/top_2.jpg";
+import top_2_1 from "./all_clothes/top_2_1.jpg";
+import top_3 from "./all_clothes/top_3.avif";
+import top_3_1 from "./all_clothes/top_3_1.jpg";
+import top_3_2 from "./all_clothes/top_3_2.jpg";
+import top_4 from "./all_clothes/top_4.avif";
+import top_4_1 from "./all_clothes/top_4_1.jpg";
+import top_4_2 from "./all_clothes/top_4_2.jpg";
+import top_5 from "./all_clothes/top_5.avif";
+import top_5_1 from "./all_clothes/top_5_1.jpg";
+import top_5_2 from "./all_clothes/top_5_2.jpg";
+import top_5_3 from "./all_clothes/top_5_3.jpg";
+import top_6 from "./all_clothes/top_6.avif";
+import top_6_1 from "./all_clothes/top_6_1.jpg";
+import top_6_2 from "./all_clothes/top_6_2.jpg";
+import top_7 from "./all_clothes/top_7.avif";
+import top_7_1 from "./all_clothes/top_7_1.jpg";
+import top_8 from "./all_clothes/top_8.jpg";
+import top_8_1 from "./all_clothes/top_8_1.jpg";
+import top_8_2 from "./all_clothes/top_8_2.jpg";
+import top_9 from "./all_clothes/top_9.jpg";
+import top_9_1 from "./all_clothes/top_9_1.jpg";
+import top_10 from "./all_clothes/top_10.jpg";
+import top_10_1 from "./all_clothes/top_10_1.jpg";
+import top_11 from "./all_clothes/top_11.jpg";
+import top_11_1 from "./all_clothes/top_11_1.jpg";
+import top_12 from "./all_clothes/top_12.jpg";
+import top_12_1 from "./all_clothes/top_12_1.jpg";
+import top_12_2 from "./all_clothes/top_12_2.jpg";
+import top_13 from "./all_clothes/top_13.jpg";
+import top_13_1 from "./all_clothes/top_13_1.jpg";
+import top_13_2 from "./all_clothes/top_13_2.jpg";
+import top_14 from "./all_clothes/top_14.avif";
+import top_14_1 from "./all_clothes/top_14_1.jpg";
+import top_14_2 from "./all_clothes/top_14_2.jpg";
+import top_15 from "./all_clothes/top_15.jpg";
+import top_15_1 from "./all_clothes/top_15_1.jpg";
+import top_15_2 from "./all_clothes/top_15_2.jpg";
+import top_16 from "./all_clothes/top_16.avif";
+import top_16_1 from "./all_clothes/top_16_1.jpg";
+import top_16_2 from "./all_clothes/top_16_2.jpg";
+import top_16_3 from "./all_clothes/top_16_3.jpg";
+import top_17 from "./all_clothes/top_17.webp";
+import top_17_1 from "./all_clothes/top_17_1.jpg";
+import top_18 from "./all_clothes/top_18.avif";
+import top_18_1 from "./all_clothes/top_18_1.jpg";
+import top_18_2 from "./all_clothes/top_18_2.jpg";
+import top_18_3 from "./all_clothes/top_18_3.jpg";
+import top_19 from "./all_clothes/top_19.jpg";
+import top_19_1 from "./all_clothes/top_19_1.jpg";
+import top_19_2 from "./all_clothes/top_19_2.jpg";
+import top_20 from "./all_clothes/top_20.avif";
+import top_20_1 from "./all_clothes/top_20_1.jpg";
+import top_20_2 from "./all_clothes/top_20_2.jpg";
+import top_20_3 from "./all_clothes/top_20_3.jpg";
+
+import WW_1 from "./all_clothes/WW_1.jpg";
+import WW_2 from "./all_clothes/WW_2.jpg";
+import WW_3 from "./all_clothes/WW_3.jpg";
+// 4 is missing
+import WW_5 from "./all_clothes/WW_5.jpg";
+import WW_6 from "./all_clothes/WW_6.jpg";
+import WW_7 from "./all_clothes/WW_7.jpg";
+import WW_8 from "./all_clothes/WW_8.jpg";
+import WW_9 from "./all_clothes/WW_9.jpg";
+import WW_10 from "./all_clothes/WW_10.jpg";
+
+//MENS CATEGORY
+import MB_1 from "./all_clothes/MB_1.jpg";
+import MB_1_1 from "./all_clothes/MB_1_1.avif";
+import MB_2 from "./all_clothes/MB_2.jpg";
+import MB_2_1 from "./all_clothes/MB_2_1.jpg";
+import MB_3 from "./all_clothes/MB_3.jpg";
+import MB_3_1 from "./all_clothes/MB_3_1.jpg";
+import MB_4 from "./all_clothes/MB_4.avif";
+import MB_4_1 from "./all_clothes/MB_4_1.jpg";
+import MB_5 from "./all_clothes/MB_5.avif";
+
+import MBJ_1 from "./all_clothes/MBJ_1.jpg";
+import MBJ_2 from "./all_clothes/MBJ_2.jpg";
+import MBJ_2_1 from "./all_clothes/MBJ_2_1.jpg";
+import MBJ_2_2 from "./all_clothes/MBJ_2_2.jpg";
+import MBJ_3 from "./all_clothes/MBJ_3.jpg";
+import MBJ_3_1 from "./all_clothes/MBJ_3_1.jpg";
+import MBJ_3_2 from "./all_clothes/MBJ_3_2.jpg";
+import MBJ_4 from "./all_clothes/MBJ_4.avif";
+import MBJ_4_1 from "./all_clothes/MBJ_4_1.jpg";
+import MBJ_5 from "./all_clothes/MBJ_5.webp";
+import MBJ_5_1 from "./all_clothes/MBJ_5_1.jpg";
+import MBJ_5_2 from "./all_clothes/MBJ_5_2.jpg";
+
+import MBT_1 from "./all_clothes/MBT_1.jpg";
+import MBT_1_1 from "./all_clothes/MBT_1_1.jpg";
+import MBT_2 from "./all_clothes/MBT_2.avif";
+import MBT_2_1 from "./all_clothes/MBT_2_1.jpg";
+import MBT_2_2 from "./all_clothes/MBT_2_2.jpg";
+import MBT_3 from "./all_clothes/MBT_3.avif";
+import MBT_3_1 from "./all_clothes/MBT_3_1.jpg";
+import MBT_4 from "./all_clothes/MBT_4.webp";
+import MBT_4_1 from "./all_clothes/MBT_4_1.jpg";
+import MBT_4_2 from "./all_clothes/MBT_4_2.jpg";
+import MBT_5 from "./all_clothes/MBT_5.avif";
+import MBT_5_1 from "./all_clothes/MBT_5_1.jpg";
+import MBT_6 from "./all_clothes/MBT_6.webp";
+import MBT_6_1 from "./all_clothes/MBT_6_1.jpg";
+import MBT_7 from "./all_clothes/MBT_7.jpg";
+import MBT_7_1 from "./all_clothes/MBT_7_1.jpg";
+import MBT_7_2 from "./all_clothes/MBT_7_2.jpg";
+import MBT_8 from "./all_clothes/MBT_8.jpg";
+import MBT_8_1 from "./all_clothes/MBT_8_1.jpg";
+import MBT_9 from "./all_clothes/MBT_9.avif";
+import MBT_9_1 from "./all_clothes/MBT_9_1.jpg";
+import MBT_9_2 from "./all_clothes/MBT_9_2.jpg";
+import MBT_10 from "./all_clothes/MBT_10.jpg";
+import MBT_10_1 from "./all_clothes/MBT_10_1.webp";
+import MBT_10_2 from "./all_clothes/MBT_10_2.jpg";
+
+import MT_1 from "./all_clothes/MT_1.avif";
+import MT_1_1 from "./all_clothes/MT_1_1.jpg";
+import MT_2 from "./all_clothes/MT_2.jpg";
+import MT_3 from "./all_clothes/MT_3.jpg";
+import MT_4 from "./all_clothes/MT_4.jpg";
+import MT_4_1 from "./all_clothes/MT_4_1.jpg";
+import MT_5 from "./all_clothes/MT_5.avif";
+import MT_6 from "./all_clothes/MT_6.jpg";
+import MT_7 from "./all_clothes/MT_7.webp";
+import MT_7_1 from "./all_clothes/MT_7_1.jpg";
+import MT_7_2 from "./all_clothes/MT_7_2.jpg";
+import MT_8 from "./all_clothes/MT_8.jpg";
+import MT_8_1 from "./all_clothes/MT_8_1.jpg";
+import MT_9 from "./all_clothes/MT_9.webp";
+import MT_10 from "./all_clothes/MT_10.webp";
+import MT_11 from "./all_clothes/MT_11.webp";
+import MT_11_1 from "./all_clothes/MT_11_1.jpg";
+import MT_12 from "./all_clothes/MT_12.jpg";
+import MT_13 from "./all_clothes/MT_13.webp";
+import MT_13_1 from "./all_clothes/MT_13_1.jpg";
+import MT_14 from "./all_clothes/MT_14.avif";
+import MT_14_1 from "./all_clothes/MT_14_1.jpg";
+import MT_15 from "./all_clothes/MT_15.avif";
+import MT_15_1 from "./all_clothes/MT_15_1.jpg";
+import MT_16 from "./all_clothes/MT_16.avif";
+import MT_17 from "./all_clothes/MT_17.jpg";
+import MT_17_1 from "./all_clothes/MT_17_1.jpg";
+import MT_18 from "./all_clothes/MT_18.jpg";
+import MT_18_1 from "./all_clothes/MT_18_1.jpg";
+import MT_19 from "./all_clothes/MT_19.jpg";
+import MT_19_1 from "./all_clothes/MT_19_1.webp";
+import MT_20 from "./all_clothes/MT_20.jpg";
+import MT_20_1 from "./all_clothes/MT_20_1.jpg";
+import MT_20_2 from "./all_clothes/MT_20_2.jpg";
+
+import MW_1 from "./all_clothes/MW_1.jpg";
+import MW_1_1 from "./all_clothes/MW_1_1.jpg";
+import MW_2 from "./all_clothes/MW_2.jpg";
+import MW_2_1 from "./all_clothes/MW_2_1.jpg";
+import MW_3 from "./all_clothes/MW_3.jpg";
+import MW_3_1 from "./all_clothes/MW_3_1.jpg";
+import MW_4 from "./all_clothes/MW_4.jpg";
+import MW_4_1 from "./all_clothes/MW_4_1.jpg";
+import MW_5 from "./all_clothes/MW_5.jpg";
+import MW_5_1 from "./all_clothes/MW_5_1.jpg";
+import MW_6 from "./all_clothes/MW_6.jpg";
+import MW_6_1 from "./all_clothes/MW_6_1.jpg";
+import MW_6_2 from "./all_clothes/MW_6_2.jpg";
+import MW_7 from "./all_clothes/MW_7.jpg";
+import MW_7_1 from "./all_clothes/MW_7_1.jpg";
+import MW_8 from "./all_clothes/MW_8.jpg";
+import MW_8_1 from "./all_clothes/MW_8_1.jpg";
+import MW_8_2 from "./all_clothes/MW_8_2.jpg";
+import MW_9 from "./all_clothes/MW_9.jpg";
+import MW_9_1 from "./all_clothes/MW_9_1.jpg";
+import MW_10 from "./all_clothes/MW_10.jpg";
+import MW_10_1 from "./all_clothes/MW_10_1.jpg";
+import MW_10_2 from "./all_clothes/MW_10_2.jpg";
+
+// HERO SECTION IMAGES
+import slide_1 from './all_clothes/header_1.jpg';
+import slide_2 from './all_clothes/header_2.jpg';
+import slide_3 from './all_clothes/header_3.jpg';
+import slide_4 from './all_clothes/header_4.jpg';
+
+export const heroSlides1 = [slide_1]
+export const heroSlides2 = [slide_2]
+export const heroSlides3= [slide_3]
+export const heroSlides4 = [slide_4]
 
 export const products = [
-    {
-        _id: "aaaaa",
-        name: "Women Round Neck Cotton Top",
-        description: "A lightweight, usually knitted, pullover shirt, close-fitting and with a round neckline and short sleeves, worn as an undershirt or outer garment.",
-        price: 100,
-        image: [p_img1],
-        category: "Women",
-        subCategory: "Topwear",
-        sizes: ["S", "M", "L"],
-        date: 1716634345448,
-        bestseller: true
-    },
-    {
-        _id: "aaaab",
-        name: "Men Round Neck Pure Cotton T-shirt",
-        description: "A lightweight, usually knitted, pullover shirt, close-fitting and with a round neckline and short sleeves, worn as an undershirt or outer garment.",
-        price: 200,
-        image: [p_img2_1,p_img2_2,p_img2_3,p_img2_4],
-        category: "Men",
-        subCategory: "Topwear",
-        sizes: ["M", "L", "XL"],
-        date: 1716621345448,
-        bestseller: true
-    },
-    {
-        _id: "aaaac",
-        name: "Girls Round Neck Cotton Top",
-        description: "A lightweight, usually knitted, pullover shirt, close-fitting and with a round neckline and short sleeves, worn as an undershirt or outer garment.",
-        price: 220,
-        image: [p_img3],
-        category: "Kids",
-        subCategory: "Topwear",
-        sizes: ["S", "L", "XL"],
-        date: 1716234545448,
-        bestseller: true
-    },
-    {
-        _id: "aaaad",
-        name: "Men Round Neck Pure Cotton T-shirt",
-        description: "A lightweight, usually knitted, pullover shirt, close-fitting and with a round neckline and short sleeves, worn as an undershirt or outer garment.",
-        price: 110,
-        image: [p_img4],
-        category: "Men",
-        subCategory: "Topwear",
-        sizes: ["S", "M", "XXL"],
-        date: 1716621345448,
-        bestseller: true
-    },
-    {
-        _id: "aaaae",
-        name: "Women Round Neck Cotton Top",
-        description: "A lightweight, usually knitted, pullover shirt, close-fitting and with a round neckline and short sleeves, worn as an undershirt or outer garment.",
-        price: 130,
-        image: [p_img5],
-        category: "Women",
-        subCategory: "Topwear",
-        sizes: ["M", "L", "XL"],
-        date: 1716622345448,
-        bestseller: true
-    },
-    {
-        _id: "aaaaf",
-        name: "Girls Round Neck Cotton Top",
-        description: "A lightweight, usually knitted, pullover shirt, close-fitting and with a round neckline and short sleeves, worn as an undershirt or outer garment.",
-        price: 140,
-        image: [p_img6],
-        category: "Kids",
-        subCategory: "Topwear",
-        sizes: ["S", "L", "XL"],
-        date: 1716623423448,
-        bestseller: true
-    },
-    {
-        _id: "aaaag",
-        name: "Men Tapered Fit Flat-Front Trousers",
-        description: "A lightweight, usually knitted, pullover shirt, close-fitting and with a round neckline and short sleeves, worn as an undershirt or outer garment.",
-        price: 190,
-        image: [p_img7],
-        category: "Men",
-        subCategory: "Bottomwear",
-        sizes: ["S", "L", "XL"],
-        date: 1716621542448,
-        bestseller: false
-    },
-    {
-        _id: "aaaah",
-        name: "Men Round Neck Pure Cotton T-shirt",
-        description: "A lightweight, usually knitted, pullover shirt, close-fitting and with a round neckline and short sleeves, worn as an undershirt or outer garment.",
-        price: 140,
-        image: [p_img8],
-        category: "Men",
-        subCategory: "Topwear",
-        sizes: ["S", "M", "L", "XL"],
-        date: 1716622345448,
-        bestseller: false
-    },
-    {
-        _id: "aaaai",
-        name: "Girls Round Neck Cotton Top",
-        description: "A lightweight, usually knitted, pullover shirt, close-fitting and with a round neckline and short sleeves, worn as an undershirt or outer garment.",
-        price: 100,
-        image: [p_img9],
-        category: "Kids",
-        subCategory: "Topwear",
-        sizes: ["M", "L", "XL"],
-        date: 1716621235448,
-        bestseller: false
-    },
-    {
-        _id: "aaaaj",
-        name: "Men Tapered Fit Flat-Front Trousers",
-        description: "A lightweight, usually knitted, pullover shirt, close-fitting and with a round neckline and short sleeves, worn as an undershirt or outer garment.",
-        price: 110,
-        image: [p_img10],
-        category: "Men",
-        subCategory: "Bottomwear",
-        sizes: ["S", "L", "XL"],
-        date: 1716622235448,
-        bestseller: false
-    },
-    {
-        _id: "aaaak",
-        name: "Men Round Neck Pure Cotton T-shirt",
-        description: "A lightweight, usually knitted, pullover shirt, close-fitting and with a round neckline and short sleeves, worn as an undershirt or outer garment.",
-        price: 120,
-        image: [p_img11],
-        category: "Men",
-        subCategory: "Topwear",
-        sizes: ["S", "M", "L"],
-        date: 1716623345448,
-        bestseller: false
-    },
-    {
-        _id: "aaaal",
-        name: "Men Round Neck Pure Cotton T-shirt",
-        description: "A lightweight, usually knitted, pullover shirt, close-fitting and with a round neckline and short sleeves, worn as an undershirt or outer garment.",
-        price: 150,
-        image: [p_img12],
-        category: "Men",
-        subCategory: "Topwear",
-        sizes: ["S", "M", "L", "XL"],
-        date: 1716624445448,
-        bestseller: false
-    },
-    {
-        _id: "aaaam",
-        name: "Women Round Neck Cotton Top",
-        description: "A lightweight, usually knitted, pullover shirt, close-fitting and with a round neckline and short sleeves, worn as an undershirt or outer garment.",
-        price: 130,
-        image: [p_img13],
-        category: "Women",
-        subCategory: "Topwear",
-        sizes: ["S", "M", "L", "XL"],
-        date: 1716625545448,
-        bestseller: false
-    },
-    {
-        _id: "aaaan",
-        name: "Boy Round Neck Pure Cotton T-shirt",
-        description: "A lightweight, usually knitted, pullover shirt, close-fitting and with a round neckline and short sleeves, worn as an undershirt or outer garment.",
-        price: 160,
-        image: [p_img14],
-        category: "Kids",
-        subCategory: "Topwear",
-        sizes: ["S", "M", "L", "XL"],
-        date: 1716626645448,
-        bestseller: false
-    },
-    {
-        _id: "aaaao",
-        name: "Men Tapered Fit Flat-Front Trousers",
-        description: "A lightweight, usually knitted, pullover shirt, close-fitting and with a round neckline and short sleeves, worn as an undershirt or outer garment.",
-        price: 140,
-        image: [p_img15],
-        category: "Men",
-        subCategory: "Bottomwear",
-        sizes: ["S", "M", "L", "XL"],
-        date: 1716627745448,
-        bestseller: false
-    },
-    {
-        _id: "aaaap",
-        name: "Girls Round Neck Cotton Top",
-        description: "A lightweight, usually knitted, pullover shirt, close-fitting and with a round neckline and short sleeves, worn as an undershirt or outer garment.",
-        price: 170,
-        image: [p_img16],
-        category: "Kids",
-        subCategory: "Topwear",
-        sizes: ["S", "M", "L", "XL"],
-        date: 1716628845448,
-        bestseller: false
-    },
-    {
-        _id: "aaaaq",
-        name: "Men Tapered Fit Flat-Front Trousers",
-        description: "A lightweight, usually knitted, pullover shirt, close-fitting and with a round neckline and short sleeves, worn as an undershirt or outer garment.",
-        price: 150,
-        image: [p_img17],
-        category: "Men",
-        subCategory: "Bottomwear",
-        sizes: ["S", "M", "L", "XL"],
-        date: 1716629945448,
-        bestseller: false
-    },
-    {
-        _id: "aaaar",
-        name: "Boy Round Neck Pure Cotton T-shirt",
-        description: "A lightweight, usually knitted, pullover shirt, close-fitting and with a round neckline and short sleeves, worn as an undershirt or outer garment.",
-        price: 180,
-        image: [p_img18],
-        category: "Kids",
-        subCategory: "Topwear",
-        sizes: ["S", "M", "L", "XL"],
-        date: 1716631045448,
-        bestseller: false
-    },
-    {
-        _id: "aaaas",
-        name: "Boy Round Neck Pure Cotton T-shirt",
-        description: "A lightweight, usually knitted, pullover shirt, close-fitting and with a round neckline and short sleeves, worn as an undershirt or outer garment.",
-        price: 160,
-        image: [p_img19],
-        category: "Kids",
-        subCategory: "Topwear",
-        sizes: ["S", "M", "L", "XL"],
-        date: 1716632145448,
-        bestseller: false
-    },
-    {
-        _id: "aaaat",
-        name: "Women Palazzo Pants with Waist Belt",
-        description: "A lightweight, usually knitted, pullover shirt, close-fitting and with a round neckline and short sleeves, worn as an undershirt or outer garment.",
-        price: 190,
-        image: [p_img20],
-        category: "Women",
-        subCategory: "Bottomwear",
-        sizes: ["S", "M", "L", "XL"],
-        date: 1716633245448,
-        bestseller: false
-    },
-    {
-        _id: "aaaau",
-        name: "Women Zip-Front Relaxed Fit Jacket",
-        description: "A lightweight, usually knitted, pullover shirt, close-fitting and with a round neckline and short sleeves, worn as an undershirt or outer garment.",
-        price: 170,
-        image: [p_img21],
-        category: "Women",
-        subCategory: "Winterwear",
-        sizes: ["S", "M", "L", "XL"],
-        date: 1716634345448,
-        bestseller: false
-    },
-    {
-        _id: "aaaav",
-        name: "Women Palazzo Pants with Waist Belt",
-        description: "A lightweight, usually knitted, pullover shirt, close-fitting and with a round neckline and short sleeves, worn as an undershirt or outer garment.",
-        price: 200,
-        image: [p_img22],
-        category: "Women",
-        subCategory: "Bottomwear",
-        sizes: ["S", "M", "L", "XL"],
-        date: 1716635445448,
-        bestseller: false
-    },
-    {
-        _id: "aaaaw",
-        name: "Boy Round Neck Pure Cotton T-shirt",
-        description: "A lightweight, usually knitted, pullover shirt, close-fitting and with a round neckline and short sleeves, worn as an undershirt or outer garment.",
-        price: 180,
-        image: [p_img23],
-        category: "Kids",
-        subCategory: "Topwear",
-        sizes: ["S", "M", "L", "XL"],
-        date: 1716636545448,
-        bestseller: false
-    },
-    {
-        _id: "aaaax",
-        name: "Boy Round Neck Pure Cotton T-shirt",
-        description: "A lightweight, usually knitted, pullover shirt, close-fitting and with a round neckline and short sleeves, worn as an undershirt or outer garment.",
-        price: 210,
-        image: [p_img24],
-        category: "Kids",
-        subCategory: "Topwear",
-        sizes: ["S", "M", "L", "XL"],
-        date: 1716637645448,
-        bestseller: false
-    },
-    {
-        _id: "aaaay",
-        name: "Girls Round Neck Cotton Top",
-        description: "A lightweight, usually knitted, pullover shirt, close-fitting and with a round neckline and short sleeves, worn as an undershirt or outer garment.",
-        price: 190,
-        image: [p_img25],
-        category: "Kids",
-        subCategory: "Topwear",
-        sizes: ["S", "M", "L", "XL"],
-        date: 1716638745448,
-        bestseller: false
-    },
-    {
-        _id: "aaaaz",
-        name: "Women Zip-Front Relaxed Fit Jacket",
-        description: "A lightweight, usually knitted, pullover shirt, close-fitting and with a round neckline and short sleeves, worn as an undershirt or outer garment.",
-        price: 220,
-        image: [p_img26],
-        category: "Women",
-        subCategory: "Winterwear",
-        sizes: ["S", "M", "L", "XL"],
-        date: 1716639845448,
-        bestseller: false
-    },
-    {
-        _id: "aaaba",
-        name: "Girls Round Neck Cotton Top",
-        description: "A lightweight, usually knitted, pullover shirt, close-fitting and with a round neckline and short sleeves, worn as an undershirt or outer garment.",
-        price: 200,
-        image: [p_img27],
-        category: "Kids",
-        subCategory: "Topwear",
-        sizes: ["S", "M", "L", "XL"],
-        date: 1716640945448,
-        bestseller: false
-    },
-    {
-        _id: "aaabb",
-        name: "Men Slim Fit Relaxed Denim Jacket",
-        description: "A lightweight, usually knitted, pullover shirt, close-fitting and with a round neckline and short sleeves, worn as an undershirt or outer garment.",
-        price: 230,
-        image: [p_img28],
-        category: "Men",
-        subCategory: "Winterwear",
-        sizes: ["S", "M", "L", "XL"],
-        date: 1716642045448,
-        bestseller: false
-    },
-    {
-        _id: "aaabc",
-        name: "Women Round Neck Cotton Top",
-        description: "A lightweight, usually knitted, pullover shirt, close-fitting and with a round neckline and short sleeves, worn as an undershirt or outer garment.",
-        price: 210,
-        image: [p_img29],
-        category: "Women",
-        subCategory: "Topwear",
-        sizes: ["S", "M", "L", "XL"],
-        date: 1716643145448,
-        bestseller: false
-    },
-    {
-        _id: "aaabd",
-        name: "Girls Round Neck Cotton Top",
-        description: "A lightweight, usually knitted, pullover shirt, close-fitting and with a round neckline and short sleeves, worn as an undershirt or outer garment.",
-        price: 240,
-        image: [p_img30],
-        category: "Kids",
-        subCategory: "Topwear",
-        sizes: ["S", "M", "L", "XL"],
-        date: 1716644245448,
-        bestseller: false
-    },
-    {
-        _id: "aaabe",
-        name: "Men Round Neck Pure Cotton T-shirt",
-        description: "A lightweight, usually knitted, pullover shirt, close-fitting and with a round neckline and short sleeves, worn as an undershirt or outer garment.",
-        price: 220,
-        image: [p_img31],
-        category: "Men",
-        subCategory: "Topwear",
-        sizes: ["S", "M", "L", "XL"],
-        date: 1716645345448,
-        bestseller: false
-    },
-    {
-        _id: "aaabf",
-        name: "Men Round Neck Pure Cotton T-shirt",
-        description: "A lightweight, usually knitted, pullover shirt, close-fitting and with a round neckline and short sleeves, worn as an undershirt or outer garment.",
-        price: 250,
-        image: [p_img32],
-        category: "Men",
-        subCategory: "Topwear",
-        sizes: ["S", "M", "L", "XL"],
-        date: 1716646445448,
-        bestseller: false
-    },
-    {
-        _id: "aaabg",
-        name: "Girls Round Neck Cotton Top",
-        description: "A lightweight, usually knitted, pullover shirt, close-fitting and with a round neckline and short sleeves, worn as an undershirt or outer garment.",
-        price: 230,
-        image: [p_img33],
-        category: "Kids",
-        subCategory: "Topwear",
-        sizes: ["S", "M", "L", "XL"],
-        date: 1716647545448,
-        bestseller: false
-    },
-    {
-        _id: "aaabh",
-        name: "Women Round Neck Cotton Top",
-        description: "A lightweight, usually knitted, pullover shirt, close-fitting and with a round neckline and short sleeves, worn as an undershirt or outer garment.",
-        price: 260,
-        image: [p_img34],
-        category: "Women",
-        subCategory: "Topwear",
-        sizes: ["S", "M", "L", "XL"],
-        date: 1716648645448,
-        bestseller: false
-    },
-    {
-        _id: "aaabi",
-        name: "Women Zip-Front Relaxed Fit Jacket",
-        description: "A lightweight, usually knitted, pullover shirt, close-fitting and with a round neckline and short sleeves, worn as an undershirt or outer garment.",
-        price: 240,
-        image: [p_img35],
-        category: "Women",
-        subCategory: "Winterwear",
-        sizes: ["S", "M", "L", "XL"],
-        date: 1716649745448,
-        bestseller: false
-    },
-    {
-        _id: "aaabj",
-        name: "Women Zip-Front Relaxed Fit Jacket",
-        description: "A lightweight, usually knitted, pullover shirt, close-fitting and with a round neckline and short sleeves, worn as an undershirt or outer garment.",
-        price: 270,
-        image: [p_img36],
-        category: "Women",
-        subCategory: "Winterwear",
-        sizes: ["S", "M", "L", "XL"],
-        date: 1716650845448,
-        bestseller: false
-    },
-    {
-        _id: "aaabk",
-        name: "Women Round Neck Cotton Top",
-        description: "A lightweight, usually knitted, pullover shirt, close-fitting and with a round neckline and short sleeves, worn as an undershirt or outer garment.",
-        price: 250,
-        image: [p_img37],
-        category: "Women",
-        subCategory: "Topwear",
-        sizes: ["S", "M", "L", "XL"],
-        date: 1716651945448,
-        bestseller: false
-    },
-    {
-        _id: "aaabl",
-        name: "Men Round Neck Pure Cotton T-shirt",
-        description: "A lightweight, usually knitted, pullover shirt, close-fitting and with a round neckline and short sleeves, worn as an undershirt or outer garment.",
-        price: 280,
-        image: [p_img38],
-        category: "Men",
-        subCategory: "Topwear",
-        sizes: ["S", "M", "L", "XL"],
-        date: 1716653045448,
-        bestseller: false
-    },
-    {
-        _id: "aaabm",
-        name: "Men Printed Plain Cotton Shirt",
-        description: "A lightweight, usually knitted, pullover shirt, close-fitting and with a round neckline and short sleeves, worn as an undershirt or outer garment.",
-        price: 260,
-        image: [p_img39],
-        category: "Men",
-        subCategory: "Topwear",
-        sizes: ["S", "M", "L", "XL"],
-        date: 1716654145448,
-        bestseller: false
-    },
-    {
-        _id: "aaabn",
-        name: "Men Slim Fit Relaxed Denim Jacket",
-        description: "A lightweight, usually knitted, pullover shirt, close-fitting and with a round neckline and short sleeves, worn as an undershirt or outer garment.",
-        price: 290,
-        image: [p_img40],
-        category: "Men",
-        subCategory: "Winterwear",
-        sizes: ["S", "M", "L", "XL"],
-        date: 1716655245448,
-        bestseller: false
-    },
-    {
-        _id: "aaabo",
-        name: "Men Round Neck Pure Cotton T-shirt",
-        description: "A lightweight, usually knitted, pullover shirt, close-fitting and with a round neckline and short sleeves, worn as an undershirt or outer garment.",
-        price: 270,
-        image: [p_img41],
-        category: "Men",
-        subCategory: "Topwear",
-        sizes: ["S", "M", "L", "XL"],
-        date: 1716656345448,
-        bestseller: false
-    },
-    {
-        _id: "aaabp",
-        name: "Boy Round Neck Pure Cotton T-shirt",
-        description: "A lightweight, usually knitted, pullover shirt, close-fitting and with a round neckline and short sleeves, worn as an undershirt or outer garment.",
-        price: 300,
-        image: [p_img42],
-        category: "Kids",
-        subCategory: "Topwear",
-        sizes: ["S", "M", "L", "XL"],
-        date: 1716657445448,
-        bestseller: false
-    },
-    {
-        _id: "aaabq",
-        name: "Kid Tapered Slim Fit Trouser",
-        description: "A lightweight, usually knitted, pullover shirt, close-fitting and with a round neckline and short sleeves, worn as an undershirt or outer garment.",
-        price: 280,
-        image: [p_img43],
-        category: "Kids",
-        subCategory: "Bottomwear",
-        sizes: ["S", "M", "L", "XL"],
-        date: 1716658545448,
-        bestseller: false
-    },
-    {
-        _id: "aaabr",
-        name: "Women Zip-Front Relaxed Fit Jacket",
-        description: "A lightweight, usually knitted, pullover shirt, close-fitting and with a round neckline and short sleeves, worn as an undershirt or outer garment.",
-        price: 310,
-        image: [p_img44],
-        category: "Women",
-        subCategory: "Winterwear",
-        sizes: ["S", "M", "L", "XL"],
-        date: 1716659645448,
-        bestseller: false
-    },
-    {
-        _id: "aaabs",
-        name: "Men Slim Fit Relaxed Denim Jacket",
-        description: "A lightweight, usually knitted, pullover shirt, close-fitting and with a round neckline and short sleeves, worn as an undershirt or outer garment.",
-        price: 290,
-        image: [p_img45],
-        category: "Men",
-        subCategory: "Winterwear",
-        sizes: ["S", "M", "L", "XL"],
-        date: 1716660745448,
-        bestseller: false
-    },
-    {
-        _id: "aaabt",
-        name: "Men Slim Fit Relaxed Denim Jacket",
-        description: "A lightweight, usually knitted, pullover shirt, close-fitting and with a round neckline and short sleeves, worn as an undershirt or outer garment.",
-        price: 320,
-        image: [p_img46],
-        category: "Men",
-        subCategory: "Winterwear",
-        sizes: ["S", "M", "L", "XL"],
-        date: 1716661845448,
-        bestseller: false
-    },
-    {
-        _id: "aaabu",
-        name: "Kid Tapered Slim Fit Trouser",
-        description: "A lightweight, usually knitted, pullover shirt, close-fitting and with a round neckline and short sleeves, worn as an undershirt or outer garment.",
-        price: 300,
-        image: [p_img47],
-        category: "Kids",
-        subCategory: "Bottomwear",
-        sizes: ["S", "M", "L", "XL"],
-        date: 1716662945448,
-        bestseller: false
-    },
-    {
-        _id: "aaabv",
-        name: "Men Slim Fit Relaxed Denim Jacket",
-        description: "A lightweight, usually knitted, pullover shirt, close-fitting and with a round neckline and short sleeves, worn as an undershirt or outer garment.",
-        price: 330,
-        image: [p_img48],
-        category: "Men",
-        subCategory: "Winterwear",
-        sizes: ["S", "M", "L", "XL"],
-        date: 1716664045448,
-        bestseller: false
-    },
-    {
-        _id: "aaabw",
-        name: "Kid Tapered Slim Fit Trouser",
-        description: "A lightweight, usually knitted, pullover shirt, close-fitting and with a round neckline and short sleeves, worn as an undershirt or outer garment.",
-        price: 310,
-        image: [p_img49],
-        category: "Kids",
-        subCategory: "Bottomwear",
-        sizes: ["S", "M", "L", "XL"],
-        date: 1716665145448,
-        bestseller: false
-    },
-    {
-        _id: "aaabx",
-        name: "Kid Tapered Slim Fit Trouser",
-        description: "A lightweight, usually knitted, pullover shirt, close-fitting and with a round neckline and short sleeves, worn as an undershirt or outer garment.",
-        price: 340,
-        image: [p_img50],
-        category: "Kids",
-        subCategory: "Bottomwear",
-        sizes: ["S", "M", "L", "XL"],
-        date: 1716666245448, bestseller: false
-    },
-    {
-        _id: "aaaby",
-        name: "Women Zip-Front Relaxed Fit Jacket",
-        description: "A lightweight, usually knitted, pullover shirt, close-fitting and with a round neckline and short sleeves, worn as an undershirt or outer garment.",
-        price: 320,
-        image: [p_img51],
-        category: "Women",
-        subCategory: "Winterwear",
-        sizes: ["S", "M", "L", "XL"],
-        date: 1716667345448,
-        bestseller: false
-    },
-    {
-        _id: "aaabz",
-        name: "Men Slim Fit Relaxed Denim Jacket",
-        description: "A lightweight, usually knitted, pullover shirt, close-fitting and with a round neckline and short sleeves, worn as an undershirt or outer garment.",
-        price: 350,
-        image: [p_img52],
-        category: "Men",
-        subCategory: "Winterwear",
-        sizes: ["S", "M", "L", "XL"],
-        date: 1716668445448,
-        bestseller: false
-    }
+  {
+    _id: "aaaaa",
+    name: "Women’s Wear",
+    description:
+      "Trendy and elegant women’s outfits from tops and dresses to ethnic wear — made with premium fabrics and flattering designs.",
+    price: 500,
+    image: [top_1, top_1_1],
+    category: "Women",
+    subCategory: "Topwear",
+    sizes: ["S", "M", "L", "XL"],
+    date: 1716634345448,
+    BestSeller: true,
+  },
+  {
+    _id: "aaaab",
+    name: "Women’s Wear",
+    description:
+      "Trendy and elegant women’s outfits from tops and dresses to ethnic wear — made with premium fabrics and flattering designs.",
+    price: 550,
+    image: [top_2, top_2_1],
+    category: "Women",
+    subCategory: "Topwear",
+    sizes: ["M", "L", "XL"],
+    date: 1716634345448,
+    BestSeller: true,
+  },
+  {
+    _id: "aaaac",
+    name: "Women’s Wear",
+    description:
+      "Trendy and elegant women’s outfits from tops and dresses to ethnic wear — made with premium fabrics and flattering designs.",
+    price: 600,
+    image: [top_3, top_3_1, top_3_2],
+    category: "Women",
+    subCategory: "Topwear",
+    sizes: ["S", "M", "L", "XL"],
+    date: 1716634345448,
+    BestSeller: true,
+  },
+  {
+    _id: "aaaad",
+    name: "Women’s Wear",
+    description:
+      "Trendy and elegant women’s outfits from tops and dresses to ethnic wear — made with premium fabrics and flattering designs.",
+    price: 500,
+    image: [top_4, top_4_1, top_4_2],
+    category: "Women",
+    subCategory: "Topwear",
+    sizes: ["M", "L", "XL"],
+    date: 1716634345448,
+    BestSeller: true,
+  },
+  {
+    _id: "aaaae",
+    name: "Women’s Wear",
+    description:
+      "Trendy and elegant women’s outfits from tops and dresses to ethnic wear — made with premium fabrics and flattering designs.",
+    price: 800,
+    image: [top_5, top_5_1, top_5_2, top_5_3],
+    category: "Women",
+    subCategory: "Topwear",
+    sizes: ["S", "M", "L", "XL"],
+    date: 1716634345448,
+    BestSeller: true,
+  },
+  {
+    _id: "aaaaf",
+    name: "Women’s Wear",
+    description:
+      "Trendy and elegant women’s outfits from tops and dresses to ethnic wear — made with premium fabrics and flattering designs.",
+    price: 650,
+    image: [top_6, top_6_1, top_6_2],
+    category: "Women",
+    subCategory: "Topwear",
+    sizes: ["M", "L", "XL", "XXL"],
+    date: 1716634345448,
+    BestSeller: false,
+  },
+  {
+    _id: "aaaag",
+    name: "Women’s Wear",
+    description:
+      "Trendy and elegant women’s outfits from tops and dresses to ethnic wear — made with premium fabrics and flattering designs.",
+    price: 500,
+    image: [top_7, top_7_1],
+    category: "Women",
+    subCategory: "Topwear",
+    sizes: ["M", "L", "XL", "XXL"],
+    date: 1716634345448,
+    BestSeller: false,
+  },
+  {
+    _id: "aaaah",
+    name: "Women’s Wear",
+    description:
+      "Trendy and elegant women’s outfits from tops and dresses to ethnic wear — made with premium fabrics and flattering designs.",
+    price: 500,
+    image: [top_8, top_8_1, top_8_2],
+    category: "Women",
+    subCategory: "Topwear",
+    sizes: ["M", "L", "XL"],
+    date: 1716634345448,
+    BestSeller: false,
+  },
+  {
+    _id: "aaaai",
+    name: "Women’s Wear",
+    description:
+      "Trendy and elegant women’s outfits from tops and dresses to ethnic wear — made with premium fabrics and flattering designs.",
+    price: 750,
+    image: [top_9, top_9_1],
+    category: "Women",
+    subCategory: "Topwear",
+    sizes: ["S", "M", "L", "XL"],
+    date: 1716634345448,
+    BestSeller: false,
+  },
+  {
+    _id: "aaaaj",
+    name: "Women’s Wear",
+    description:
+      "Trendy and elegant women’s outfits from tops and dresses to ethnic wear — made with premium fabrics and flattering designs.",
+    price: 600,
+    image: [top_10, top_10_1],
+    category: "Women",
+    subCategory: "Topwear",
+    sizes: ["M", "L", "XL"],
+    date: 1716634345448,
+    BestSeller: false,
+  },
+  {
+    _id: "aaaak",
+    name: "Women’s Wear",
+    description:
+      "Trendy and elegant women’s outfits from tops and dresses to ethnic wear — made with premium fabrics and flattering designs.",
+    price: 450,
+    image: [top_11, top_11_1],
+    category: "Women",
+    subCategory: "Topwear",
+    sizes: ["M", "L", "XL", "XXL"],
+    date: 1716634345448,
+    BestSeller: false,
+  },
+  {
+    _id: "aaaal",
+    name: "Women’s Wear",
+    description:
+      "Trendy and elegant women’s outfits from tops and dresses to ethnic wear — made with premium fabrics and flattering designs.",
+    price: 550,
+    image: [top_12, top_12_1, top_12_2],
+    category: "Women",
+    subCategory: "Topwear",
+    sizes: ["M", "L", "XL", "XXL"],
+    date: 1716634345448,
+    BestSeller: false,
+  },
+  {
+    _id: "aaaam",
+    name: "Women’s Wear",
+    description:
+      "Trendy and elegant women’s outfits from tops and dresses to ethnic wear — made with premium fabrics and flattering designs.",
+    price: 999,
+    image: [top_13, top_13_1, top_13_2],
+    category: "Women",
+    subCategory: "Topwear",
+    sizes: ["M", "L", "XL", "XXL"],
+    date: 1716634345448,
+    BestSeller: false,
+  },
+  {
+    _id: "aaaan",
+    name: "Women’s Wear",
+    description:
+      "Trendy and elegant women’s outfits from tops and dresses to ethnic wear — made with premium fabrics and flattering designs.",
+    price: 1100,
+    image: [top_14, top_14_1, top_14_2],
+    category: "Women",
+    subCategory: "Topwear",
+    sizes: ["S", "M", "L", "XL", "XXL"],
+    date: 1716634345448,
+    BestSeller: false,
+  },
+  {
+    _id: "aaaab0",
+    name: "Women’s Wear",
+    description:
+      "Trendy and elegant women’s outfits from tops and dresses to ethnic wear — made with premium fabrics and flattering designs.",
+    price: 750,
+    image: [top_15, top_15_1, top_15_2],
+    category: "Women",
+    subCategory: "Topwear",
+    sizes: ["S", "M", "L", "XL"],
+    date: 1716634345448,
+    BestSeller: false,
+  },
+  {
+    _id: "aaaap",
+    name: "Women’s Wear",
+    description:
+      "Trendy and elegant women’s outfits from tops and dresses to ethnic wear — made with premium fabrics and flattering designs.",
+    price: 1000,
+    image: [top_16, top_16_1, top_16_2, top_16_3],
+    category: "Women",
+    subCategory: "Topwear",
+    sizes: ["M", "L", "XL", "XXL"],
+    date: 1716634345448,
+    BestSeller: false,
+  },
+  {
+    _id: "aaaaq",
+    name: "Women’s Wear",
+    description:
+      "Trendy and elegant women’s outfits from tops and dresses to ethnic wear — made with premium fabrics and flattering designs.",
+    price: 650,
+    image: [top_17, top_17_1],
+    category: "Women",
+    subCategory: "Topwear",
+    sizes: ["M", "L", "XL", "XXL"],
+    date: 1716634345448,
+    BestSeller: false,
+  },
+  {
+    _id: "aaaar",
+    name: "Women’s Wear",
+    description:
+      "Trendy and elegant women’s outfits from tops and dresses to ethnic wear — made with premium fabrics and flattering designs.",
+    price: 950,
+    image: [top_18, top_18_1, top_18_2, top_18_3],
+    category: "Women",
+    subCategory: "Topwear",
+    sizes: ["S", "M", "L", "XL", "XXL"],
+    date: 1716634345448,
+    BestSeller: false,
+  },
+  {
+    _id: "aaaas",
+    name: "Women’s Wear",
+    description:
+      "Trendy and elegant women’s outfits from tops and dresses to ethnic wear — made with premium fabrics and flattering designs.",
+    price: 950,
+    image: [top_19, top_19_1, top_19_2],
+    category: "Women",
+    subCategory: "Topwear",
+    sizes: ["M", "L", "XL"],
+    date: 1716634345448,
+    BestSeller: false,
+  },
+  {
+    _id: "aaaat",
+    name: "Women’s Wear",
+    description:
+      "Trendy and elegant women’s outfits from tops and dresses to ethnic wear — made with premium fabrics and flattering designs.",
+    price: 1200,
+    image: [top_20, top_20_1, top_20_2, top_20_3],
+    category: "Women",
+    subCategory: "Topwear",
+    sizes: ["S", "M", "L", "XL", "XXL"],
+    date: 1716634345448,
+    BestSeller: false,
+  },
+  {
+    _id: "aaaau",
+    name: "Women’s Wear",
+    description:
+      "Trendy and elegant women’s outfits from tops and dresses to ethnic wear — made with premium fabrics and flattering designs.",
+    price: 1200,
+    image: [WW_1],
+    category: "Women",
+    subCategory: "Topwear",
+    sizes: ["M", "L", "XL"],
+    date: 1716634345448,
+    BestSeller: false,
+  },
+  {
+    _id: "aaaav",
+    name: "Women’s Wear",
+    description:
+      "Trendy and elegant women’s outfits from tops and dresses to ethnic wear — made with premium fabrics and flattering designs.",
+    price: 999,
+    image: [WW_2],
+    category: "Women",
+    subCategory: "Topwear",
+    sizes: ["M", "L", "XL"],
+    date: 1716634345448,
+    BestSeller: false,
+  },
+  {
+    _id: "aaaaw",
+    name: "Women’s Wear",
+    description:
+      "Trendy and elegant women’s outfits from tops and dresses to ethnic wear — made with premium fabrics and flattering designs.",
+    price: 1100,
+    image: [WW_3],
+    category: "Women",
+    subCategory: "Topwear",
+    sizes: ["M", "L", "XL"],
+    date: 1716634345448,
+    BestSeller: false,
+  },
+  {
+    _id: "aaaax",
+    name: "Women’s Wear",
+    description:
+      "Trendy and elegant women’s outfits from tops and dresses to ethnic wear — made with premium fabrics and flattering designs.",
+    price: 990,
+    image: [WW_5],
+    category: "Women",
+    subCategory: "Topwear",
+    sizes: ["M", "L", "XL"],
+    date: 1716634345448,
+    BestSeller: false,
+  },
+  {
+    _id: "aaaay",
+    name: "Women’s Wear",
+    description:
+      "Trendy and elegant women’s outfits from tops and dresses to ethnic wear — made with premium fabrics and flattering designs.",
+    price: 1550,
+    image: [WW_6],
+    category: "Women",
+    subCategory: "Topwear",
+    sizes: ["M", "L", "XL"],
+    date: 1716634345448,
+    BestSeller: false,
+  },
+  {
+    _id: "aaaaz",
+    name: "Women’s Wear",
+    description:
+      "Trendy and elegant women’s outfits from tops and dresses to ethnic wear — made with premium fabrics and flattering designs.",
+    price: 1250,
+    image: [WW_7],
+    category: "Women",
+    subCategory: "Topwear",
+    sizes: ["M", "L", "XL"],
+    date: 1716634345448,
+    BestSeller: false,
+  },
+  {
+    _id: "aaaaaa",
+    name: "Women’s Wear",
+    description:
+      "Trendy and elegant women’s outfits from tops and dresses to ethnic wear — made with premium fabrics and flattering designs.",
+    price: 1200,
+    image: [WW_8],
+    category: "Women",
+    subCategory: "Topwear",
+    sizes: ["M", "L", "XL"],
+    date: 1716634345448,
+    BestSeller: false,
+  },
+  {
+    _id: "aaaaab",
+    name: "Women’s Wear",
+    description:
+      "Trendy and elegant women’s outfits from tops and dresses to ethnic wear — made with premium fabrics and flattering designs.",
+    price: 1100,
+    image: [WW_9],
+    category: "Women",
+    subCategory: "Topwear",
+    sizes: ["M", "L", "XL"],
+    date: 1716634345448,
+    BestSeller: false,
+  },
+  {
+    _id: "aaaaac",
+    name: "Women’s Wear",
+    description:
+      "Trendy and elegant women’s outfits from tops and dresses to ethnic wear — made with premium fabrics and flattering designs.",
+    price: 999,
+    image: [WW_10],
+    category: "Women",
+    subCategory: "Topwear",
+    sizes: ["M", "L", "XL"],
+    date: 1716634345448,
+    BestSeller: false,
+  },
 
-]
+  // ============= KIDS ===========
+  // ============= KIDS ===========
+  // ============= KIDS ===========
+  // ============= KIDS ===========
+  // ============= KIDS ===========
+  // ============= KIDS ===========
+  // ============= KIDS ===========
+  // ============= KIDS ===========
+  {
+    _id: "aaaaad",
+    name: "Kids Wear",
+    description: "Soft, cute, and comfy clothes for kids of all ages.",
+    price: 549,
+    image: [GK_1, GK_1_1, GK_1_2],
+    category: "Kids",
+    subCategory: "Topwear",
+    sizes: ["S", "M", "L"],
+    date: 1716634345448,
+    BestSeller: false,
+  },
+  {
+    _id: "aaaaae",
+    name: "kids Wear",
+    description: "Soft, cute, and comfy clothes for kids of all ages.",
+    price: 600,
+    image: [GK_2, GK_2_1, GK_2_2],
+    category: "Kids",
+    subCategory: "Topwear",
+    sizes: ["S", "M", "L"],
+    date: 1716634345448,
+    BestSeller: false,
+  },
+  {
+    _id: "aaaaaf",
+    name: "kids Wear",
+    description: "Soft, cute, and comfy clothes for kids of all ages.",
+    price: 999,
+    image: [GK_3, GK_3_1],
+    category: "Kids",
+    subCategory: "Topwear",
+    sizes: ["S", "M", "L"],
+    date: 1716634345448,
+    BestSeller: false,
+  },
+  {
+    _id: "aaaaag",
+    name: "kids Wear",
+    description: "Soft, cute, and comfy clothes for kids of all ages.",
+    price: 899,
+    image: [GK_4, GK_4_1],
+    category: "Kids",
+    subCategory: "Topwear",
+    sizes: ["S", "M", "L"],
+    date: 1716634345448,
+    BestSeller: false,
+  },
+  {
+    _id: "aaaaah",
+    name: "kids Wear",
+    description: "Soft, cute, and comfy clothes for kids of all ages.",
+    price: 1000,
+    image: [GK_5, GK_5_1],
+    category: "Kids",
+    subCategory: "Topwear",
+    sizes: ["S", "M", "L"],
+    date: 1716634345448,
+    BestSeller: false,
+  },
+  {
+    _id: "aaaaai",
+    name: "kids Wear",
+    description: "Soft, cute, and comfy clothes for kids of all ages.",
+    price: 400,
+    image: [GK_6, GK_6_1],
+    category: "Kids",
+    subCategory: "Topwear",
+    sizes: ["S", "M", "L"],
+    date: 1716634345448,
+    BestSeller: false,
+  },
+  {
+    _id: "aaaaaj",
+    name: "kids Wear",
+    description: "Soft, cute, and comfy clothes for kids of all ages.",
+    price: 799,
+    image: [GK_7],
+    category: "Kids",
+    subCategory: "Topwear",
+    sizes: ["S", "M", "L"],
+    date: 1716634345448,
+    BestSeller: false,
+  },
+  {
+    _id: "aaaaak",
+    name: "kids Wear",
+    description: "Soft, cute, and comfy clothes for kids of all ages.",
+    price: 499,
+    image: [GK_8, GK_8_1],
+    category: "Kids",
+    subCategory: "Topwear",
+    sizes: ["S", "M", "L"],
+    date: 1716634345448,
+    BestSeller: false,
+  },
+  {
+    _id: "aaaaal",
+    name: "kids Wear",
+    description: "Soft, cute, and comfy clothes for kids of all ages.",
+    price: 999,
+    image: [GK_9],
+    category: "Kids",
+    subCategory: "Topwear",
+    sizes: ["S", "M", "L"],
+    date: 1716634345448,
+    BestSeller: false,
+  },
+  {
+    _id: "aaaaal-1",
+    name: "kids Wear",
+    description: "Soft, cute, and comfy clothes for kids of all ages.",
+    price: 999,
+    image: [GK_10],
+    category: "Kids",
+    subCategory: "Topwear",
+    sizes: ["S", "M", "L"],
+    date: 1716634345448,
+    BestSeller: false,
+  },
+  {
+    _id: "aaaaam",
+    name: "kids Wear",
+    description: "Soft, cute, and comfy clothes for kids of all ages.",
+    price: 399,
+    image: [GK_11],
+    category: "Kids",
+    subCategory: "Topwear",
+    sizes: ["S", "M", "L"],
+    date: 1716634345448,
+    BestSeller: false,
+  },
+  {
+    _id: "aaaaan",
+    name: "kids Wear",
+    description: "Soft, cute, and comfy clothes for kids of all ages.",
+    price: 440,
+    image: [GK_12],
+    category: "Kids",
+    subCategory: "Topwear",
+    sizes: ["S", "M", "L"],
+    date: 1716634345448,
+    BestSeller: false,
+  },
+  {
+    _id: "aaaaao",
+    name: "kids Wear",
+    description: "Soft, cute, and comfy clothes for kids of all ages.",
+    price: 450,
+    image: [GK_13],
+    category: "Kids",
+    subCategory: "Topwear",
+    sizes: ["S", "M", "L"],
+    date: 1716634345448,
+    BestSeller: false,
+  },
+  {
+    _id: "aaaaap",
+    name: "kids Wear",
+    description: "Soft, cute, and comfy clothes for kids of all ages.",
+    price: 550,
+    image: [GK_14],
+    category: "Kids",
+    subCategory: "Topwear",
+    sizes: ["S", "M", "L"],
+    date: 1716634345448,
+    BestSeller: false,
+  },
+  {
+    _id: "aaaaaq",
+    name: "kids Wear",
+    description: "Soft, cute, and comfy clothes for kids of all ages.",
+    price: 700,
+    image: [GK_15, GK_15_1],
+    category: "Kids",
+    subCategory: "Topwear",
+    sizes: ["S", "M", "L"],
+    date: 1716634345448,
+    BestSeller: false,
+  },
+  {
+    _id: "aaaaar",
+    name: "kids Wear",
+    description: "Soft, cute, and comfy clothes for kids of all ages.",
+    price: 599,
+    image: [GKB_1],
+    category: "Kids",
+    subCategory: "Bottomwear",
+    sizes: ["S", "M", "L"],
+    date: 1716634345448,
+    BestSeller: false,
+  },
+  {
+    _id: "aaaaas",
+    name: "kids Wear",
+    description: "Soft, cute, and comfy clothes for kids of all ages.",
+    price: 299,
+    image: [GKB_2],
+    category: "Kids",
+    subCategory: "Bottomwear",
+    sizes: ["S", "M", "L"],
+    date: 1716634345448,
+    BestSeller: false,
+  },
+  {
+    _id: "aaaaat",
+    name: "kids Wear",
+    description: "Soft, cute, and comfy clothes for kids of all ages.",
+    price: 399,
+    image: [GKB_3],
+    category: "Kids",
+    subCategory: "Bottomwear",
+    sizes: ["S", "M", "L"],
+    date: 1716634345448,
+    BestSeller: false,
+  },
+  {
+    _id: "aaaaau",
+    name: "kids Wear",
+    description: "Soft, cute, and comfy clothes for kids of all ages.",
+    price: 400,
+    image: [GKB_4],
+    category: "Kids",
+    subCategory: "Bottomwear",
+    sizes: ["S", "M", "L"],
+    date: 1716634345448,
+    BestSeller: false,
+  },
+  {
+    _id: "aaaaav",
+    name: "kids Wear",
+    description: "Soft, cute, and comfy clothes for kids of all ages.",
+    price: 200,
+    image: [GKB_5],
+    category: "Kids",
+    subCategory: "Bottomwear",
+    sizes: ["S", "M", "L"],
+    date: 1716634345448,
+    BestSeller: false,
+  },
+  {
+    _id: "aaaaaw",
+    name: "kids Wear",
+    description: "Soft, cute, and comfy clothes for kids of all ages.",
+    price: 300,
+    image: [GKB_6],
+    category: "Kids",
+    subCategory: "Bottomwear",
+    sizes: ["S", "M", "L"],
+    date: 1716634345448,
+    BestSeller: false,
+  },
+  {
+    _id: "aaaaax",
+    name: "kids Wear",
+    description: "Soft, cute, and comfy clothes for kids of all ages.",
+    price: 349,
+    image: [GKB_7],
+    category: "Kids",
+    subCategory: "Bottomwear",
+    sizes: ["S", "M", "L"],
+    date: 1716634345448,
+    BestSeller: false,
+  },
+  {
+    _id: "aaaaay",
+    name: "kids Wear",
+    description: "Soft, cute, and comfy clothes for kids of all ages.",
+    price: 799,
+    image: [GKB_8],
+    category: "Kids",
+    subCategory: "Bottomwear",
+    sizes: ["S", "M", "L"],
+    date: 1716634345448,
+    BestSeller: false,
+  },
+  {
+    _id: "aaaaaz",
+    name: "kids Wear",
+    description: "Soft, cute, and comfy clothes for kids of all ages.",
+    price: 499,
+    image: [BK_1, BK_1_1],
+    category: "Kids",
+    subCategory: "Topwear",
+    sizes: ["S", "M", "L"],
+    date: 1716634345448,
+    BestSeller: false,
+  },
+  {
+    _id: "aaaaaaa",
+    name: "kids Wear",
+    description: "Soft, cute, and comfy clothes for kids of all ages.",
+    price: 449,
+    image: [BK_2, BK_2_1],
+    category: "Kids",
+    subCategory: "Topwear",
+    sizes: ["S", "M", "L"],
+    date: 1716634345448,
+    BestSeller: false,
+  },
+  {
+    _id: "aaaaaab",
+    name: "kids Wear",
+    description: "Soft, cute, and comfy clothes for kids of all ages.",
+    price: 799,
+    image: [BK_3],
+    category: "Kids",
+    subCategory: "Topwear",
+    sizes: ["S", "M", "L"],
+    date: 1716634345448,
+    BestSeller: false,
+  },
+  {
+    _id: "aaaaaac",
+    name: "kids Wear",
+    description: "Soft, cute, and comfy clothes for kids of all ages.",
+    price: 799,
+    image: [BK_4, BK_4_1],
+    category: "Kids",
+    subCategory: "Topwear",
+    sizes: ["S", "M", "L"],
+    date: 1716634345448,
+    BestSeller: false,
+  },
+  {
+    _id: "aaaaaad",
+    name: "kids Wear",
+    description: "Soft, cute, and comfy clothes for kids of all ages.",
+    price: 599,
+    image: [BK_5, BK_5_1],
+    category: "Kids",
+    subCategory: "Topwear",
+    sizes: ["S", "M", "L"],
+    date: 1716634345448,
+    BestSeller: false,
+  },
+  {
+    _id: "aaaaaae",
+    name: "kids Wear",
+    description: "Soft, cute, and comfy clothes for kids of all ages.",
+    price: 700,
+    image: [BK_6],
+    category: "Kids",
+    subCategory: "Bottomwear",
+    sizes: ["S", "M", "L"],
+    date: 1716634345448,
+    BestSeller: false,
+  },
+  {
+    _id: "aaaaaaf",
+    name: "kids Wear",
+    description: "Soft, cute, and comfy clothes for kids of all ages.",
+    price: 899,
+    image: [BK_7, BK_7_1, BK_7_2],
+    category: "Kids",
+    subCategory: "Bottomwear",
+    sizes: ["S", "M", "L"],
+    date: 1716634345448,
+    BestSeller: false,
+  },
+  {
+    _id: "aaaaaag",
+    name: "kids Wear",
+    description: "Soft, cute, and comfy clothes for kids of all ages.",
+    price: 599,
+    image: [BK_8, BK_8_1],
+    category: "Kids",
+    subCategory: "Bottomwear",
+    sizes: ["S", "M", "L"],
+    date: 1716634345448,
+    BestSeller: false,
+  },
+  {
+    _id: "aaaaaah",
+    name: "kids Wear",
+    description: "Soft, cute, and comfy clothes for kids of all ages.",
+    price: 600,
+    image: [BK_9],
+    category: "Kids",
+    subCategory: "Bottomwear",
+    sizes: ["S", "M", "L"],
+    date: 1716634345448,
+    BestSeller: false,
+  },
+  {
+    _id: "aaaaaai",
+    name: "kids Wear",
+    description: "Soft, cute, and comfy clothes for kids of all ages.",
+    price: 899,
+    image: [BK_10, BK_10_1],
+    category: "Kids",
+    subCategory: "Bottomwear",
+    sizes: ["S", "M", "L"],
+    date: 1716634345448,
+    BestSeller: false,
+  },
+
+  // ======= WOMEN JEANS =========
+  // ======= WOMEN JEANS =========
+  // ======= WOMEN JEANS =========
+  // ======= WOMEN JEANS =========
+  // ======= WOMEN JEANS =========
+  // ======= WOMEN JEANS =========
+
+  {
+    _id: "aaaaaaj",
+    name: "Women's Wear",
+    description: "Trendy and elegant clothing designed for every occasion.",
+    price: 899,
+    image: [jeans_1],
+    category: "Women",
+    subCategory: "Bottomwear",
+    sizes: ["M", "L", "XL", "XXL"],
+    date: 1716634345448,
+    BestSeller: false,
+  },
+  {
+    _id: "aaaaaak",
+    name: "Women's Wear",
+    description: "Trendy and elegant clothing designed for every occasion.",
+    price: 999,
+    image: [jeans_2, jeans_2_1],
+    category: "Women",
+    subCategory: "Bottomwear",
+    sizes: ["M", "L", "XL", "XXL"],
+    date: 1716634345448,
+    BestSeller: false,
+  },
+  {
+    _id: "aaaaaal",
+    name: "Women's Wear",
+    description: "Trendy and elegant clothing designed for every occasion.",
+    price: 699,
+    image: [jeans_3],
+    category: "Women",
+    subCategory: "Bottomwear",
+    sizes: ["M", "L", "XL", "XXL"],
+    date: 1716634345448,
+    BestSeller: false,
+  },
+  {
+    _id: "aaaaaam",
+    name: "Women's Wear",
+    description: "Trendy and elegant clothing designed for every occasion.",
+    price: 999,
+    image: [jeans_4, jeans_4_1, jeans_4_2],
+    category: "Women",
+    subCategory: "Bottomwear",
+    sizes: ["L", "XL", "XXL"],
+    date: 1716634345448,
+    BestSeller: false,
+  },
+  {
+    _id: "aaaaaan",
+    name: "Women's Wear",
+    description: "Trendy and elegant clothing designed for every occasion.",
+    price: 799,
+    image: [jeans_5, jeans_5_1],
+    category: "Women",
+    subCategory: "Bottomwear",
+    sizes: ["L", "XL", "XXL"],
+    date: 1716634345448,
+    BestSeller: false,
+  },
+  {
+    _id: "aaaaaao",
+    name: "Women's Wear",
+    description: "Trendy and elegant clothing designed for every occasion.",
+    price: 999,
+    image: [jeans_6],
+    category: "Women",
+    subCategory: "Bottomwear",
+    sizes: ["M", "L", "XL", "XXL"],
+    date: 1716634345448,
+    BestSeller: false,
+  },
+  {
+    _id: "aaaaaap",
+    name: "Women's Wear",
+    description: "Trendy and elegant clothing designed for every occasion.",
+    price: 699,
+    image: [jeans_7],
+    category: "Women",
+    subCategory: "Bottomwear",
+    sizes: ["M", "L", "XL", "XXL"],
+    date: 1716634345448,
+    BestSeller: false,
+  },
+  {
+    _id: "aaaaaaq",
+    name: "Women's Wear",
+    description: "Trendy and elegant clothing designed for every occasion.",
+    price: 1200,
+    image: [jeans_8],
+    category: "Women",
+    subCategory: "Bottomwear",
+    sizes: ["M", "L", "XL", "XXL"],
+    date: 1716634345448,
+    BestSeller: false,
+  },
+  {
+    _id: "aaaaaar",
+    name: "Women's Wear",
+    description: "Trendy and elegant clothing designed for every occasion.",
+    price: 699,
+    image: [jeans_9, jeans_9_1],
+    category: "Women",
+    subCategory: "Bottomwear",
+    sizes: ["M", "L", "XL", "XXL"],
+    date: 1716634345448,
+    BestSeller: false,
+  },
+  {
+    _id: "aaaaaas",
+    name: "Women's Wear",
+    description: "Trendy and elegant clothing designed for every occasion.",
+    price: 999,
+    image: [jeans_10, jeans_10_1, jeans_10_2, jeans_10_3],
+    category: "Women",
+    subCategory: "Bottomwear",
+    sizes: ["L", "XL", "XXL"],
+    date: 1716634345448,
+    BestSeller: false,
+  },
+  {
+    _id: "aaaaaat",
+    name: "Women's Wear",
+    description: "Trendy and elegant clothing designed for every occasion.",
+    price: 899,
+    image: [jeans_11, jeans_11_1, jeans_11_2],
+    category: "Women",
+    subCategory: "Bottomwear",
+    sizes: ["L", "XL", "XXL"],
+    date: 1716634345448,
+    BestSeller: false,
+  },
+  {
+    _id: "aaaaaau",
+    name: "Women's Wear",
+    description: "Trendy and elegant clothing designed for every occasion.",
+    price: 899,
+    image: [jeans_12, jeans_12_1],
+    category: "Women",
+    subCategory: "Bottomwear",
+    sizes: ["L", "XL", "XXL"],
+    date: 1716634345448,
+    BestSeller: false,
+  },
+  {
+    _id: "aaaaaav",
+    name: "Women's Wear",
+    description: "Trendy and elegant clothing designed for every occasion.",
+    price: 999,
+    image: [jeans_13, jeans_13_1],
+    category: "Women",
+    subCategory: "Bottomwear",
+    sizes: ["M", "L", "XL", "XXL"],
+    date: 1716634345448,
+    BestSeller: false,
+  },
+  {
+    _id: "aaaaaaw",
+    name: "Women's Wear",
+    description: "Trendy and elegant clothing designed for every occasion.",
+    price: 999,
+    image: [jeans_14, jeans_14_1],
+    category: "Women",
+    subCategory: "Bottomwear",
+    sizes: ["L", "XL", "XXL"],
+    date: 1716634345448,
+    BestSeller: false,
+  },
+  {
+    _id: "aaaaaax",
+    name: "Women's Wear",
+    description: "Trendy and elegant clothing designed for every occasion.",
+    price: 1199,
+    image: [jeans_15],
+    category: "Women",
+    subCategory: "Bottomwear",
+    sizes: ["L", "XL", "XXL"],
+    date: 1716634345448,
+    BestSeller: false,
+  },
+  {
+    _id: "aaaaaay",
+    name: "Women's Wear",
+    description: "Trendy and elegant clothing designed for every occasion.",
+    price: 1199,
+    image: [jeans_16, jeans_16_1],
+    category: "Women",
+    subCategory: "Bottomwear",
+    sizes: ["L", "XL", "XXL"],
+    date: 1716634345448,
+    BestSeller: false,
+  },
+  {
+    _id: "aaaaaaz",
+    name: "Women's Wear",
+    description: "Trendy and elegant clothing designed for every occasion.",
+    price: 799,
+    image: [jeans_17, jeans_17_1, jeans_17_2],
+    category: "Women",
+    subCategory: "Bottomwear",
+    sizes: ["M", "L", "XL", "XXL"],
+    date: 1716634345448,
+    BestSeller: false,
+  },
+  {
+    _id: "aaaaaaaa",
+    name: "Women's Wear",
+    description: "Trendy and elegant clothing designed for every occasion.",
+    price: 999,
+    image: [jeans_18, jeans_18_1, jeans_18_2],
+    category: "Women",
+    subCategory: "Bottomwear",
+    sizes: ["M", "L", "XL", "XXL"],
+    date: 1716634345448,
+    BestSeller: false,
+  },
+  {
+    _id: "aaaaaaab",
+    name: "Women's Wear",
+    description: "Trendy and elegant clothing designed for every occasion.",
+    price: 1099,
+    image: [jeans_19],
+    category: "Women",
+    subCategory: "Bottomwear",
+    sizes: ["L", "XL", "XXL"],
+    date: 1716634345448,
+    BestSeller: false,
+  },
+  {
+    _id: "aaaaaaac",
+    name: "Women's Wear",
+    description: "Trendy and elegant clothing designed for every occasion.",
+    price: 1199,
+    image: [jeans_20],
+    category: "Women",
+    subCategory: "Bottomwear",
+    sizes: ["L", "XL", "XXL"],
+    date: 1716634345448,
+    BestSeller: false,
+  },
+
+  //   ======= MENS SHORS =========
+  //   ======= MENS SHORS =========
+  //   ======= MENS SHORS =========
+  //   ======= MENS SHORS =========
+  //   ======= MENS SHORS =========
+
+  {
+    _id: "aaaaaaad",
+    name: "Men's Wear",
+    description: "Stylish and comfortable outfits for everyday wear.",
+    price: 599,
+    image: [MB_1, MB_1_1],
+    category: "Men",
+    subCategory: "Bottomwear",
+    sizes: ["L", "XL", "XXL"],
+    date: 1716634345448,
+    BestSeller: false,
+  },
+  {
+    _id: "aaaaaaae",
+    name: "Men's Wear",
+    description: "Stylish and comfortable outfits for everyday wear.",
+    price: 599,
+    image: [MB_2, MB_2_1],
+    category: "Men",
+    subCategory: "Bottomwear",
+    sizes: ["M", "L", "XL", "XXL"],
+    date: 1716634345448,
+    BestSeller: false,
+  },
+  {
+    _id: "aaaaaaaf",
+    name: "Men's Wear",
+    description: "Stylish and comfortable outfits for everyday wear.",
+    price: 699,
+    image: [MB_3, MB_3_1],
+    category: "Men",
+    subCategory: "Bottomwear",
+    sizes: ["M", "L", "XL", "XXL"],
+    date: 1716634345448,
+    BestSeller: false,
+  },
+  {
+    _id: "aaaaaaag",
+    name: "Men's Wear",
+    description: "Stylish and comfortable outfits for everyday wear.",
+    price: 649,
+    image: [MB_4, MB_4_1],
+    category: "Men",
+    subCategory: "Bottomwear",
+    sizes: ["L", "XL", "XXL"],
+    date: 1716634345448,
+    BestSeller: false,
+  },
+  {
+    _id: "aaaaaaah",
+    name: "Men's Wear",
+    description: "Stylish and comfortable outfits for everyday wear.",
+    price: 699,
+    image: [MB_5],
+    category: "Men",
+    subCategory: "Bottomwear",
+    sizes: ["L", "XL", "XXL"],
+    date: 1716634345448,
+    BestSeller: false,
+  },
+
+  //   MENS JOGGERS
+  //   MENS JOGGERS
+  //   MENS JOGGERS
+  //   MENS JOGGERS
+  //   MENS JOGGERS
+
+  {
+    _id: "aaaaaaai",
+    name: "Men's Wear",
+    description: "Stylish and comfortable outfits for everyday wear.",
+    price: 799,
+    image: [MBJ_1],
+    category: "Men",
+    subCategory: "Bottomwear",
+    sizes: ["L", "XL", "XXL"],
+    date: 1716634345448,
+    BestSeller: false,
+  },
+  {
+    _id: "aaaaaaaj",
+    name: "Men's Wear",
+    description: "Stylish and comfortable outfits for everyday wear.",
+    price: 899,
+    image: [MBJ_2, MBJ_2_1, MBJ_2_2],
+    category: "Men",
+    subCategory: "Bottomwear",
+    sizes: ["L", "XL", "XXL"],
+    date: 1716634345448,
+    BestSeller: false,
+  },
+  {
+    _id: "aaaaaaak",
+    name: "Men's Wear",
+    description: "Stylish and comfortable outfits for everyday wear.",
+    price: 899,
+    image: [MBJ_3, MBJ_3_1, MBJ_3_2],
+    category: "Men",
+    subCategory: "Bottomwear",
+    sizes: ["M", "L", "XL", "XXL"],
+    date: 1716634345448,
+    BestSeller: false,
+  },
+  {
+    _id: "aaaaaaal",
+    name: "Men's Wear",
+    description: "Stylish and comfortable outfits for everyday wear.",
+    price: 799,
+    image: [MBJ_4, MBJ_4_1],
+    category: "Men",
+    subCategory: "Bottomwear",
+    sizes: ["M", "L", "XL", "XXL"],
+    date: 1716634345448,
+    BestSeller: false,
+  },
+  {
+    _id: "aaaaaaam",
+    name: "Men's Wear",
+    description: "Stylish and comfortable outfits for everyday wear.",
+    price: 999,
+    image: [MBJ_5, MBJ_5_1, MBJ_5_2],
+    category: "Men",
+    subCategory: "Bottomwear",
+    sizes: ["M", "L", "XL", "XXL"],
+    date: 1716634345448,
+    BestSeller: false,
+  },
+
+  //   MENS JEANS
+  //   MENS JEANS
+  //   MENS JEANS
+  //   MENS JEANS
+  //   MENS JEANS
+  //   MENS JEANS
+
+  {
+    _id: "aaaaaaah",
+    name: "Men's Wear",
+    description: "Stylish and comfortable outfits for everyday wear.",
+    price: 899,
+    image: [MBT_1, MBT_1_1],
+    category: "Men",
+    subCategory: "Bottomwear",
+    sizes: ["M", "L", "XL", "XXL"],
+    date: 1716634345448,
+    BestSeller: false,
+  },
+  {
+    _id: "aaaaaaai",
+    name: "Men's Wear",
+    description: "Stylish and comfortable outfits for everyday wear.",
+    price: 899,
+    image: [MBT_2, MBT_2_1, MBT_2_2],
+    category: "Men",
+    subCategory: "Bottomwear",
+    sizes: ["M", "L", "XL", "XXL"],
+    date: 1716634345448,
+    BestSeller: false,
+  },
+  {
+    _id: "aaaaaaaj",
+    name: "Men's Wear",
+    description: "Stylish and comfortable outfits for everyday wear.",
+    price: 799,
+    image: [MBT_3, MBT_3_1],
+    category: "Men",
+    subCategory: "Bottomwear",
+    sizes: ["L", "XL", "XXL"],
+    date: 1716634345448,
+    BestSeller: false,
+  },
+  {
+    _id: "aaaaaaak",
+    name: "Men's Wear",
+    description: "Stylish and comfortable outfits for everyday wear.",
+    price: 999,
+    image: [MBT_4, MBT_4_1, MBT_4_2],
+    category: "Men",
+    subCategory: "Bottomwear",
+    sizes: ["M", "L", "XL", "XXL"],
+    date: 1716634345448,
+    BestSeller: false,
+  },
+  {
+    _id: "aaaaaaal",
+    name: "Men's Wear",
+    description: "Stylish and comfortable outfits for everyday wear.",
+    price: 899,
+    image: [MBT_5, MBT_5_1],
+    category: "Men",
+    subCategory: "Bottomwear",
+    sizes: ["L", "XL", "XXL"],
+    date: 1716634345448,
+    BestSeller: false,
+  },
+  {
+    _id: "aaaaaaam",
+    name: "Men's Wear",
+    description: "Stylish and comfortable outfits for everyday wear.",
+    price: 999,
+    image: [MBT_6, MBT_6_1],
+    category: "Men",
+    subCategory: "Bottomwear",
+    sizes: ["M", "L", "XL", "XXL"],
+    date: 1716634345448,
+    BestSeller: false,
+  },
+  {
+    _id: "aaaaaaan",
+    name: "Men's Wear",
+    description: "Stylish and comfortable outfits for everyday wear.",
+    price: 1199,
+    image: [MBT_7, MBT_7_1, MBT_7_2],
+    category: "Men",
+    subCategory: "Bottomwear",
+    sizes: ["M", "L", "XL", "XXL"],
+    date: 1716634345448,
+    BestSeller: true,
+  },
+  {
+    _id: "aaaaaaao",
+    name: "Men's Wear",
+    description: "Stylish and comfortable outfits for everyday wear.",
+    price: 999,
+    image: [MBT_8, MBT_8_1],
+    category: "Men",
+    subCategory: "Bottomwear",
+    sizes: ["M", "L", "XL", "XXL"],
+    date: 1716634345448,
+    BestSeller: false,
+  },
+  {
+    _id: "aaaaaaap",
+    name: "Men's Wear",
+    description: "Stylish and comfortable outfits for everyday wear.",
+    price: 1199,
+    image: [MBT_9, MBT_9_1, MBT_9_2],
+    category: "Men",
+    subCategory: "Bottomwear",
+    sizes: ["M", "L", "XL", "XXL"],
+    date: 1716634345448,
+    BestSeller: false,
+  },
+  {
+    _id: "aaaaaaaq",
+    name: "Men's Wear",
+    description: "Stylish and comfortable outfits for everyday wear.",
+    price: 1099,
+    image: [MBT_10, MBT_10_1, MBT_10_2],
+    category: "Men",
+    subCategory: "Bottomwear",
+    sizes: ["L", "XL", "XXL"],
+    date: 1716634345448,
+    BestSeller: false,
+  },
+
+  //   MENS TOPWEAR
+  //   MENS TOPWEAR
+  //   MENS TOPWEAR
+  //   MENS TOPWEAR
+  //   MENS TOPWEAR
+  //   MENS TOPWEAR
+
+  {
+    _id: "aaaaaaar",
+    name: "Men's Wear",
+    description: "Stylish and comfortable outfits for everyday wear.",
+    price: 799,
+    image: [MT_1, MT_1_1],
+    category: "Men",
+    subCategory: "Topwear",
+    sizes: ["L", "XL", "XXL"],
+    date: 1716634345448,
+    BestSeller: false,
+  },
+  {
+    _id: "aaaaaaas",
+    name: "Men's Wear",
+    description: "Stylish and comfortable outfits for everyday wear.",
+    price: 999,
+    image: [MT_2],
+    category: "Men",
+    subCategory: "Topwear",
+    sizes: ["M", "L", "XL", "XXL"],
+    date: 1716634345448,
+    BestSeller: false,
+  },
+  {
+    _id: "aaaaaaat",
+    name: "Men's Wear",
+    description: "Stylish and comfortable outfits for everyday wear.",
+    price: 599,
+    image: [MT_3],
+    category: "Men",
+    subCategory: "Topwear",
+    sizes: ["M", "L", "XL", "XXL"],
+    date: 1716634345448,
+    BestSeller: false,
+  },
+  {
+    _id: "aaaaaaau",
+    name: "Men's Wear",
+    description: "Stylish and comfortable outfits for everyday wear.",
+    price: 799,
+    image: [MT_4, MT_4_1],
+    category: "Men",
+    subCategory: "Topwear",
+    sizes: ["M", "L", "XL", "XXL"],
+    date: 1716634345448,
+    BestSeller: false,
+  },
+  {
+    _id: "aaaaaaav",
+    name: "Men's Wear",
+    description: "Stylish and comfortable outfits for everyday wear.",
+    price: 699,
+    image: [MT_5],
+    category: "Men",
+    subCategory: "Topwear",
+    sizes: ["L", "XL", "XXL"],
+    date: 1716634345448,
+    BestSeller: false,
+  },
+  {
+    _id: "aaaaaaaw",
+    name: "Men's Wear",
+    description: "Stylish and comfortable outfits for everyday wear.",
+    price: 799,
+    image: [MT_6],
+    category: "Men",
+    subCategory: "Topwear",
+    sizes: ["L", "XL", "XXL"],
+    date: 1716634345448,
+    BestSeller: false,
+  },
+  {
+    _id: "aaaaaaax",
+    name: "Men's Wear",
+    description: "Stylish and comfortable outfits for everyday wear.",
+    price: 999,
+    image: [MT_7, MT_7_1, MT_7_2],
+    category: "Men",
+    subCategory: "Topwear",
+    sizes: ["L", "XL", "XXL"],
+    date: 1716634345448,
+    BestSeller: false,
+  },
+  {
+    _id: "aaaaaaay",
+    name: "Men's Wear",
+    description: "Stylish and comfortable outfits for everyday wear.",
+    price: 799,
+    image: [MT_8, MT_8_1],
+    category: "Men",
+    subCategory: "Topwear",
+    sizes: ["L", "XL", "XXL"],
+    date: 1716634345448,
+    BestSeller: false,
+  },
+  {
+    _id: "aaaaaaaz",
+    name: "Men's Wear",
+    description: "Stylish and comfortable outfits for everyday wear.",
+    price: 1199,
+    image: [MT_9],
+    category: "Men",
+    subCategory: "Topwear",
+    sizes: ["M", "L", "XL", "XXL"],
+    date: 1716634345448,
+    BestSeller: false,
+  },
+  {
+    _id: "aaaaaaaaa",
+    name: "Men's Wear",
+    description: "Stylish and comfortable outfits for everyday wear.",
+    price: 899,
+    image: [MT_10],
+    category: "Men",
+    subCategory: "Topwear",
+    sizes: ["L", "XL", "XXL"],
+    date: 1716634345448,
+    BestSeller: false,
+  },
+  {
+    _id: "aaaaaaaab",
+    name: "Men's Wear",
+    description: "Stylish and comfortable outfits for everyday wear.",
+    price: 999,
+    image: [MT_11, MT_11_1],
+    category: "Men",
+    subCategory: "Topwear",
+    sizes: ["S", "L", "XL", "XXL"],
+    date: 1716634345448,
+    BestSeller: false,
+  },
+  {
+    _id: "aaaaaaaaac",
+    name: "Men's Wear",
+    description: "Stylish and comfortable outfits for everyday wear.",
+    price: 699,
+    image: [MT_12],
+    category: "Men",
+    subCategory: "Topwear",
+    sizes: ["M", "L", "XL", "XXL"],
+    date: 1716634345448,
+    BestSeller: false,
+  },
+  {
+    _id: "aaaaaaaad",
+    name: "Men's Wear",
+    description: "Stylish and comfortable outfits for everyday wear.",
+    price: 599,
+    image: [MT_13, MT_13_1],
+    category: "Men",
+    subCategory: "Topwear",
+    sizes: ["L", "XL", "XXL"],
+    date: 1716634345448,
+    BestSeller: false,
+  },
+  {
+    _id: "aaaaaaaae",
+    name: "Men's Wear",
+    description: "Stylish and comfortable outfits for everyday wear.",
+    price: 899,
+    image: [MT_14, MT_14_1],
+    category: "Men",
+    subCategory: "Topwear",
+    sizes: ["M", "L", "XL", "XXL"],
+    date: 1716634345448,
+    BestSeller: false,
+  },
+  {
+    _id: "aaaaaaaaf",
+    name: "Men's Wear",
+    description: "Stylish and comfortable outfits for everyday wear.",
+    price: 599,
+    image: [MT_15, MT_15_1],
+    category: "Men",
+    subCategory: "Topwear",
+    sizes: ["S", "M", "L", "XL", "XXL"],
+    date: 1716634345448,
+    BestSeller: false,
+  },
+  {
+    _id: "aaaaaaaag",
+    name: "Men's Wear",
+    description: "Stylish and comfortable outfits for everyday wear.",
+    price: 699,
+    image: [MT_16],
+    category: "Men",
+    subCategory: "Topwear",
+    sizes: ["M", "L", "XL", "XXL"],
+    date: 1716634345448,
+    BestSeller: false,
+  },
+  {
+    _id: "aaaaaaaah",
+    name: "Men's Wear",
+    description: "Stylish and comfortable outfits for everyday wear.",
+    price: 699,
+    image: [MT_17, MT_17_1],
+    category: "Men",
+    subCategory: "Topwear",
+    sizes: ["M", "L", "XL", "XXL"],
+    date: 1716634345448,
+    BestSeller: false,
+  },
+  {
+    _id: "aaaaaaaai",
+    name: "Men's Wear",
+    description: "Stylish and comfortable outfits for everyday wear.",
+    price: 599,
+    image: [MT_18, MT_18_1],
+    category: "Men",
+    subCategory: "Topwear",
+    sizes: ["S", "M", "L", "XL", "XXL"],
+    date: 1716634345448,
+    BestSeller: false,
+  },
+  {
+    _id: "aaaaaaaaj",
+    name: "Men's Wear",
+    description: "Stylish and comfortable outfits for everyday wear.",
+    price: 599,
+    image: [MT_19, MT_19_1],
+    category: "Men",
+    subCategory: "Topwear",
+    sizes: ["S", "M", "L", "XL", "XXL"],
+    date: 1716634345448,
+    BestSeller: false,
+  },
+  {
+    _id: "aaaaaaaak",
+    name: "Men's Wear",
+    description: "Stylish and comfortable outfits for everyday wear.",
+    price: 699,
+    image: [MT_20, MT_20_1, MT_20_2],
+    category: "Men",
+    subCategory: "Topwear",
+    sizes: ["S", "M", "L", "XL", "XXL"],
+    date: 1716634345448,
+    BestSeller: false,
+  },
+
+//   MENS WINTERWEAR
+//   MENS WINTERWEAR
+//   MENS WINTERWEAR
+//   MENS WINTERWEAR
+//   MENS WINTERWEAR
+{
+    _id: "aaaaaaaal",
+    name: "Men's Wear",
+    description: "Stylish and comfortable outfits for everyday wear.",
+    price: 799,
+    image: [MW_1, MW_1_1],
+    category: "Men",
+    subCategory: "Topwear",
+    sizes: ["S", "M", "L", "XL", "XXL"],
+    date: 1716634345448,
+    BestSeller: false,
+  },
+  {
+    _id: "aaaaaaaam",
+    name: "Men's Wear",
+    description: "Stylish and comfortable outfits for everyday wear.",
+    price: 799,
+    image: [MW_2, MW_2_1],
+    category: "Men",
+    subCategory: "Topwear",
+    sizes: ["L", "XL", "XXL"],
+    date: 1716634345448,
+    BestSeller: false,
+  },
+  {
+    _id: "aaaaaaaan",
+    name: "Men's Wear",
+    description: "Stylish and comfortable outfits for everyday wear.",
+    price: 1199,
+    image: [MW_3, MW_3_1],
+    category: "Men",
+    subCategory: "Topwear",
+    sizes: ["L", "XL", "XXL"],
+    date: 1716634345448,
+    BestSeller: false,
+  },
+  {
+    _id: "aaaaaaaao",
+    name: "Men's Wear",
+    description: "Stylish and comfortable outfits for everyday wear.",
+    price: 699,
+    image: [MW_4, MW_4_1],
+    category: "Men",
+    subCategory: "Topwear",
+    sizes: ["M", "L", "XL", "XXL"],
+    date: 1716634345448,
+    BestSeller: false,
+  },
+  {
+    _id: "aaaaaaaap",
+    name: "Men's Wear",
+    description: "Stylish and comfortable outfits for everyday wear.",
+    price: 699,
+    image: [MW_5, MW_5_1],
+    category: "Men",
+    subCategory: "Topwear",
+    sizes: ["L", "XL", "XXL"],
+    date: 1716634345448,
+    BestSeller: false,
+  },
+  {
+    _id: "aaaaaaaaq",
+    name: "Men's Wear",
+    description: "Stylish and comfortable outfits for everyday wear.",
+    price: 799,
+    image: [MW_6, MW_6_1, MW_6_2],
+    category: "Men",
+    subCategory: "Topwear",
+    sizes: ["S", "M", "L", "XL", "XXL"],
+    date: 1716634345448,
+    BestSeller: false,
+  },
+  {
+    _id: "aaaaaaaar",
+    name: "Men's Wear",
+    description: "Stylish and comfortable outfits for everyday wear.",
+    price: 1050,
+    image: [MW_7, MW_7_1],
+    category: "Men",
+    subCategory: "Topwear",
+    sizes: ["M", "L", "XL", "XXL"],
+    date: 1716634345448,
+    BestSeller: false,
+  },
+  {
+    _id: "aaaaaaaas",
+    name: "Men's Wear",
+    description: "Stylish and comfortable outfits for everyday wear.",
+    price: 999,
+    image: [MW_8, MW_8_1, MW_8_2],
+    category: "Men",
+    subCategory: "Topwear",
+    sizes: ["L", "XL", "XXL"],
+    date: 1716634345448,
+    BestSeller: false,
+  },
+  {
+    _id: "aaaaaaaat",
+    name: "Men's Wear",
+    description: "Stylish and comfortable outfits for everyday wear.",
+    price: 999,
+    image: [MW_9, MW_9_1],
+    category: "Men",
+    subCategory: "Topwear",
+    sizes: ["XL", "XXL"],
+    date: 1716634345448,
+    BestSeller: false,
+  },
+  {
+    _id: "aaaaaaaau",
+    name: "Men's Wear",
+    description: "Stylish and comfortable outfits for everyday wear.",
+    price: 899,
+    image: [MW_10, MW_10_1, MW_10_2],
+    category: "Men",
+    subCategory: "Topwear",
+    sizes: ["L", "XL", "XXL"],
+    date: 1716634345448,
+    BestSeller: false,
+  },
+
+//   ================== THE END =======================
+//   ================== THE END =======================
+//   ================== THE END =======================
+//   ================== THE END =======================
+//   ================== THE END =======================
+//   ================== THE END =======================
+//   ================== THE END =======================
+//   ================== THE END =======================  
+];
