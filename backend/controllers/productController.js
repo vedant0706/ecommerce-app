@@ -11,7 +11,7 @@ const addProduct = async (req, res) => {
       category,
       subCategory,
       sizes,
-      bestseller,
+      bestSeller,
     } = req.body;
 
     const image1 = req.files.image1 && req.files.image1[0];
@@ -38,7 +38,7 @@ const addProduct = async (req, res) => {
       category,
       price: Number(price),
       subCategory,
-      bestseller: bestseller === 'true' ? true : false,
+      bestSeller: bestSeller === 'true' || bestSeller === true, // Improved
       sizes: JSON.parse(sizes),
       image: imagesUrl,
       date: Date.now()
@@ -78,7 +78,7 @@ const removeProduct = async (req, res) => {
     }
 };
 
-// function for simgle product info product
+// function for single product info
 const singleProduct = async (req, res) => {
     try {
         const {productId} = req.body
