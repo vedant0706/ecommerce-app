@@ -7,6 +7,36 @@ const createToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET);
 };
 
+// getUsrData
+const getUserData = async (req, res) => {
+  try {
+    const userId = req.userId;
+
+    if (!userId) {
+      return res.json({ success: false, message: "Not authenticated" });
+    }
+
+    const user = await userModel.findById(userId).select('-password');
+
+    if (!user) {
+      return res.json({ success: false, message: "User not found" });
+    }
+
+    res.json({
+      success: true,
+      userData: {
+        _id: user._id,
+        name: user.name,
+        email: user.email,
+        role: user.role,
+        isAccountVerified: user.isAccountVerified,
+      },
+    });
+  } catch (error) {
+    res.json({ success: false, message: error.message });
+  }
+};
+
 // Route for user login
 const loginUser = async (req, res) => {
   try {
@@ -94,4 +124,4 @@ const adminLogin = async (req, res) => {
     }
 };
 
-export { loginUser, registerUser, adminLogin };
+export { getUserData, loginUser, registerUser, adminLogin };

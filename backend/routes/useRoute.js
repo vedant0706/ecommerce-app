@@ -1,10 +1,20 @@
+// import express from 'express';
+// import { adminLogin, loginUser, registerUser } from '../controllers/userController.js';
+
+// const userRouter = express.Router();
+
+// userRouter.post('/register', registerUser);
+// userRouter.post('/login', loginUser);
+// userRouter.post('/admin', adminLogin);
+
+// export default userRouter;
+
 import express from 'express';
-import { adminLogin, loginUser, registerUser } from '../controllers/userController.js';
+import userAuth from '../middleware/userAuth.js';
+import { getUserData } from '../controllers/userController.js';
 
 const userRouter = express.Router();
 
-userRouter.post('/register', registerUser);
-userRouter.post('/login', loginUser);
-userRouter.post('/admin', adminLogin);
+userRouter.get('/data', userAuth, getUserData);
 
 export default userRouter;

@@ -1,6 +1,7 @@
 import orderModel from "../models/orderModel.js"
 import userModel from "../models/userModel.js";
 import Razorpay from 'razorpay';
+import jwt from 'jsonwebtoken'
 
 // global variables
 const currency = 'inr';
@@ -15,29 +16,53 @@ const razorpayInstance = new Razorpay({
 
 // Placing orders using COD Method.
 const placeOrder = async (req, res) => {
-    try {
-        const {userId, items, amount, address} = req.body;
-
-        const orderData = {
-            userId,
-            items,
-            address,
-            amount,
-            paymentMethod: "COD",
-            payment: false,
-            date: Date.now(),
-        }
-        const newOrder = new orderModel(orderData)
-        await newOrder.save()
-
-        await userModel.findByIdAndUpdate(userId, {cartData:{}})
-
-        res.json({success: true, message: "Order Placed"})
-    } catch (error) {
-        console.log(error)
-        res.json({success: false, message: error.message})
+  try {
+    // ✅ ADD THESE LINES AT THE VERY TOP
+    const token = req.headers.token;
+    
+    console.log("Received token:", token);
+    
+    if (!token) {
+      return res.status(401).json({ 
+        success: false, 
+        message: "No token provided" 
+      });
     }
-}
+    
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const userId = decoded.userId;
+    
+    console.log("User ID:", userId);
+    // ✅ END OF NEW CODE
+    
+    // Your existing order placement code continues here...
+    const { items, amount, address } = req.body;
+    
+    const orderData = {
+      userId: userId, // Use the userId from token
+      items: items,
+      amount: amount,
+      address: address,
+      status: "Order Placed",
+      paymentMethod: "COD",
+      payment: false,
+      date: Date.now()
+    };
+    
+    // Save order to database
+    const newOrder = new orderModel(orderData);
+    await newOrder.save();
+    
+    res.json({ success: true, message: "Order Placed" });
+    
+  } catch (error) {
+    console.error("Error:", error);
+    res.status(401).json({ 
+      success: false, 
+      message: error.message 
+    });
+  }
+};
 
 // Placing orders using Razorpay Method
 const placeOrderRazorpay = async (req, res) => {
