@@ -13,10 +13,12 @@ import Navbar from './components/Navbar'
 import Footer from './components/Footer'
 import SearchBar from './components/SearchBar'
 import { ToastContainer } from 'react-toastify';
+import EmailVerify from './pages/Login/EmailVerify'
+import ResetPassword from './pages/Login/ResetPassword'
 
 const App = () => {
   return (
-    <div className='px-4 sm:px-[5vw] md:px-[7vw] lg:px-[9vw]'>
+    <div className='w-full h-full px-4 sm:px-[5vw] md:px-[7vw] lg:px-[9vw]'>
       <ToastContainer />
       <Navbar />
       <SearchBar />
@@ -30,6 +32,8 @@ const App = () => {
         <Route path="/login" element={<Login/>} />
         <Route path="/place-order" element={<PlaceOrder/>} />
         <Route path="/orders" element={<Orders/>} />
+        <Route path="/email-verify" element={<EmailVerify />} />
+        <Route path="/reset-password" element={<ResetPassword />} />
       </Routes>
       <Footer />
     </div>

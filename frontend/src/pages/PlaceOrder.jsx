@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import Title from "../components/Title";
 import CartTotal from "../components/CartTotal";
 import { assets } from "../assets/assets";
@@ -17,6 +17,7 @@ const PlaceOrder = () => {
     getCartAmount,
     delivery_fee,
     products,
+    isLoggedin,
   } = useContext(ShopContext);
 
   const [formData, setFormData] = useState({
@@ -30,6 +31,17 @@ const PlaceOrder = () => {
     country: "",
     phone: "",
   });
+
+  // Check authentication on mount
+  useEffect(() => {
+    console.log("Token in PlaceOrder:", token); // Debug log
+    console.log("Token from localStorage:", localStorage.getItem('token')); // Debug log
+    
+    if (!token && !localStorage.getItem('token')) {
+      toast.error("Please login to place an order");
+      navigate("/login");
+    }
+  }, []);
 
   const onChangeHandler = (event) => {
     const name = event.target.name;
@@ -46,26 +58,43 @@ const PlaceOrder = () => {
       description: 'Order Payment',
       order_id: order.id,
       receipt: order.receipt,
-      handler: async (response)  => {
+      handler: async (response) => {
         console.log(response);
         try {
-          const { data } = await axios.post(backendUrl + '/api/order/verifyRazorpay', response, {headers: {token}})
-          if(data.success) {
-            navigate('/orders')
-            setCartItems({})
+          const authToken = token || localStorage.getItem('token');
+          const { data } = await axios.post(
+            backendUrl + '/api/order/verifyRazorpay',
+            response,
+            { headers: { token: authToken } }
+          );
+          if (data.success) {
+            navigate('/orders');
+            setCartItems({});
           }
-        } catch (error) { 
-          console.log(error)
-          toast.error(error)
+        } catch (error) {
+          console.log(error);
+          toast.error(error.response?.data?.message || "Payment verification failed");
         }
       }
-    }
-    const rzp = new window.Razorpay(options)
-    rzp.open()
-  }
+    };
+    const rzp = new window.Razorpay(options);
+    rzp.open();
+  };
 
   const onSubmitHandler = async (event) => {
     event.preventDefault();
+
+    // Get token from context or localStorage
+    const authToken = token || localStorage.getItem('token');
+    
+    console.log("Submitting order with token:", authToken); // Debug log
+
+    if (!authToken) {
+      toast.error("Please login to place an order");
+      navigate("/login");
+      return;
+    }
+
     try {
       let orderItems = [];
 
@@ -84,44 +113,68 @@ const PlaceOrder = () => {
         }
       }
 
+      if (orderItems.length === 0) {
+        toast.error("Your cart is empty");
+        return;
+      }
+
       let orderData = {
         address: formData,
         items: orderItems,
         amount: getCartAmount() + delivery_fee,
       };
 
+      console.log("Order data:", orderData); // Debug log
+
       switch (method) {
-        //API Calls for COD
+        // API Calls for COD
         case 'cod': {
+          console.log("Sending COD request with token:", authToken); // Debug log
+          
           const response = await axios.post(
             backendUrl + "/api/order/place",
             orderData,
-            {headers: { token }}
+            { headers: { token: authToken } }
           );
-          console.log(response.data.success);
+          
+          console.log("COD Response:", response.data); // Debug log
+          
           if (response.data.success) {
             setCartItems({});
+            toast.success("Order placed successfully!");
             navigate("/orders");
           } else {
             toast.error(response.data.message);
           }
           break;
         }
-          case 'razorpay': {
 
-          const responseRazorpay = await axios.post(backendUrl + '/api/order/razorpay', orderData, {headers: {token}})
-          if(responseRazorpay.data.success) { 
-            initPay(responseRazorpay.data.order)
+        case 'razorpay': {
+          const responseRazorpay = await axios.post(
+            backendUrl + '/api/order/razorpay',
+            orderData,
+            { headers: { token: authToken } }
+          );
+          if (responseRazorpay.data.success) {
+            initPay(responseRazorpay.data.order);
           }
           break;
-          }
-        
+        }
+
         default:
           break;
       }
     } catch (error) {
-      console.log(error);
-      toast.error(error.messagq)
+      console.error("Order placement error:", error); // Debug log
+      console.error("Error response:", error.response); // Debug log
+      
+      if (error.response?.status === 401) {
+        toast.error("Session expired. Please login again");
+        localStorage.removeItem('token');
+        navigate("/login");
+      } else {
+        toast.error(error.response?.data?.message || error.message || "Order placement failed");
+      }
     }
   };
 
@@ -227,7 +280,7 @@ const PlaceOrder = () => {
         />
       </div>
 
-      {/* text right side */}
+      {/* Right Side */}
       <div className="mt-8">
         <div className="mt-8 min-w-80">
           <CartTotal />
@@ -266,7 +319,7 @@ const PlaceOrder = () => {
           <div className="w-full text-end mt-8">
             <button
               type="submit"
-              className="bg-black text-white px-16 py-3 text-sm cursor-pointer"
+              className="bg-black text-white px-16 py-3 text-sm cursor-pointer hover:bg-gray-800 transition-colors"
             >
               PLACE ORDER
             </button>

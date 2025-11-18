@@ -12,14 +12,13 @@ const Navbar = () => {
     navigate,
     token,
     setToken,
-    setCartItems,
+    // setCartItems,
+    isLoggedin,
+    handleLogout,
   } = useContext(ShopContext);
 
   const logout = () => {
-    navigate("/login");
-    localStorage.removeItem("token");
-    setToken("");
-    setCartItems({});
+    handleLogout(); // Use the context logout function
   };
 
   return (
@@ -59,28 +58,38 @@ const Navbar = () => {
 
         <div className="group relative z-50">
           <img
-            onClick={() => (token ? null : navigate("/login"))}
             src={assets.profile_icon}
             className="w-5 cursor-pointer"
             alt=""
           />
 
-          {token && (
-            <div className="group-hover:block hidden absolute dropdown-menu right-0 pt-4 z-50">
-              <div className="flex flex-col gap-2 w-36 py-3 px-5 bg-slate-100 text-gray-500 rounded shadow-xl z-50">
-                {/* <p className="cursor-pointer hover:text-black">My Profile</p> */}
+          {/* Dropdown menu - shows different content based on login status */}
+          <div className="group-hover:block hidden absolute dropdown-menu right-0 pt-4 z-50">
+            <div className="flex flex-col gap-2 w-36 py-3 px-5 bg-slate-100 text-gray-500 rounded shadow-xl z-50">
+              {isLoggedin || token ? (
+                // Show when user is logged in
+                <>
+                  <p
+                    onClick={() => navigate("/orders")}
+                    className="cursor-pointer hover:text-black"
+                  >
+                    Orders
+                  </p>
+                  <p onClick={logout} className="cursor-pointer hover:text-black">
+                    Logout
+                  </p>
+                </>
+              ) : (
+                // Show when user is NOT logged in
                 <p
-                  onClick={() => navigate("/orders")}
+                  onClick={() => navigate("/login")}
                   className="cursor-pointer hover:text-black"
                 >
-                  Orders
+                  Login
                 </p>
-                <p onClick={logout} className="cursor-pointer hover:text-black">
-                  Logout
-                </p>
-              </div>
+              )}
             </div>
-          )}
+          </div>
         </div>
 
         <Link to="/cart" className="relative">
@@ -138,6 +147,36 @@ const Navbar = () => {
           >
             CONTACT
           </NavLink>
+          
+          {/* Mobile menu - Login/Logout section */}
+          {isLoggedin || token ? (
+            <>
+              <NavLink
+                onClick={() => setVisible(false)}
+                className="py-2 pl-6 border-t"
+                to="/orders"
+              >
+                ORDERS
+              </NavLink>
+              <div
+                onClick={() => {
+                  setVisible(false);
+                  logout();
+                }}
+                className="py-2 pl-6 border-t cursor-pointer"
+              >
+                LOGOUT
+              </div>
+            </>
+          ) : (
+            <NavLink
+              onClick={() => setVisible(false)}
+              className="py-2 pl-6 border-t"
+              to="/login"
+            >
+              LOGIN
+            </NavLink>
+          )}
         </div>
       </div>
     </div>

@@ -1,72 +1,160 @@
-import React, { useContext, useEffect, useState } from 'react'
-import { ShopContext } from '../context/ShopContext';
-import axios from 'axios';
-import { toast } from 'react-toastify';
+import { useContext, useState } from "react";
+import { assets } from "../assets/assets.js";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import { toast } from "react-toastify";
+import { ShopContext } from "../context/ShopContext.jsx";
 
 const Login = () => {
+  const navigate = useNavigate();
 
-  const [currentState, setCurrentState] = useState('Login');
-  const {token, setToken, navigate, backendUrl} = useContext(ShopContext)
+  const { backendUrl, setIsLoggedin, saveToken } = useContext(ShopContext);
 
-  const [name, setName] = useState('')
-  const [password, setPassword] = useState('')
-  const [email, setEmail] = useState('')
+  const [state, setState] = useState("Sign Up");
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
   const onSubmitHandler = async (e) => {
-    e.preventDefault()
     try {
-      if(currentState === 'Sign Up'){
+      e.preventDefault();
 
-        const response = await axios.post(backendUrl + '/api/user/register', {name, email, password})
+      axios.defaults.withCredentials = true;
 
-        if(response.data.success){
-          setToken(response.data.token)
-          localStorage.setItem('token', response.data.token)
-        } else{
-          toast.error(response.data.message)
+      if (state === "Sign Up") {
+        const { data } = await axios.post(backendUrl + "/api/auth/register", {
+          name,
+          email,
+          password,
+        });
+
+        if (data.success) {
+          // ✅ Save token from response
+          if (data.token) {
+            localStorage.setItem("token", data.token);
+            saveToken(data.token);
+          }
+          setIsLoggedin(true);
+          toast.success("Account created successfully!");
+          navigate("/");
+        } else {
+          toast.error(data.message);
         }
-      } else{
-        const response = await axios.post(backendUrl + '/api/user/login', {email, password})
-        if(response.data.success){
-          setToken(response.data.token)
-          localStorage.setItem('token', response.data.token)
-        } else{
-          toast.error(response.data.message)
+      } else {
+        const { data } = await axios.post(backendUrl + "/api/auth/login", {
+          email,
+          password,
+        });
+
+        // ✅ ADD THESE DEBUG LOGS
+        console.log("Full response:", data);
+        console.log("Token from response:", data.token);
+
+        if (data.success) {
+          // ✅ Save token from response
+          if (data.token) {
+            localStorage.setItem("token", data.token);
+            saveToken(data.token);
+          }
+          setIsLoggedin(true);
+          toast.success("Login successful!");
+          navigate("/");
+        } else {
+          toast.error(data.message);
         }
       }
-
     } catch (error) {
-      console.log(error)
-      toast.error(error.message)
+      console.error("Login error:", error);
+      toast.error(error.response?.data?.message || error.message);
     }
-  }
-
-  useEffect(()=>{
-    if(token) {
-      navigate('/')
-    }
-  }, [token])
+  };
 
   return (
-    <form onSubmit={onSubmitHandler} className='flex flex-col items-center w-[90%] sm:max-w-96 m-auto mt-14 gap-4 text-gray-800'>
-      <div className='inline-flex items-center gap-2 mb-2 mt-10'>
-        <p className='prata-regular text-3xl'>{currentState}</p>
-        <hr className='border-none h-[1.5px] w-8 bg-gray-800' />
-      </div>
-      {currentState === 'Login' ? '' : <input onChange={(e)=>setName(e.target.value)} value={name} type="text" className='w-full px-3 py-2 border border-gray-800' placeholder='Name' required />}
-      <input onChange={(e)=>setEmail(e.target.value)} value={email} type="email" className='w-full px-3 py-2 border border-gray-800' placeholder='Email' required />
-      <input onChange={(e)=>setPassword(e.target.value)} value={password} type="password" className='w-full px-3 py-2 border border-gray-800' placeholder='Password' required />
-      <div className='w-full flex justify-between text-sm mt-[-8px]'>
-        <p className='cursor-pointer'>Forgot you password?</p>
-        {
-          currentState === 'Login'
-         ? <p onClick={() => setCurrentState('Sign Up')} className='cursor-pointer'>Create Password</p>
-         : <p onClick={() => setCurrentState('Login')} className='cursor-pointer'>Login Here</p>
-        }
-      </div>
-      <button className='bg-black text-white font-light px-8 py-2 mt-4'>{currentState === 'Login' ? 'Sign In' : 'Sign Up'}</button>
-    </form>
-  )
-}
+    <div className="flex items-center justify-center min-h-screen px-6 ssm:px-0 bg-gradient-to-br from-purple-900 to-purple-600 ">
+      <div className="bg-white p-10 rounded-lg shadow-lg w-full sm:w-96 text-black text-sm">
+        <h2 className="text-3xl font-semibold text-black text-center mb-3">
+          {state === "Sign Up" ? "Create Account" : "Login"}
+        </h2>
+        <p className="text-center text-sm mb-6">
+          {state === "Sign Up"
+            ? "Create your account"
+            : "Login to your account!"}
+        </p>
 
-export default Login
+        <form onSubmit={onSubmitHandler}>
+          {state === "Sign Up" && (
+            <div className="mb-4 flex items-center gap-3 w-full px-5 py-2.5 rounded-full text-white bg-black">
+              <img src={assets.person_icon} alt="" />
+              <input
+                onChange={(e) => setName(e.target.value)}
+                value={name}
+                type="text"
+                placeholder="Full Name"
+                required
+                className="bg-transparent outline-none"
+              />
+            </div>
+          )}
+
+          <div className="mb-4 flex items-center gap-3 w-full px-5 py-2.5 rounded-full text-white bg-black">
+            <img src={assets.mail_icon} alt="" />
+            <input
+              onChange={(e) => setEmail(e.target.value)}
+              value={email}
+              type="email"
+              placeholder="Email id"
+              required
+              className="bg-transparent outline-none"
+            />
+          </div>
+          <div className="mb-4 flex items-center gap-3 w-full px-5 py-2.5 rounded-full text-white bg-black">
+            <img src={assets.lock_icon} alt="" />
+            <input
+              onChange={(e) => setPassword(e.target.value)}
+              value={password}
+              type="password"
+              placeholder="Password"
+              required
+              className="bg-transparent outline-none"
+            />
+          </div>
+          <p
+            onClick={() => navigate("/reset-password")}
+            className="mb-4 text-indigo-500"
+          >
+            <span className="text-black hover:text-blue-800 hover:font-bold cursor-pointer">
+              Forgot Password ?
+            </span>
+          </p>
+          <button className="text-lg w-full py-2.5 rounded-full bg-gradient-to-r from-purple-900 to-purple-500 text-black hover:text-white hover:scale-y-105 font-medium cursor-pointer">
+            {state}
+          </button>
+        </form>
+
+        {state === "Sign Up" ? (
+          <p className="text-black text-center text-xs mt-4">
+            Already have an account?
+            <span
+              onClick={() => setState("Login")}
+              className="text-blue-700 hover:text-blue-900 cursor-pointer underline ml-1"
+            >
+              Login here
+            </span>
+          </p>
+        ) : (
+          <p className="text-black text-center text-xs mt-4">
+            Don't have an account?
+            <span
+              onClick={() => setState("Sign Up")}
+              className="text-blue-700 hover:text-blue-900 cursor-pointer underline ml-1"
+            >
+              Sign Up
+            </span>
+          </p>
+        )}
+      </div>
+    </div>
+  );
+};
+
+export default Login;
