@@ -97,7 +97,10 @@ export const login = async (req, res) => {
     // ✅ ADD THIS DEBUG LOG
     console.log("Sending response with token:", token);
 
-    return res.json({ success: true, token: token });
+    return res.json({
+      success: true,
+      message: "Login successful",
+    });
   } catch (error) {
     return res.json({ success: false, message: error.message });
   }
@@ -207,27 +210,27 @@ export const isAuthenticated = async (req, res) => {
     }
 
     if (!token) {
-      return res.json({ 
-        success: false, 
-        message: "Not authenticated" 
+      return res.json({
+        success: false,
+        message: "Not authenticated",
       });
     }
 
     // Just verify the token is valid
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    
+
     if (decoded && decoded.userId) {
       return res.json({ success: true });
     } else {
-      return res.json({ 
-        success: false, 
-        message: "Invalid token" 
+      return res.json({
+        success: false,
+        message: "Invalid token",
       });
     }
   } catch (error) {
-    return res.json({ 
-      success: false, 
-      message: "Token verification failed" 
+    return res.json({
+      success: false,
+      message: "Token verification failed",
     });
   }
 };
