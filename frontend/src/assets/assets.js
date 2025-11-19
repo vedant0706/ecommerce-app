@@ -1,3 +1,30 @@
+// import arrow_icon from "./arrow_icon.svg";
+// import lock_icon from './lock_icon.svg';
+// // import logo1 from './logo.svg';
+// import mail_icon from './mail_icon.svg';
+// import person_icon from './person_icon.svg';
+// import hand_wave from './hand_wave.png';
+
+
+// export const LoginAssets = {
+//     arrow_icon,
+//     lock_icon,
+//     // logo1,
+//     mail_icon,
+//     person_icon,
+//     hand_wave,
+// }
+
+import slide1 from './all_clothes/header_1.jpg';
+import slide2 from './all_clothes/header_2.jpg';
+import slide3 from './all_clothes/header_3.jpg';
+import slide4 from './all_clothes/header_4.jpg'
+
+export const heroSlides1 = slide1; 
+export const heroSlides2 = slide2; 
+export const heroSlides3 = slide3; 
+export const heroSlides4 = slide4; 
+
 import logo from "./logo.png";
 import hero_img from "./hero_img.png";
 import cart_icon from "./cart_icon.png";
@@ -18,6 +45,11 @@ import stripe_logo from "./stripe_logo.png";
 import cross_icon from "./cross_icon.png";
 import header_img from "./header_img.jpg";
 import nav1_logo from "./nav1_logo.png";
+import arrow_icon from "./arrow_icon.svg";
+import lock_icon from './lock_icon.svg';
+import mail_icon from './mail_icon.svg';
+import person_icon from './person_icon.svg';
+import hand_wave from './hand_wave.png';
 
 export const assets = {
   logo,
@@ -40,6 +72,11 @@ export const assets = {
   cross_icon,
   header_img,
   nav1_logo,
+  arrow_icon,
+    lock_icon,
+    mail_icon,
+    person_icon,
+    hand_wave,
 };
 
 import GK_1 from "./all_clothes/GK_1.avif";
@@ -312,24 +349,14 @@ import MW_9_1 from "./all_clothes/MW_9_1.jpg";
 import MW_10 from "./all_clothes/MW_10.jpg";
 import MW_10_1 from "./all_clothes/MW_10_1.jpg";
 import MW_10_2 from "./all_clothes/MW_10_2.jpg";
-
-// HERO SECTION IMAGES
-import slide_1 from './all_clothes/header_1.jpg';
-import slide_2 from './all_clothes/header_2.jpg';
-import slide_3 from './all_clothes/header_3.jpg';
-import slide_4 from './all_clothes/header_4.jpg';
-
-export const heroSlides1 = [slide_1]
-export const heroSlides2 = [slide_2]
-export const heroSlides3= [slide_3]
-export const heroSlides4 = [slide_4]
+// import BestSeller from "../components/BestSeller";
 
 export const products = [
   {
     _id: "aaaaa",
-    name: "Women’s Wear",
+    name: "Womenâ€™s Wear",
     description:
-      "Trendy and elegant women’s outfits from tops and dresses to ethnic wear — made with premium fabrics and flattering designs.",
+      "Trendy and elegant womenâ€™s outfits from tops and dresses to ethnic wear â€” made with premium fabrics and flattering designs.",
     price: 500,
     image: [top_1, top_1_1],
     category: "Women",
@@ -340,9 +367,9 @@ export const products = [
   },
   {
     _id: "aaaab",
-    name: "Women’s Wear",
+    name: "Womenâ€™s Wear",
     description:
-      "Trendy and elegant women’s outfits from tops and dresses to ethnic wear — made with premium fabrics and flattering designs.",
+      "Trendy and elegant womenâ€™s outfits from tops and dresses to ethnic wear â€” made with premium fabrics and flattering designs.",
     price: 550,
     image: [top_2, top_2_1],
     category: "Women",
@@ -353,9 +380,9 @@ export const products = [
   },
   {
     _id: "aaaac",
-    name: "Women’s Wear",
+    name: "Womenâ€™s Wear",
     description:
-      "Trendy and elegant women’s outfits from tops and dresses to ethnic wear — made with premium fabrics and flattering designs.",
+      "Trendy and elegant womenâ€™s outfits from tops and dresses to ethnic wear â€” made with premium fabrics and flattering designs.",
     price: 600,
     image: [top_3, top_3_1, top_3_2],
     category: "Women",
@@ -366,9 +393,9 @@ export const products = [
   },
   {
     _id: "aaaad",
-    name: "Women’s Wear",
+    name: "Womenâ€™s Wear",
     description:
-      "Trendy and elegant women’s outfits from tops and dresses to ethnic wear — made with premium fabrics and flattering designs.",
+      "Trendy and elegant womenâ€™s outfits from tops and dresses to ethnic wear â€” made with premium fabrics and flattering designs.",
     price: 500,
     image: [top_4, top_4_1, top_4_2],
     category: "Women",
@@ -379,9 +406,9 @@ export const products = [
   },
   {
     _id: "aaaae",
-    name: "Women’s Wear",
+    name: "Womenâ€™s Wear",
     description:
-      "Trendy and elegant women’s outfits from tops and dresses to ethnic wear — made with premium fabrics and flattering designs.",
+      "Trendy and elegant womenâ€™s outfits from tops and dresses to ethnic wear â€” made with premium fabrics and flattering designs.",
     price: 800,
     image: [top_5, top_5_1, top_5_2, top_5_3],
     category: "Women",
@@ -392,9 +419,9 @@ export const products = [
   },
   {
     _id: "aaaaf",
-    name: "Women’s Wear",
+    name: "Womenâ€™s Wear",
     description:
-      "Trendy and elegant women’s outfits from tops and dresses to ethnic wear — made with premium fabrics and flattering designs.",
+      "Trendy and elegant womenâ€™s outfits from tops and dresses to ethnic wear â€” made with premium fabrics and flattering designs.",
     price: 650,
     image: [top_6, top_6_1, top_6_2],
     category: "Women",
@@ -405,9 +432,9 @@ export const products = [
   },
   {
     _id: "aaaag",
-    name: "Women’s Wear",
+    name: "Womenâ€™s Wear",
     description:
-      "Trendy and elegant women’s outfits from tops and dresses to ethnic wear — made with premium fabrics and flattering designs.",
+      "Trendy and elegant womenâ€™s outfits from tops and dresses to ethnic wear â€” made with premium fabrics and flattering designs.",
     price: 500,
     image: [top_7, top_7_1],
     category: "Women",
@@ -418,9 +445,9 @@ export const products = [
   },
   {
     _id: "aaaah",
-    name: "Women’s Wear",
+    name: "Womenâ€™s Wear",
     description:
-      "Trendy and elegant women’s outfits from tops and dresses to ethnic wear — made with premium fabrics and flattering designs.",
+      "Trendy and elegant womenâ€™s outfits from tops and dresses to ethnic wear â€” made with premium fabrics and flattering designs.",
     price: 500,
     image: [top_8, top_8_1, top_8_2],
     category: "Women",
@@ -431,9 +458,9 @@ export const products = [
   },
   {
     _id: "aaaai",
-    name: "Women’s Wear",
+    name: "Womenâ€™s Wear",
     description:
-      "Trendy and elegant women’s outfits from tops and dresses to ethnic wear — made with premium fabrics and flattering designs.",
+      "Trendy and elegant womenâ€™s outfits from tops and dresses to ethnic wear â€” made with premium fabrics and flattering designs.",
     price: 750,
     image: [top_9, top_9_1],
     category: "Women",
@@ -444,9 +471,9 @@ export const products = [
   },
   {
     _id: "aaaaj",
-    name: "Women’s Wear",
+    name: "Womenâ€™s Wear",
     description:
-      "Trendy and elegant women’s outfits from tops and dresses to ethnic wear — made with premium fabrics and flattering designs.",
+      "Trendy and elegant womenâ€™s outfits from tops and dresses to ethnic wear â€” made with premium fabrics and flattering designs.",
     price: 600,
     image: [top_10, top_10_1],
     category: "Women",
@@ -457,9 +484,9 @@ export const products = [
   },
   {
     _id: "aaaak",
-    name: "Women’s Wear",
+    name: "Womenâ€™s Wear",
     description:
-      "Trendy and elegant women’s outfits from tops and dresses to ethnic wear — made with premium fabrics and flattering designs.",
+      "Trendy and elegant womenâ€™s outfits from tops and dresses to ethnic wear â€” made with premium fabrics and flattering designs.",
     price: 450,
     image: [top_11, top_11_1],
     category: "Women",
@@ -470,9 +497,9 @@ export const products = [
   },
   {
     _id: "aaaal",
-    name: "Women’s Wear",
+    name: "Womenâ€™s Wear",
     description:
-      "Trendy and elegant women’s outfits from tops and dresses to ethnic wear — made with premium fabrics and flattering designs.",
+      "Trendy and elegant womenâ€™s outfits from tops and dresses to ethnic wear â€” made with premium fabrics and flattering designs.",
     price: 550,
     image: [top_12, top_12_1, top_12_2],
     category: "Women",
@@ -483,9 +510,9 @@ export const products = [
   },
   {
     _id: "aaaam",
-    name: "Women’s Wear",
+    name: "Womenâ€™s Wear",
     description:
-      "Trendy and elegant women’s outfits from tops and dresses to ethnic wear — made with premium fabrics and flattering designs.",
+      "Trendy and elegant womenâ€™s outfits from tops and dresses to ethnic wear â€” made with premium fabrics and flattering designs.",
     price: 999,
     image: [top_13, top_13_1, top_13_2],
     category: "Women",
@@ -496,9 +523,9 @@ export const products = [
   },
   {
     _id: "aaaan",
-    name: "Women’s Wear",
+    name: "Womenâ€™s Wear",
     description:
-      "Trendy and elegant women’s outfits from tops and dresses to ethnic wear — made with premium fabrics and flattering designs.",
+      "Trendy and elegant womenâ€™s outfits from tops and dresses to ethnic wear â€” made with premium fabrics and flattering designs.",
     price: 1100,
     image: [top_14, top_14_1, top_14_2],
     category: "Women",
@@ -509,9 +536,9 @@ export const products = [
   },
   {
     _id: "aaaab0",
-    name: "Women’s Wear",
+    name: "Womenâ€™s Wear",
     description:
-      "Trendy and elegant women’s outfits from tops and dresses to ethnic wear — made with premium fabrics and flattering designs.",
+      "Trendy and elegant womenâ€™s outfits from tops and dresses to ethnic wear â€” made with premium fabrics and flattering designs.",
     price: 750,
     image: [top_15, top_15_1, top_15_2],
     category: "Women",
@@ -522,9 +549,9 @@ export const products = [
   },
   {
     _id: "aaaap",
-    name: "Women’s Wear",
+    name: "Womenâ€™s Wear",
     description:
-      "Trendy and elegant women’s outfits from tops and dresses to ethnic wear — made with premium fabrics and flattering designs.",
+      "Trendy and elegant womenâ€™s outfits from tops and dresses to ethnic wear â€” made with premium fabrics and flattering designs.",
     price: 1000,
     image: [top_16, top_16_1, top_16_2, top_16_3],
     category: "Women",
@@ -535,9 +562,9 @@ export const products = [
   },
   {
     _id: "aaaaq",
-    name: "Women’s Wear",
+    name: "Womenâ€™s Wear",
     description:
-      "Trendy and elegant women’s outfits from tops and dresses to ethnic wear — made with premium fabrics and flattering designs.",
+      "Trendy and elegant womenâ€™s outfits from tops and dresses to ethnic wear â€” made with premium fabrics and flattering designs.",
     price: 650,
     image: [top_17, top_17_1],
     category: "Women",
@@ -548,9 +575,9 @@ export const products = [
   },
   {
     _id: "aaaar",
-    name: "Women’s Wear",
+    name: "Womenâ€™s Wear",
     description:
-      "Trendy and elegant women’s outfits from tops and dresses to ethnic wear — made with premium fabrics and flattering designs.",
+      "Trendy and elegant womenâ€™s outfits from tops and dresses to ethnic wear â€” made with premium fabrics and flattering designs.",
     price: 950,
     image: [top_18, top_18_1, top_18_2, top_18_3],
     category: "Women",
@@ -561,9 +588,9 @@ export const products = [
   },
   {
     _id: "aaaas",
-    name: "Women’s Wear",
+    name: "Womenâ€™s Wear",
     description:
-      "Trendy and elegant women’s outfits from tops and dresses to ethnic wear — made with premium fabrics and flattering designs.",
+      "Trendy and elegant womenâ€™s outfits from tops and dresses to ethnic wear â€” made with premium fabrics and flattering designs.",
     price: 950,
     image: [top_19, top_19_1, top_19_2],
     category: "Women",
@@ -574,9 +601,9 @@ export const products = [
   },
   {
     _id: "aaaat",
-    name: "Women’s Wear",
+    name: "Womenâ€™s Wear",
     description:
-      "Trendy and elegant women’s outfits from tops and dresses to ethnic wear — made with premium fabrics and flattering designs.",
+      "Trendy and elegant womenâ€™s outfits from tops and dresses to ethnic wear â€” made with premium fabrics and flattering designs.",
     price: 1200,
     image: [top_20, top_20_1, top_20_2, top_20_3],
     category: "Women",
@@ -587,9 +614,9 @@ export const products = [
   },
   {
     _id: "aaaau",
-    name: "Women’s Wear",
+    name: "Womenâ€™s Wear",
     description:
-      "Trendy and elegant women’s outfits from tops and dresses to ethnic wear — made with premium fabrics and flattering designs.",
+      "Trendy and elegant womenâ€™s outfits from tops and dresses to ethnic wear â€” made with premium fabrics and flattering designs.",
     price: 1200,
     image: [WW_1],
     category: "Women",
@@ -600,9 +627,9 @@ export const products = [
   },
   {
     _id: "aaaav",
-    name: "Women’s Wear",
+    name: "Womenâ€™s Wear",
     description:
-      "Trendy and elegant women’s outfits from tops and dresses to ethnic wear — made with premium fabrics and flattering designs.",
+      "Trendy and elegant womenâ€™s outfits from tops and dresses to ethnic wear â€” made with premium fabrics and flattering designs.",
     price: 999,
     image: [WW_2],
     category: "Women",
@@ -613,9 +640,9 @@ export const products = [
   },
   {
     _id: "aaaaw",
-    name: "Women’s Wear",
+    name: "Womenâ€™s Wear",
     description:
-      "Trendy and elegant women’s outfits from tops and dresses to ethnic wear — made with premium fabrics and flattering designs.",
+      "Trendy and elegant womenâ€™s outfits from tops and dresses to ethnic wear â€” made with premium fabrics and flattering designs.",
     price: 1100,
     image: [WW_3],
     category: "Women",
@@ -626,9 +653,9 @@ export const products = [
   },
   {
     _id: "aaaax",
-    name: "Women’s Wear",
+    name: "Womenâ€™s Wear",
     description:
-      "Trendy and elegant women’s outfits from tops and dresses to ethnic wear — made with premium fabrics and flattering designs.",
+      "Trendy and elegant womenâ€™s outfits from tops and dresses to ethnic wear â€” made with premium fabrics and flattering designs.",
     price: 990,
     image: [WW_5],
     category: "Women",
@@ -639,9 +666,9 @@ export const products = [
   },
   {
     _id: "aaaay",
-    name: "Women’s Wear",
+    name: "Womenâ€™s Wear",
     description:
-      "Trendy and elegant women’s outfits from tops and dresses to ethnic wear — made with premium fabrics and flattering designs.",
+      "Trendy and elegant womenâ€™s outfits from tops and dresses to ethnic wear â€” made with premium fabrics and flattering designs.",
     price: 1550,
     image: [WW_6],
     category: "Women",
@@ -652,9 +679,9 @@ export const products = [
   },
   {
     _id: "aaaaz",
-    name: "Women’s Wear",
+    name: "Womenâ€™s Wear",
     description:
-      "Trendy and elegant women’s outfits from tops and dresses to ethnic wear — made with premium fabrics and flattering designs.",
+      "Trendy and elegant womenâ€™s outfits from tops and dresses to ethnic wear â€” made with premium fabrics and flattering designs.",
     price: 1250,
     image: [WW_7],
     category: "Women",
@@ -665,9 +692,9 @@ export const products = [
   },
   {
     _id: "aaaaaa",
-    name: "Women’s Wear",
+    name: "Womenâ€™s Wear",
     description:
-      "Trendy and elegant women’s outfits from tops and dresses to ethnic wear — made with premium fabrics and flattering designs.",
+      "Trendy and elegant womenâ€™s outfits from tops and dresses to ethnic wear â€” made with premium fabrics and flattering designs.",
     price: 1200,
     image: [WW_8],
     category: "Women",
@@ -678,9 +705,9 @@ export const products = [
   },
   {
     _id: "aaaaab",
-    name: "Women’s Wear",
+    name: "Womenâ€™s Wear",
     description:
-      "Trendy and elegant women’s outfits from tops and dresses to ethnic wear — made with premium fabrics and flattering designs.",
+      "Trendy and elegant womenâ€™s outfits from tops and dresses to ethnic wear â€” made with premium fabrics and flattering designs.",
     price: 1100,
     image: [WW_9],
     category: "Women",
@@ -691,9 +718,9 @@ export const products = [
   },
   {
     _id: "aaaaac",
-    name: "Women’s Wear",
+    name: "Womenâ€™s Wear",
     description:
-      "Trendy and elegant women’s outfits from tops and dresses to ethnic wear — made with premium fabrics and flattering designs.",
+      "Trendy and elegant womenâ€™s outfits from tops and dresses to ethnic wear â€” made with premium fabrics and flattering designs.",
     price: 999,
     image: [WW_10],
     category: "Women",

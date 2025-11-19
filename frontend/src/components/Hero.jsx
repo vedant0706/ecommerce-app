@@ -1,5 +1,4 @@
 import React from 'react'
-import { assets } from '../assets/assets'
 import HeroSlider from './HeroSlider'
 
 const Hero = () => {
@@ -20,7 +19,6 @@ const Hero = () => {
             </div>
         </div>
         {/* Hero Right Side */}
-        {/* <img className='w-full sm:w-1/2' src={assets.header_img} alt="" /> */}
         <div className='w-full sm:w-1/2'>
         <HeroSlider />
         </div>

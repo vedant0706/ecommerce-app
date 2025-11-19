@@ -1,6 +1,5 @@
 import { createContext, useEffect, useState } from "react";
 import { toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
 import axios from 'axios'
 
 export const ShopContext = createContext();
@@ -9,7 +8,6 @@ const ShopContextProvider = (props) => {
     const currency = "₹ ";
     const delivery_fee = 50;
     const backendUrl = import.meta.env.VITE_BACKEND_URL;
-    const navigate = useNavigate();
 
     // Existing states
     const [search, setSearch] = useState('');
@@ -26,31 +24,38 @@ const ShopContextProvider = (props) => {
     const [currentUserId, setCurrentUserId] = useState(null);
     const [isLoading, setIsLoading] = useState(true); // ✅ Added loading state
 
+    // ✅ Create axios instance with credentials
     const axiosInstance = axios.create({
         baseURL: backendUrl,
-        withCredentials: true,
+        withCredentials: true, // Send cookies with requests
+        headers: {
+            'Content-Type': 'application/json',
+        }
     });
 
+    // ✅ Set global axios defaults
     axios.defaults.withCredentials = true;
 
     // --------------------------------------------
     // TOKEN MANAGEMENT (Cookie-based)
     // --------------------------------------------
     const saveToken = (newToken) => {
-        // console.log("💾 Saving token in state:", newToken); // Debug
+        console.log("💾 Saving token in state:", newToken); // Debug
         setToken(newToken);
         // Token is saved in httpOnly cookie by backend automatically
     };
 
     // --------------------------------------------
-    // ✅ NEW: Check if user is authenticated via cookie
+    // ✅ Check if user is authenticated via cookie
     // --------------------------------------------
     const checkAuthStatus = async () => {
         try {
-            // console.log("🔍 Checking auth status..."); // Debug
+            console.log("🔍 Checking auth status..."); // Debug
+            console.log("🔍 Backend URL:", backendUrl); // Debug
+            
             const { data } = await axiosInstance.get("/api/auth/is-auth");
             
-            // console.log("🔍 Auth check response:", data); // Debug
+            console.log("🔍 Auth check response:", data); // Debug
             
             if (data.success) {
                 setIsLoggedin(true);
@@ -62,7 +67,7 @@ const ShopContextProvider = (props) => {
                 setToken("");
             }
         } catch (error) {
-            // console.log("❌ Auth check failed:", error);
+            console.log("❌ Auth check failed:", error);
             setIsLoggedin(false);
             setToken("");
         } finally {
@@ -85,27 +90,35 @@ const ShopContextProvider = (props) => {
                 }
             }
         } catch (error) {
-            // console.log("❌ Get user data error:", error);
+            console.log("❌ Get user data error:", error);
             // Silent fail on auth check
         }
     };
 
     const handleLoginSuccess = (loginToken) => {
-        // console.log("✅ Login success with token:", loginToken); // Debug
+        console.log("✅ Login success with token:", loginToken); // Debug
+        console.log("✅ Setting isLoggedin to TRUE"); // Debug
+        
         saveToken(loginToken);
-        setIsLoggedin(true);
+        setIsLoggedin(true); // ✅ Set logged in immediately
+        setToken(loginToken); // ✅ Set token immediately
+        
+        console.log("✅ isLoggedin set, now fetching user data"); // Debug
+        
+        // Then fetch user data and cart
         getUserData();
+        
         toast.success("Login successful!");
-        navigate("/");
+        // Components will handle navigation themselves
     };
 
     const handleLogout = async () => {
         try {
-            // console.log("🚪 Logging out..."); // Debug
+            console.log("🚪 Logging out..."); // Debug
             
             const response = await axiosInstance.post("/api/auth/logout");
             
-            // console.log("🚪 Logout response:", response.data); // Debug
+            console.log("🚪 Logout response:", response.data); // Debug
 
             if (response.data.success) {
                 setIsLoggedin(false);
@@ -115,13 +128,13 @@ const ShopContextProvider = (props) => {
                 setCartItems({});
 
                 toast.success("Logged out successfully!");
-                navigate("/login");
+                // Components will handle navigation themselves
             } else {
                 toast.error(response.data.message || "Logout failed");
             }
         } catch (error) {
-            // console.error("❌ Logout error:", error);
-            // console.error("Error response:", error.response?.data);
+            console.error("❌ Logout error:", error);
+            console.error("Error response:", error.response?.data);
             
             // Even if request fails, clear local state
             setIsLoggedin(false);
@@ -131,7 +144,7 @@ const ShopContextProvider = (props) => {
             setCartItems({});
             
             toast.error(error.response?.data?.message || "Logout failed!");
-            navigate("/login");
+            // Components will handle navigation themselves
         }
     };
 
@@ -161,7 +174,7 @@ const ShopContextProvider = (props) => {
             try {
                 await axiosInstance.post("/api/cart/add", { itemId, size });
             } catch (error) {
-                // console.log(error);
+                console.log(error);
                 toast.error(error.message);
             }
         }
@@ -188,7 +201,7 @@ const ShopContextProvider = (props) => {
             try {
                 await axiosInstance.post("/api/cart/update", { itemId, size, quantity });
             } catch (error) {
-                // console.log(error);
+                console.log(error);
                 toast.error(error.message);
             }
         }
@@ -221,7 +234,7 @@ const ShopContextProvider = (props) => {
                 toast.error(response.data.message);
             }
         } catch (error) {
-            // console.log(error);
+            console.log(error);
             toast.error(error.message);
         }
     };
@@ -229,21 +242,21 @@ const ShopContextProvider = (props) => {
     const getUserCart = async () => {
         try {
             if (!isLoggedin) {
-                // console.log("User not logged in, skipping cart fetch"); // Debug
+                console.log("User not logged in, skipping cart fetch"); // Debug
                 return;
             }
 
-            // console.log("🛒 Getting user cart..."); // Debug
+            console.log("🛒 Getting user cart..."); // Debug
 
             const response = await axiosInstance.post("/api/cart/get", {});
 
-            // console.log("🛒 Cart response:", response.data); // Debug
+            console.log("🛒 Cart response:", response.data); // Debug
 
             if (response.data.success) {
                 setCartItems(response.data.cartData);
             }
         } catch (error) {
-            // console.log("❌ Get cart error:", error);
+            console.log("❌ Get cart error:", error);
             // Don't show error for unauthenticated users
         }
     };
@@ -280,7 +293,6 @@ const ShopContextProvider = (props) => {
         getCartCount,
         updateQuantity,
         getCartAmount,
-        navigate,
         backendUrl,
 
         // TOKEN (state only)
