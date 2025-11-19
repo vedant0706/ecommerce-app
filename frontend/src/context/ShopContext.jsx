@@ -40,7 +40,6 @@ const ShopContextProvider = (props) => {
     // TOKEN MANAGEMENT (Cookie-based)
     // --------------------------------------------
     const saveToken = (newToken) => {
-        console.log("💾 Saving token in state:", newToken); // Debug
         setToken(newToken);
         // Token is saved in httpOnly cookie by backend automatically
     };
@@ -50,12 +49,8 @@ const ShopContextProvider = (props) => {
     // --------------------------------------------
     const checkAuthStatus = async () => {
         try {
-            console.log("🔍 Checking auth status..."); // Debug
-            console.log("🔍 Backend URL:", backendUrl); // Debug
             
             const { data } = await axiosInstance.get("/api/auth/is-auth");
-            
-            console.log("🔍 Auth check response:", data); // Debug
             
             if (data.success) {
                 setIsLoggedin(true);
@@ -67,7 +62,6 @@ const ShopContextProvider = (props) => {
                 setToken("");
             }
         } catch (error) {
-            console.log("❌ Auth check failed:", error);
             setIsLoggedin(false);
             setToken("");
         } finally {
@@ -90,20 +84,16 @@ const ShopContextProvider = (props) => {
                 }
             }
         } catch (error) {
-            console.log("❌ Get user data error:", error);
             // Silent fail on auth check
         }
     };
 
     const handleLoginSuccess = (loginToken) => {
-        console.log("✅ Login success with token:", loginToken); // Debug
-        console.log("✅ Setting isLoggedin to TRUE"); // Debug
         
         saveToken(loginToken);
         setIsLoggedin(true); // ✅ Set logged in immediately
         setToken(loginToken); // ✅ Set token immediately
         
-        console.log("✅ isLoggedin set, now fetching user data"); // Debug
         
         // Then fetch user data and cart
         getUserData();
@@ -114,11 +104,9 @@ const ShopContextProvider = (props) => {
 
     const handleLogout = async () => {
         try {
-            console.log("🚪 Logging out..."); // Debug
             
             const response = await axiosInstance.post("/api/auth/logout");
             
-            console.log("🚪 Logout response:", response.data); // Debug
 
             if (response.data.success) {
                 setIsLoggedin(false);
@@ -133,8 +121,6 @@ const ShopContextProvider = (props) => {
                 toast.error(response.data.message || "Logout failed");
             }
         } catch (error) {
-            console.error("❌ Logout error:", error);
-            console.error("Error response:", error.response?.data);
             
             // Even if request fails, clear local state
             setIsLoggedin(false);
@@ -174,7 +160,6 @@ const ShopContextProvider = (props) => {
             try {
                 await axiosInstance.post("/api/cart/add", { itemId, size });
             } catch (error) {
-                console.log(error);
                 toast.error(error.message);
             }
         }
@@ -201,7 +186,6 @@ const ShopContextProvider = (props) => {
             try {
                 await axiosInstance.post("/api/cart/update", { itemId, size, quantity });
             } catch (error) {
-                console.log(error);
                 toast.error(error.message);
             }
         }
@@ -234,7 +218,6 @@ const ShopContextProvider = (props) => {
                 toast.error(response.data.message);
             }
         } catch (error) {
-            console.log(error);
             toast.error(error.message);
         }
     };
@@ -242,21 +225,15 @@ const ShopContextProvider = (props) => {
     const getUserCart = async () => {
         try {
             if (!isLoggedin) {
-                console.log("User not logged in, skipping cart fetch"); // Debug
                 return;
             }
 
-            console.log("🛒 Getting user cart..."); // Debug
-
             const response = await axiosInstance.post("/api/cart/get", {});
-
-            console.log("🛒 Cart response:", response.data); // Debug
 
             if (response.data.success) {
                 setCartItems(response.data.cartData);
             }
         } catch (error) {
-            console.log("❌ Get cart error:", error);
             // Don't show error for unauthenticated users
         }
     };
