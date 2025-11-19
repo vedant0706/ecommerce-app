@@ -4,12 +4,12 @@ import CartTotal from "../components/CartTotal";
 import { assets } from "../assets/assets";
 import { ShopContext } from "../context/ShopContext";
 import { toast } from "react-toastify";
-import axios from "axios";
+import { useNavigate } from "react-router-dom";
+// import axios from "axios";
 
 const PlaceOrder = () => {
   const [method, setMethod] = useState("cod");
   const {
-    navigate,
     backendUrl,
     isLoggedin,
     cartItems,
@@ -19,6 +19,8 @@ const PlaceOrder = () => {
     products,
     axiosInstance,
   } = useContext(ShopContext);
+
+  const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
     firstName: "",

@@ -3,32 +3,37 @@ import { ShopContext } from "../context/ShopContext";
 import Title from "../components/Title";
 import { assets } from "../assets/assets";
 import CartTotal from "../components/CartTotal";
+import { useNavigate } from "react-router-dom";
 
 const Cart = () => {
-  const { products, currency, cartItems, updateQuantity, navigate } =
+  const { products, currency, cartItems, updateQuantity } =
     useContext(ShopContext);
+
+    const navigate = useNavigate();
 
   const [cartData, setCartData] = useState([]);
 
-  useEffect(() => {
-    if (products.length > 0) {
-      const tempData = [];
-      for (const items in cartItems) {
-        for (const item in cartItems[items]) {
-          if (cartItems[items][item] > 0) {
-            tempData.push({
-              _id: items,
-              size: item,
-              quantity: cartItems[items][item],
-            });
-          }
-        }
+useEffect(() => {
+  // This line protects you when products is not loaded yet
+  if (!products || products.length === 0) {
+    setCartData([]);
+    return;
+  }
+
+  const tempData = [];
+  for (const productId in cartItems) {
+    for (const size in cartItems[productId]) {
+      if (cartItems[productId][size] > 0) {
+        tempData.push({
+          _id: productId,
+          size: size,
+          quantity: cartItems[productId][size],
+        });
       }
-      setCartData(tempData);
-    } else {
-      setCartData([])
     }
-  }, [cartItems, products]);
+  }
+  setCartData(tempData);
+}, [cartItems, products]);
 
   return (
     <div className="border-t pt-14">
