@@ -11,13 +11,13 @@ const PlaceOrder = () => {
   const {
     navigate,
     backendUrl,
-    token,
+    isLoggedin,
     cartItems,
     setCartItems,
     getCartAmount,
     delivery_fee,
     products,
-    isLoggedin,
+    axiosInstance,
   } = useContext(ShopContext);
 
   const [formData, setFormData] = useState({
@@ -32,16 +32,15 @@ const PlaceOrder = () => {
     phone: "",
   });
 
-  // Check authentication on mount
+  // ✅ Check authentication using isLoggedin (cookie-based)
   useEffect(() => {
-    console.log("Token in PlaceOrder:", token); // Debug log
-    console.log("Token from localStorage:", localStorage.getItem('token')); // Debug log
+    // console.log("🔐 PlaceOrder - Is logged in:", isLoggedin); // Debug
     
-    if (!token && !localStorage.getItem('token')) {
+    if (!isLoggedin) {
       toast.error("Please login to place an order");
       navigate("/login");
     }
-  }, []);
+  }, [isLoggedin]);
 
   const onChangeHandler = (event) => {
     const name = event.target.name;
@@ -59,20 +58,18 @@ const PlaceOrder = () => {
       order_id: order.id,
       receipt: order.receipt,
       handler: async (response) => {
-        console.log(response);
+        // console.log(response);
         try {
-          const authToken = token || localStorage.getItem('token');
-          const { data } = await axios.post(
-            backendUrl + '/api/order/verifyRazorpay',
-            response,
-            { headers: { token: authToken } }
+          const { data } = await axiosInstance.post(
+            '/api/order/verifyRazorpay',
+            response
           );
           if (data.success) {
             navigate('/orders');
             setCartItems({});
           }
         } catch (error) {
-          console.log(error);
+          // console.log(error);
           toast.error(error.response?.data?.message || "Payment verification failed");
         }
       }
@@ -84,12 +81,9 @@ const PlaceOrder = () => {
   const onSubmitHandler = async (event) => {
     event.preventDefault();
 
-    // Get token from context or localStorage
-    const authToken = token || localStorage.getItem('token');
-    
-    console.log("Submitting order with token:", authToken); // Debug log
+    // console.log("📝 Submitting order, isLoggedin:", isLoggedin); // Debug
 
-    if (!authToken) {
+    if (!isLoggedin) {
       toast.error("Please login to place an order");
       navigate("/login");
       return;
@@ -115,6 +109,7 @@ const PlaceOrder = () => {
 
       if (orderItems.length === 0) {
         toast.error("Your cart is empty");
+        navigate("/cart");
         return;
       }
 
@@ -124,20 +119,16 @@ const PlaceOrder = () => {
         amount: getCartAmount() + delivery_fee,
       };
 
-      console.log("Order data:", orderData); // Debug log
+      // console.log("📦 Order data:", orderData); // Debug
 
       switch (method) {
-        // API Calls for COD
+        // ✅ Using axiosInstance (includes cookies automatically)
         case 'cod': {
-          console.log("Sending COD request with token:", authToken); // Debug log
+          // console.log("💰 Placing COD order..."); // Debug
           
-          const response = await axios.post(
-            backendUrl + "/api/order/place",
-            orderData,
-            { headers: { token: authToken } }
-          );
+          const response = await axiosInstance.post("/api/order/place", orderData);
           
-          console.log("COD Response:", response.data); // Debug log
+          // console.log("✅ COD Response:", response.data); // Debug
           
           if (response.data.success) {
             setCartItems({});
@@ -150,13 +141,14 @@ const PlaceOrder = () => {
         }
 
         case 'razorpay': {
-          const responseRazorpay = await axios.post(
-            backendUrl + '/api/order/razorpay',
-            orderData,
-            { headers: { token: authToken } }
+          const responseRazorpay = await axiosInstance.post(
+            '/api/order/razorpay',
+            orderData
           );
           if (responseRazorpay.data.success) {
             initPay(responseRazorpay.data.order);
+          } else {
+            toast.error(responseRazorpay.data.message);
           }
           break;
         }
@@ -165,12 +157,11 @@ const PlaceOrder = () => {
           break;
       }
     } catch (error) {
-      console.error("Order placement error:", error); // Debug log
-      console.error("Error response:", error.response); // Debug log
+      // console.error("❌ Order placement error:", error); // Debug
+      // console.error("Error response:", error.response); // Debug
       
       if (error.response?.status === 401) {
         toast.error("Session expired. Please login again");
-        localStorage.removeItem('token');
         navigate("/login");
       } else {
         toast.error(error.response?.data?.message || error.message || "Order placement failed");

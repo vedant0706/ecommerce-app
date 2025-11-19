@@ -8,31 +8,31 @@ const BestSeller = () => {
   const [bestSeller, setBestSeller] = useState([]);
 
   useEffect(() => {
-    console.log("All products:", products);
-    console.log("Products length:", products.length);
+    // console.log("All products:", products);
+    // console.log("Products length:", products.length);
     
     if (products.length > 0) {
       // Log first product to see its structure
-      console.log("First product structure:", products[0]);
+      // console.log("First product structure:", products[0]);
       
       // Check what bestseller fields exist
       products.forEach((product, index) => {
         if (index < 5) { // Log first 5 products
-          console.log(`Product ${index}:`, {
-            name: product.name,
-            bestseller: product.bestseller,
-            bestSeller: product.bestSeller,
-            BestSeller: product.BestSeller
-          });
+          // console.log(`Product ${index}:`, {
+            // name: product.name,
+            // bestseller: product.bestseller,
+            // bestSeller: product.bestSeller,
+            // BestSeller: product.BestSeller
+          // });
         }
       });
       
       const bestProduct = products.filter((item) => {
-        console.log(`Checking ${item.name}:`, item.bestseller, item.bestSeller, item.BestSeller);
+        // console.log(`Checking ${item.name}:`, item.bestseller, item.bestSeller, item.BestSeller);
         return item.bestseller === true || item.bestSeller === true || item.BestSeller === true;
       });
       
-      console.log("Filtered bestseller products:", bestProduct);
+      // console.log("Filtered bestseller products:", bestProduct);
       setBestSeller(bestProduct.slice(0, 5))
     }
   }, [products])

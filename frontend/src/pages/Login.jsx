@@ -8,7 +8,8 @@ import { ShopContext } from "../context/ShopContext.jsx";
 const Login = () => {
   const navigate = useNavigate();
 
-  const { backendUrl, setIsLoggedin, saveToken } = useContext(ShopContext);
+  // ✅ FIXED: Use handleLoginSuccess instead of manual token setting
+  const { backendUrl, handleLoginSuccess } = useContext(ShopContext);
 
   const [state, setState] = useState("Sign Up");
   const [name, setName] = useState("");
@@ -28,17 +29,13 @@ const Login = () => {
           password,
         });
 
-        if (data.success) {
-          // ✅ Save token from response
-          if (data.token) {
-            localStorage.setItem("token", data.token);
-            saveToken(data.token);
-          }
-          setIsLoggedin(true);
-          toast.success("Account created successfully!");
-          navigate("/");
+        // console.log("📝 Register response:", data); // Debug
+
+        if (data.success && data.token) {
+          // ✅ Use handleLoginSuccess which properly sets everything
+          handleLoginSuccess(data.token);
         } else {
-          toast.error(data.message);
+          toast.error(data.message || "Registration failed");
         }
       } else {
         const { data } = await axios.post(backendUrl + "/api/auth/login", {
@@ -46,25 +43,18 @@ const Login = () => {
           password,
         });
 
-        // ✅ ADD THESE DEBUG LOGS
-        console.log("Full response:", data);
-        console.log("Token from response:", data.token);
+        // console.log("🔐 Login response:", data); // Debug
+        // console.log("Token received:", data.token); // Debug
 
-        if (data.success) {
-          // ✅ Save token from response
-          if (data.token) {
-            localStorage.setItem("token", data.token);
-            saveToken(data.token);
-          }
-          setIsLoggedin(true);
-          toast.success("Login successful!");
-          navigate("/");
+        if (data.success && data.token) {
+          // ✅ Use handleLoginSuccess which properly sets everything
+          handleLoginSuccess(data.token);
         } else {
-          toast.error(data.message);
+          toast.error(data.message || "Login failed");
         }
       }
     } catch (error) {
-      console.error("Login error:", error);
+      // console.error("Login error:", error);
       toast.error(error.response?.data?.message || error.message);
     }
   };

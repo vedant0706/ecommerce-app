@@ -17,13 +17,14 @@ const ShopContextProvider = (props) => {
     const [cartItems, setCartItems] = useState({});
     const [products, setProducts] = useState([]);
 
-    // TOKEN FIXED HERE
+    // ✅ Token stored in state
     const [token, setToken] = useState('');
 
     // Authentication states 
     const [isLoggedin, setIsLoggedin] = useState(false);
     const [userData, setUserData] = useState(null);
     const [currentUserId, setCurrentUserId] = useState(null);
+    const [isLoading, setIsLoading] = useState(true); // ✅ Added loading state
 
     const axiosInstance = axios.create({
         baseURL: backendUrl,
@@ -33,35 +34,39 @@ const ShopContextProvider = (props) => {
     axios.defaults.withCredentials = true;
 
     // --------------------------------------------
-    // TOKEN FIX FUNCTIONS
+    // TOKEN MANAGEMENT (Cookie-based)
     // --------------------------------------------
     const saveToken = (newToken) => {
+        // console.log("💾 Saving token in state:", newToken); // Debug
         setToken(newToken);
-        localStorage.setItem("token", newToken);
-    };
-
-    const loadTokenOnStart = () => {
-        const saved = localStorage.getItem("token");
-        if (saved) {
-            setToken(saved);
-            getUserCart(saved);
-        }
+        // Token is saved in httpOnly cookie by backend automatically
     };
 
     // --------------------------------------------
-
-    const getAuthState = async () => {
+    // ✅ NEW: Check if user is authenticated via cookie
+    // --------------------------------------------
+    const checkAuthStatus = async () => {
         try {
+            // console.log("🔍 Checking auth status..."); // Debug
             const { data } = await axiosInstance.get("/api/auth/is-auth");
+            
+            // console.log("🔍 Auth check response:", data); // Debug
+            
             if (data.success) {
                 setIsLoggedin(true);
-                getUserData();
+                await getUserData();
+                // ✅ Get token from cookie by making a request
+                setToken("authenticated"); // Set a placeholder since cookie is httpOnly
             } else {
                 setIsLoggedin(false);
+                setToken("");
             }
         } catch (error) {
-            console.log(error);
-            toast.error("Auth check failed!");
+            // console.log("❌ Auth check failed:", error);
+            setIsLoggedin(false);
+            setToken("");
+        } finally {
+            setIsLoading(false); // ✅ Done loading
         }
     };
 
@@ -71,17 +76,23 @@ const ShopContextProvider = (props) => {
             if (data.success) {
                 setUserData(data.userData);
                 setCurrentUserId(data.userData._id);
+                // Load cart when user data is fetched
+                getUserCart();
             } else {
-                toast.error(data.message);
+                // Don't show error if not authenticated
+                if (data.message !== "Not authenticated") {
+                    toast.error(data.message);
+                }
             }
         } catch (error) {
-            console.log(error);
-            toast.error(error.message);
+            // console.log("❌ Get user data error:", error);
+            // Silent fail on auth check
         }
     };
 
     const handleLoginSuccess = (loginToken) => {
-        saveToken(loginToken);   // FIXED
+        // console.log("✅ Login success with token:", loginToken); // Debug
+        saveToken(loginToken);
         setIsLoggedin(true);
         getUserData();
         toast.success("Login successful!");
@@ -90,20 +101,37 @@ const ShopContextProvider = (props) => {
 
     const handleLogout = async () => {
         try {
-            await axiosInstance.post("/api/auth/logout");
+            // console.log("🚪 Logging out..."); // Debug
+            
+            const response = await axiosInstance.post("/api/auth/logout");
+            
+            // console.log("🚪 Logout response:", response.data); // Debug
 
+            if (response.data.success) {
+                setIsLoggedin(false);
+                setUserData(null);
+                setCurrentUserId(null);
+                setToken(""); // clear token from state
+                setCartItems({});
+
+                toast.success("Logged out successfully!");
+                navigate("/login");
+            } else {
+                toast.error(response.data.message || "Logout failed");
+            }
+        } catch (error) {
+            // console.error("❌ Logout error:", error);
+            // console.error("Error response:", error.response?.data);
+            
+            // Even if request fails, clear local state
             setIsLoggedin(false);
             setUserData(null);
             setCurrentUserId(null);
-
-            saveToken(""); // clear token
+            setToken("");
             setCartItems({});
-
-            toast.success("Logged out successfully!");
+            
+            toast.error(error.response?.data?.message || "Logout failed!");
             navigate("/login");
-        } catch (error) {
-            console.log(error);
-            toast.error("Logout failed!");
         }
     };
 
@@ -129,15 +157,11 @@ const ShopContextProvider = (props) => {
 
         setCartItems(cartData);
 
-        if (token) {
+        if (token && isLoggedin) {
             try {
-                await axios.post(
-                    backendUrl + "/api/cart/add",
-                    { itemId, size },
-                    { headers: { Authorization: `Bearer ${token}` } }
-                );
+                await axiosInstance.post("/api/cart/add", { itemId, size });
             } catch (error) {
-                console.log(error);
+                // console.log(error);
                 toast.error(error.message);
             }
         }
@@ -160,15 +184,11 @@ const ShopContextProvider = (props) => {
         cartData[itemId][size] = quantity;
         setCartItems(cartData);
 
-        if (token) {
+        if (token && isLoggedin) {
             try {
-                await axios.post(
-                    backendUrl + "/api/cart/update",
-                    { itemId, size, quantity },
-                    { headers: { Authorization: `Bearer ${token}` } }
-                );
+                await axiosInstance.post("/api/cart/update", { itemId, size, quantity });
             } catch (error) {
-                console.log(error);
+                // console.log(error);
                 toast.error(error.message);
             }
         }
@@ -180,9 +200,11 @@ const ShopContextProvider = (props) => {
         for (const items in cartItems) {
             let itemInfo = products.find((product) => product._id === items);
 
-            for (const item in cartItems[items]) {
-                if (cartItems[items][item] > 0) {
-                    totalAmount += itemInfo.price * cartItems[items][item];
+            if (itemInfo) {
+                for (const item in cartItems[items]) {
+                    if (cartItems[items][item] > 0) {
+                        totalAmount += itemInfo.price * cartItems[items][item];
+                    }
                 }
             }
         }
@@ -199,26 +221,30 @@ const ShopContextProvider = (props) => {
                 toast.error(response.data.message);
             }
         } catch (error) {
-            console.log(error);
+            // console.log(error);
             toast.error(error.message);
         }
     };
 
-    const getUserCart = async (tokenParam) => {
+    const getUserCart = async () => {
         try {
-            const response = await axios.post(
-                backendUrl + "/api/cart/get",
-                {},
-                { headers: { token: tokenParam || token } },
-                {header: { Authorization: `Bearer ${token}` }}
-            );
+            if (!isLoggedin) {
+                // console.log("User not logged in, skipping cart fetch"); // Debug
+                return;
+            }
+
+            // console.log("🛒 Getting user cart..."); // Debug
+
+            const response = await axiosInstance.post("/api/cart/get", {});
+
+            // console.log("🛒 Cart response:", response.data); // Debug
 
             if (response.data.success) {
                 setCartItems(response.data.cartData);
             }
         } catch (error) {
-            console.log(error);
-            toast.error(error.message);
+            // console.log("❌ Get cart error:", error);
+            // Don't show error for unauthenticated users
         }
     };
 
@@ -230,12 +256,9 @@ const ShopContextProvider = (props) => {
         getProductsData();
     }, []);
 
+    // ✅ Check authentication status on mount
     useEffect(() => {
-        loadTokenOnStart();    // FIXED
-    }, []);
-
-    useEffect(() => {
-        getAuthState();
+        checkAuthStatus();
     }, []);
 
     // --------------------------------------------
@@ -260,7 +283,7 @@ const ShopContextProvider = (props) => {
         navigate,
         backendUrl,
 
-        // TOKEN FIXED
+        // TOKEN (state only)
         token,
         saveToken,
 
@@ -271,11 +294,11 @@ const ShopContextProvider = (props) => {
         setUserData,
         getUserData,
         currentUserId,
-        getAuthState,
         handleLoginSuccess,
         handleLogout,
         isAdmin,
         axiosInstance,
+        isLoading, // ✅ Export loading state
     };
 
     return (
