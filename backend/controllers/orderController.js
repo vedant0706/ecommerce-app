@@ -1,7 +1,6 @@
 import orderModel from "../models/orderModel.js"
 import userModel from "../models/userModel.js";
 import Razorpay from 'razorpay';
-import jwt from 'jsonwebtoken'
 
 // global variables
 const currency = 'inr';
@@ -14,32 +13,38 @@ const razorpayInstance = new Razorpay({
 })
 
 
-// Placing orders using COD Method.
+// ✅ FIXED: Placing orders using COD Method
 const placeOrder = async (req, res) => {
   try {
-    // ✅ ADD THESE LINES AT THE VERY TOP
-    const token = req.headers.token;
+    // ✅ Get userId from authUser middleware (it's already set in req.body.userId)
+    const { userId, items, amount, address } = req.body;
     
-    console.log("Received token:", token);
+    console.log("📦 Place Order - User ID:", userId); // Debug
+    console.log("📦 Place Order - Items:", items); // Debug
     
-    if (!token) {
+    if (!userId) {
       return res.status(401).json({ 
         success: false, 
-        message: "No token provided" 
+        message: "User not authenticated" 
+      });
+    }
+
+    if (!items || items.length === 0) {
+      return res.status(400).json({
+        success: false,
+        message: "Cart is empty"
+      });
+    }
+
+    if (!address) {
+      return res.status(400).json({
+        success: false,
+        message: "Address is required"
       });
     }
     
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    const userId = decoded.userId;
-    
-    console.log("User ID:", userId);
-    // ✅ END OF NEW CODE
-    
-    // Your existing order placement code continues here...
-    const { items, amount, address } = req.body;
-    
     const orderData = {
-      userId: userId, // Use the userId from token
+      userId: userId,
       items: items,
       amount: amount,
       address: address,
@@ -52,22 +57,34 @@ const placeOrder = async (req, res) => {
     // Save order to database
     const newOrder = new orderModel(orderData);
     await newOrder.save();
+
+    // ✅ Clear user's cart after successful order
+    await userModel.findByIdAndUpdate(userId, { cartData: {} });
     
-    res.json({ success: true, message: "Order Placed" });
+    console.log("✅ Order placed successfully:", newOrder._id); // Debug
+    
+    res.json({ success: true, message: "Order Placed", orderId: newOrder._id });
     
   } catch (error) {
-    console.error("Error:", error);
-    res.status(401).json({ 
+    console.error("❌ Place Order Error:", error);
+    res.status(500).json({ 
       success: false, 
       message: error.message 
     });
   }
 };
 
-// Placing orders using Razorpay Method
+// ✅ FIXED: Placing orders using Razorpay Method
 const placeOrderRazorpay = async (req, res) => {
     try {
         const {userId, items, amount, address} = req.body
+
+        if (!userId) {
+            return res.status(401).json({ 
+                success: false, 
+                message: "User not authenticated" 
+            });
+        }
 
         const orderData = {
             userId,
@@ -139,6 +156,13 @@ const userOrders = async (req, res) => {
     try {
         const {userId} = req.body
         
+        if (!userId) {
+            return res.status(401).json({ 
+                success: false, 
+                message: "User not authenticated" 
+            });
+        }
+
         const orders = await orderModel.find({userId})
         res.json({success:true, orders})
 
