@@ -5,51 +5,60 @@ const userAuth = async (req, res, next) => {
   try {
     let token = null;
 
-    // Check for token in cookie
-    if (req.cookies?.token) {
+    // ✅ Check multiple sources for token
+    // 1. Check cookies first (most reliable for httpOnly cookies)
+    if (req.cookies && req.cookies.token) {
       token = req.cookies.token;
     }
-
-    // Check Authorization header: "Bearer <token>"
-    if (!token && req.header("Authorization")) {
+    // 2. Check Authorization header
+    else if (req.headers.authorization && req.headers.authorization.startsWith('Bearer ')) {
+      token = req.headers.authorization.replace("Bearer ", "");
+    }
+    // 3. Check custom token header
+    else if (req.headers.token) {
+      token = req.headers.token;
+    }
+    // 4. Check plain Authorization header
+    else if (req.header("Authorization")) {
       token = req.header("Authorization").replace("Bearer ", "");
     }
 
-    // Check lowercase authorization header
-    if (!token && req.headers.authorization) {
-      token = req.headers.authorization.replace("Bearer ", "");
-    }
-
-    // Check "token" header
-    if (!token && req.headers.token) {
-      token = req.headers.token;
-    }
+    console.log("🔍 userAuth - Token found:", token ? "Yes" : "No"); // Debug
 
     if (!token) {
-      return res.status(401).json({
+      return res.json({
         success: false,
         message: "Not Authorized. Please login.",
       });
     }
 
-    // Verify token
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    
+    console.log("✅ userAuth - Token decoded:", decoded); // Debug
 
+    // Get user from database to check role and verify existence
     const user = await userModel.findById(decoded.userId);
 
     if (!user) {
-      return res.status(401).json({
+      return res.json({
         success: false,
         message: "User not found",
       });
     }
 
+    // Attach user info to request
     req.userId = user._id;
-    req.user = user;
+    req.userEmail = user.email;
+    req.userName = user.name;
+    req.isAdmin = user.role === "admin";
+    req.user = user; // Full user object if needed
+
+    console.log("✅ userAuth - User authenticated:", user.email); // Debug
 
     next();
   } catch (error) {
-    return res.status(401).json({
+    console.error("❌ userAuth - Error:", error.message); // Debug
+    return res.json({
       success: false,
       message: "Invalid or expired token",
     });

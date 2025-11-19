@@ -193,11 +193,42 @@ export const verifyEmail = async (req, res) => {
 };
 
 // Check if user is authenticated
+// ... keep all your existing functions (register, login, logout, etc.)
+
+// ✅ FIXED: Check if user is authenticated (simplified - just check if cookie exists and is valid)
 export const isAuthenticated = async (req, res) => {
   try {
-    return res.json({ success: true });
+    let token = null;
+
+    // Check for token in cookies first
+    if (req.cookies && req.cookies.token) {
+      token = req.cookies.token;
+      console.log("🍪 Token from cookie:", token ? "exists" : "missing");
+    }
+
+    if (!token) {
+      return res.json({ 
+        success: false, 
+        message: "Not authenticated" 
+      });
+    }
+
+    // Just verify the token is valid
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    
+    if (decoded && decoded.userId) {
+      return res.json({ success: true });
+    } else {
+      return res.json({ 
+        success: false, 
+        message: "Invalid token" 
+      });
+    }
   } catch (error) {
-    res.json({ success: false, message: error.message });
+    return res.json({ 
+      success: false, 
+      message: "Token verification failed" 
+    });
   }
 };
 
