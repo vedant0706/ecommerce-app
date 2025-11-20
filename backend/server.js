@@ -20,11 +20,8 @@ connectCloudinary();
 // middlewares
 app.use(
   cors({
-    origin: ["http://localhost:5173", "http://localhost:5174", "https://aura-ecommerce-app.vercel.app"],
+    origin: ["http://localhost:5173", "http://localhost:5174", "https://aura-ecommerce-app.vercel.app", "https://aura-backend-ecommerce-app.vercel.app", "https://admin-aura-ecommerce-app.vercel.app"],
     credentials: true,
-      methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
-    allowedHeaders: ["Content-Type", "Authorization", "token"],
-    exposedHeaders: ["Content-Type", "Authorization", "token"],
   })
 );
 
