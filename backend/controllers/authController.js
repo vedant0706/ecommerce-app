@@ -33,17 +33,10 @@ export const register = async (req, res) => {
       expiresIn: "7d",
     });
 
-    // res.cookie("token", token, {
-    //   httpOnly: true,
-    //   secure: process.env.NODE_ENV === "production",
-    //   sameSite: process.env.NODE_ENV === "production" ? "none" : "strict",
-    //   maxAge: 7 * 24 * 60 * 60 * 1000,
-    // });
-
     res.cookie("token", token, {
       httpOnly: true,
-      secure: true,
-      sameSite: "none",
+      secure: process.env.NODE_ENV === "production",
+      sameSite: process.env.NODE_ENV === "production" ? "none" : "lax", // Changed to "lax"
       maxAge: 7 * 24 * 60 * 60 * 1000,
       path: "/",
     });
@@ -95,17 +88,10 @@ export const login = async (req, res) => {
     // ✅ ADD THIS DEBUG LOG
     console.log("Generated token:", token);
 
-    // res.cookie("token", token, {
-    //   httpOnly: true,
-    //   secure: process.env.NODE_ENV === "production",
-    //   sameSite: process.env.NODE_ENV === "production" ? "none" : "strict",
-    //   maxAge: 7 * 24 * 60 * 60 * 1000,
-    // });
-
     res.cookie("token", token, {
       httpOnly: true,
-      secure: true,
-      sameSite: "none",
+      secure: process.env.NODE_ENV === "production",
+      sameSite: process.env.NODE_ENV === "production" ? "none" : "lax", // Changed to "lax"
       maxAge: 7 * 24 * 60 * 60 * 1000,
       path: "/",
     });
@@ -211,43 +197,35 @@ export const verifyEmail = async (req, res) => {
   }
 };
 
-// Check if user is authenticated
-// ... keep all your existing functions (register, login, logout, etc.)
-
-// ✅ FIXED: Check if user is authenticated (simplified - just check if cookie exists and is valid)
+// /api/auth/is-auth → Check if user is logged in via httpOnly cookie
 export const isAuthenticated = async (req, res) => {
   try {
-    let token = null;
-
-    // Check for token in cookies first
-    if (req.cookies && req.cookies.token) {
-      token = req.cookies.token;
-      console.log("🍪 Token from cookie:", token ? "exists" : "missing");
-    }
+    const token = req.cookies?.token;
 
     if (!token) {
-      return res.json({
-        success: false,
-        message: "Not authenticated",
-      });
+      return res.json({ success: false, message: "No token provided" });
     }
 
-    // Just verify the token is valid
+    // Verify token
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
-    if (decoded && decoded.userId) {
-      return res.json({ success: true });
-    } else {
-      return res.json({
-        success: false,
-        message: "Invalid token",
-      });
+    if (!decoded || !decoded.userId) {
+      return res.json({ success: false, message: "Invalid token" });
     }
-  } catch (error) {
+
+    // OPTIONAL: You can fetch user here if you want
+    // const user = await userModel.findById(decoded.userId).select("-password");
+
+    // Everything is good → user is authenticated
     return res.json({
-      success: false,
-      message: "Token verification failed",
+      success: true,
+      message: "Authenticated",
+      userId: decoded.userId,  // ← Very helpful for frontend
     });
+
+  } catch (error) {
+    console.error("Auth check failed:", error.message);
+    return res.json({ success: false, message: "Invalid or expired token" });
   }
 };
 
