@@ -4,7 +4,7 @@ import Razorpay from 'razorpay';
 
 // global variables
 const currency = 'inr';
-const deliveryCharge = 10;
+const deliveryCharge = 50;
 
 // gateway intialize
 const razorpayInstance = new Razorpay({

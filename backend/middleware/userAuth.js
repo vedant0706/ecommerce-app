@@ -5,62 +5,87 @@ const userAuth = async (req, res, next) => {
   try {
     let token = null;
 
-    // ✅ Check multiple sources for token
-    // 1. Check cookies first (most reliable for httpOnly cookies)
-    if (req.cookies && req.cookies.token) {
+    // ------------------------------
+    // 1. Check cookies (best for httpOnly cookies)
+    // ------------------------------
+    if (req.cookies?.token) {
       token = req.cookies.token;
     }
-    // 2. Check Authorization header
-    else if (req.headers.authorization && req.headers.authorization.startsWith('Bearer ')) {
-      token = req.headers.authorization.replace("Bearer ", "");
+
+    // ------------------------------
+    // 2. Check Authorization Header (Bearer token)
+    // ------------------------------
+    const authHeader =
+      req.headers["authorization"] || req.headers["Authorization"];
+
+    if (!token && authHeader) {
+      if (authHeader.startsWith("Bearer ")) {
+        token = authHeader.split(" ")[1]; // Extract token after "Bearer"
+      } else {
+        token = authHeader; // Use directly if no "Bearer"
+      }
     }
-    // 3. Check custom token header
-    else if (req.headers.token) {
+
+    // ------------------------------
+    // 3. Custom header: token
+    // ------------------------------
+    if (!token && req.headers.token) {
       token = req.headers.token;
     }
-    // 4. Check plain Authorization header
-    else if (req.header("Authorization")) {
-      token = req.header("Authorization").replace("Bearer ", "");
-    }
 
-    console.log("🔍 userAuth - Token found:", token ? "Yes" : "No"); // Debug
-
-    if (!token) {
-      return res.json({
+    // ------------------------------
+    // If still no token → Unauthorized
+    // ------------------------------
+    if (!token || token === "null" || token === "undefined") {
+      return res.status(401).json({
         success: false,
-        message: "Not Authorized. Please login.",
+        message: "Not authorized. Please login.",
       });
     }
 
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    
-    console.log("✅ userAuth - Token decoded:", decoded); // Debug
+    // ------------------------------
+    // Verify the token
+    // ------------------------------
+    let decoded;
+    try {
+      decoded = jwt.verify(token, process.env.JWT_SECRET);
+    } catch (err) {
+      return res.status(401).json({
+        success: false,
+        message: "Invalid or expired token",
+      });
+    }
 
-    // Get user from database to check role and verify existence
-    const user = await userModel.findById(decoded.userId);
+    // ------------------------------
+    // Check if user exists in DB
+    // ------------------------------
+    // const user = await userModel.findById(decoded.userId).select("-password");
+    const userId = decoded.userId || decoded.id;
+    const user = await userModel.findById(userId).select("-password");
 
     if (!user) {
-      return res.json({
+      return res.status(404).json({
         success: false,
         message: "User not found",
       });
     }
 
-    // Attach user info to request
+    // ------------------------------
+    // Attach user data to request
+    // ------------------------------
     req.userId = user._id;
     req.userEmail = user.email;
     req.userName = user.name;
-    req.isAdmin = user.role === "admin";
-    req.user = user; // Full user object if needed
+    // req.isAdmin = user.role === "admin";
+    req.user = user;
 
-    console.log("✅ userAuth - User authenticated:", user.email); // Debug
-
+    // Success → continue
     next();
   } catch (error) {
-    console.error("❌ userAuth - Error:", error.message); // Debug
-    return res.json({
+    console.error("❌ Auth Error:", error.message);
+    res.status(500).json({
       success: false,
-      message: "Invalid or expired token",
+      message: "Authentication error",
     });
   }
 };
