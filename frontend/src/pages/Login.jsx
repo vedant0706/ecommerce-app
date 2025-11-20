@@ -29,10 +29,7 @@ const Login = () => {
           password,
         });
 
-        // console.log("📝 Register response:", data); // Debug
-
         if (data.success && data.token) {
-          // ✅ Use handleLoginSuccess which properly sets everything
           handleLoginSuccess(data.token);
         } else {
           toast.error(data.message || "Registration failed");
@@ -43,12 +40,10 @@ const Login = () => {
           password,
         });
 
-        // console.log("🔐 Login response:", data); // Debug
-        // console.log("Token received:", data.token); // Debug
-
-        if (data.success && data.token) {
-          // ✅ Use handleLoginSuccess which properly sets everything
-          handleLoginSuccess(data.token);
+        if (data.success) {
+          // Token is now in httpOnly cookie → no need to pass it
+          handleLoginSuccess(); // Just call it without token
+          toast.success("Login successful!"); // GREEN TOAST!
         } else {
           toast.error(data.message || "Login failed");
         }
@@ -116,7 +111,10 @@ const Login = () => {
               Forgot Password ?
             </span>
           </p>
-          <button onClick={() => navigate('/')} className="text-lg w-full py-2.5 rounded-full text-white bg-black hover:scale-y-110 font-medium cursor-pointer">
+          <button
+            onClick={() => navigate("/")}
+            className="text-lg w-full py-2.5 rounded-full text-white bg-black hover:scale-y-110 font-medium cursor-pointer"
+          >
             {state}
           </button>
         </form>

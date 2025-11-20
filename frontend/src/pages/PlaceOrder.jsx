@@ -18,6 +18,7 @@ const PlaceOrder = () => {
     delivery_fee,
     products,
     axiosInstance,
+    currentUserId,
   } = useContext(ShopContext);
 
   const navigate = useNavigate();
@@ -116,6 +117,7 @@ const PlaceOrder = () => {
       }
 
       let orderData = {
+        userId: currentUserId,
         address: formData,
         items: orderItems,
         amount: getCartAmount() + delivery_fee,

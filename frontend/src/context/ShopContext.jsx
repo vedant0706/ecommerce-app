@@ -88,18 +88,14 @@ const ShopContextProvider = (props) => {
         }
     };
 
-    const handleLoginSuccess = (loginToken) => {
+    const handleLoginSuccess = (loginToken) => { //loginToken
         
         saveToken(loginToken);
         setIsLoggedin(true); // ✅ Set logged in immediately
         setToken(loginToken); // ✅ Set token immediately
         
-        
-        // Then fetch user data and cart
         getUserData();
-        
-        toast.success("Login successful!");
-        // Components will handle navigation themselves
+        // toast.success("Login successful!");
     };
 
     const handleLogout = async () => {
