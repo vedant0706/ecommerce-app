@@ -7,8 +7,6 @@ import { ShopContext } from "../context/ShopContext.jsx";
 
 const Login = () => {
   const navigate = useNavigate();
-
-  // ✅ FIXED: Use handleLoginSuccess instead of manual token setting
   const { backendUrl, handleLoginSuccess } = useContext(ShopContext);
 
   const [state, setState] = useState("Sign Up");
@@ -17,9 +15,9 @@ const Login = () => {
   const [password, setPassword] = useState("");
 
   const onSubmitHandler = async (e) => {
+    e.preventDefault();
+    
     try {
-      e.preventDefault();
-
       axios.defaults.withCredentials = true;
 
       if (state === "Sign Up") {
@@ -29,8 +27,13 @@ const Login = () => {
           password,
         });
 
-        if (data.success && data.token) {
-          handleLoginSuccess(data.token);
+        if (data.success) {
+          toast.success("Registration successful!");
+          handleLoginSuccess();
+          
+          setTimeout(() => {
+            navigate("/");
+          }, 800);
         } else {
           toast.error(data.message || "Registration failed");
         }
@@ -41,15 +44,17 @@ const Login = () => {
         });
 
         if (data.success) {
-          // Token is now in httpOnly cookie → no need to pass it
-          handleLoginSuccess(); // Just call it without token
-          toast.success("Login successful!"); // GREEN TOAST!
+          toast.success("Login successful!");
+          handleLoginSuccess();
+          
+          setTimeout(() => {
+            navigate("/");
+          }, 800);
         } else {
           toast.error(data.message || "Login failed");
         }
       }
     } catch (error) {
-      // console.error("Login error:", error);
       toast.error(error.response?.data?.message || error.message);
     }
   };
@@ -92,6 +97,7 @@ const Login = () => {
               className="bg-transparent outline-none"
             />
           </div>
+          
           <div className="mb-4 flex items-center gap-3 w-full px-5 py-2.5 rounded-full text-white bg-black">
             <img src={assets.lock_icon} alt="" />
             <input
@@ -103,6 +109,7 @@ const Login = () => {
               className="bg-transparent outline-none"
             />
           </div>
+          
           <p
             onClick={() => navigate("/reset-password")}
             className="mb-4 text-indigo-500"
@@ -111,8 +118,10 @@ const Login = () => {
               Forgot Password ?
             </span>
           </p>
+          
+          {/* ✅ FIXED: Removed onClick, made it type="submit" */}
           <button
-            onClick={() => navigate("/")}
+            type="submit"
             className="text-lg w-full py-2.5 rounded-full text-white bg-black hover:scale-y-110 font-medium cursor-pointer"
           >
             {state}
