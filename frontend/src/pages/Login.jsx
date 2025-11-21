@@ -33,7 +33,7 @@ const Login = () => {
           
           setTimeout(() => {
             navigate("/");
-          }, 800);
+          }, 500);
         } else {
           toast.error(data.message || "Registration failed");
         }
@@ -49,7 +49,7 @@ const Login = () => {
           
           setTimeout(() => {
             navigate("/");
-          }, 800);
+          }, 500);
         } else {
           toast.error(data.message || "Login failed");
         }
