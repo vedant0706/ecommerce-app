@@ -1,6 +1,10 @@
 import jwt from "jsonwebtoken";
 import userModel from "../models/userModel.js";
 
+/**
+ * Universal Authentication Middleware
+ * Combines token verification from multiple sources and user validation
+ */
 const userAuth = async (req, res, next) => {
   try {
     let token = null;
@@ -15,14 +19,15 @@ const userAuth = async (req, res, next) => {
     // ------------------------------
     // 2. Check Authorization Header (Bearer token)
     // ------------------------------
-    const authHeader =
-      req.headers["authorization"] || req.headers["Authorization"];
-
-    if (!token && authHeader) {
-      if (authHeader.startsWith("Bearer ")) {
-        token = authHeader.split(" ")[1]; // Extract token after "Bearer"
-      } else {
-        token = authHeader; // Use directly if no "Bearer"
+    if (!token) {
+      const authHeader = req.headers.authorization || req.headers.Authorization;
+      
+      if (authHeader) {
+        if (authHeader.startsWith("Bearer ")) {
+          token = authHeader.split(" ")[1]; // Extract token after "Bearer"
+        } else {
+          token = authHeader; // Use directly if no "Bearer"
+        }
       }
     }
 
@@ -49,7 +54,9 @@ const userAuth = async (req, res, next) => {
     let decoded;
     try {
       decoded = jwt.verify(token, process.env.JWT_SECRET);
+      console.log("✅ Token Decoded Successfully:", decoded);
     } catch (err) {
+      console.log("❌ Token Verification Failed:", err.message);
       return res.status(401).json({
         success: false,
         message: "Invalid or expired token",
@@ -57,10 +64,20 @@ const userAuth = async (req, res, next) => {
     }
 
     // ------------------------------
+    // Extract userId (handle both formats)
+    // ------------------------------
+    const userId = decoded.userId || decoded.id;
+
+    if (!userId) {
+      return res.status(401).json({
+        success: false,
+        message: "Invalid token format - missing user ID",
+      });
+    }
+
+    // ------------------------------
     // Check if user exists in DB
     // ------------------------------
-    // const user = await userModel.findById(decoded.userId).select("-password");
-    const userId = decoded.userId || decoded.id;
     const user = await userModel.findById(userId).select("-password");
 
     if (!user) {
@@ -71,18 +88,23 @@ const userAuth = async (req, res, next) => {
     }
 
     // ------------------------------
-    // Attach user data to request
+    // Attach user data to request (multiple formats for compatibility)
     // ------------------------------
-    req.userId = user._id;
+    req.userId = user._id;           // For routes expecting req.userId
     req.userEmail = user.email;
     req.userName = user.name;
-    // req.isAdmin = user.role === "admin";
-    req.user = user;
+    req.user = user;                 // Full user object
+    
+    // Also attach to req.body for legacy compatibility
+    req.body.userId = user._id;
 
-    // Success → continue
+    console.log("✅ Authentication Successful - User ID:", user._id);
+
+    // Success → continue to next middleware/route
     next();
+    
   } catch (error) {
-    console.error("❌ Auth Error:", error.message);
+    console.error("❌ Authentication Error:", error.message);
     res.status(500).json({
       success: false,
       message: "Authentication error",

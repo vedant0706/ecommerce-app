@@ -3,23 +3,22 @@ import userModel from "../models/userModel.js";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 
+// ✅ FIX: Use userId consistently
 const createToken = (id) => {
-  return jwt.sign({ id }, process.env.JWT_SECRET);
+  return jwt.sign({ userId: id }, process.env.JWT_SECRET); // Changed from { id } to { userId }
 };
 
 // getUsrData
 const getUserData = async (req, res) => {
   try {
-    const userId = req.userId;
-
-    if (!userId) {
-      return res.json({ success: false, message: "Not authenticated" });
-    }
-
-    const user = await userModel.findById(userId).select('-password');
-
+    // ✅ The user object is already attached by userAuth middleware
+    const user = req.user; // Use req.user instead of fetching again
+    
     if (!user) {
-      return res.json({ success: false, message: "User not found" });
+      return res.status(404).json({
+        success: false,
+        message: "User not found"
+      });
     }
 
     res.json({
@@ -28,12 +27,17 @@ const getUserData = async (req, res) => {
         _id: user._id,
         name: user.name,
         email: user.email,
-        // role: user.role,
-        isAccountVerified: user.isAccountVerified,
-      },
+        // role: user.role, // Include role if it exists in your user model
+      }
     });
+    
   } catch (error) {
-    res.json({ success: false, message: error.message });
+    console.error("❌ getUserData Error:", error);
+    res.status(500).json({
+      success: false,
+      message: "Failed to fetch user data",
+      error: error.message
+    });
   }
 };
 
@@ -81,7 +85,7 @@ const registerUser = async (req, res) => {
     }
     if (password.length < 8) {
       return res.json({
-        success: true,
+        success: false, // ✅ Fixed: was true, should be false
         message: "Please enter a strong password",
       });
     }
