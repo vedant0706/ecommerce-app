@@ -9,10 +9,10 @@ const ShopContextProvider = (props) => {
   const delivery_fee = 50;
 
   const backendUrl =
-    import.meta.env.VITE_BACKEND_URL ||
-    (window.location.hostname === "localhost"
-      ? "http://localhost:4000"
-      : "https://aura-backend-ecommerce-app.vercel.app");
+    import.meta.env.VITE_BACKEND_URL // ||
+    // (window.location.hostname === "localhost"
+    //   ? "http://localhost:4000"
+    //   : "https://aura-backend-ecommerce-app.vercel.app");
 
   // GLOBAL STATES
   const [search, setSearch] = useState("");

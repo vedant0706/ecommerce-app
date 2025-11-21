@@ -15,49 +15,44 @@ const Login = () => {
   const [password, setPassword] = useState("");
 
   const onSubmitHandler = async (e) => {
-    e.preventDefault();
-    
-    try {
-      axios.defaults.withCredentials = true;
+  e.preventDefault();
 
-      if (state === "Sign Up") {
-        const { data } = await axios.post(backendUrl + "/api/auth/register", {
-          name,
-          email,
-          password,
-        });
+  try {
+    if (state === "Sign Up") {
+      const { data } = await axios.post(
+        backendUrl + "/api/auth/register",
+        { name, email, password },
+        { withCredentials: true }
+      );
 
-        if (data.success) {
-          toast.success("Registration successful!");
-          handleLoginSuccess();
-          
-          setTimeout(() => {
-            navigate("/");
-          }, 500);
-        } else {
-          toast.error(data.message || "Registration failed");
-        }
+      if (data.success) {
+        toast.success("Registration successful!");
+        handleLoginSuccess();
+        navigate("/");
       } else {
-        const { data } = await axios.post(backendUrl + "/api/auth/login", {
-          email,
-          password,
-        });
-
-        if (data.success) {
-          toast.success("Login successful!");
-          handleLoginSuccess();
-          
-          setTimeout(() => {
-            navigate("/");
-          }, 500);
-        } else {
-          toast.error(data.message || "Login failed");
-        }
+        toast.error(data.message || "Registration failed");
       }
-    } catch (error) {
-      toast.error(error.response?.data?.message || error.message);
+    } 
+    else {
+      const { data } = await axios.post(
+        backendUrl + "/api/auth/login",
+        { email, password },
+        { withCredentials: true }   // <-- MUST HAVE THIS
+      );
+
+      if (data.success) {
+        toast.success("Login successful!");
+        handleLoginSuccess();
+        navigate("/");
+      } else {
+        toast.error(data.message || "Login failed");
+      }
     }
-  };
+  } catch (error) {
+    toast.error(error.response?.data?.message || error.message);
+  }
+};
+
 
   return (
     <div className="flex items-center justify-center min-h-screen px-6 ssm:px-0">
