@@ -33,14 +33,14 @@ export const register = async (req, res) => {
       expiresIn: "7d",
     });
 
-    res.cookie("token", token, {
+    // In loginUser function
+res.cookie("token", token, {
   httpOnly: true,
-  secure: true,
-  sameSite: "none",
-  path: "/",
+  secure: true,      // ✅ Change this
+  sameSite: "none",  // ✅ Change this
   maxAge: 7 * 24 * 60 * 60 * 1000,
+  path: "/",
 });
-
 
     // Sending welcome email
     const mailOptions = {
@@ -89,14 +89,14 @@ export const login = async (req, res) => {
     // ✅ ADD THIS DEBUG LOG
     console.log("Generated token:", token);
 
-    res.cookie("token", token, {
+    // In loginUser function
+res.cookie("token", token, {
   httpOnly: true,
-  secure: true,
-  sameSite: "none",
-  path: "/",
+  secure: true,      // ✅ Change this
+  sameSite: "none",  // ✅ Change this
   maxAge: 7 * 24 * 60 * 60 * 1000,
+  path: "/",
 });
-
 
     // ✅ ADD THIS DEBUG LOG
     console.log("Sending response with token:", token);
@@ -112,14 +112,11 @@ export const login = async (req, res) => {
 
 export const logout = async (req, res) => {
   try {
-    res.cookie("token", token, {
-  httpOnly: true,
-  secure: true,
-  sameSite: "none",
-  path: "/",
-  maxAge: 7 * 24 * 60 * 60 * 1000,
-});
-
+    res.clearCookie("token", {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: process.env.NODE_ENV === "production" ? "none" : "strict",
+    });
     return res.json({ success: true, message: "Logged Out" });
   } catch (error) {
     return res.json({ success: false, message: error.message });
@@ -219,7 +216,7 @@ export const isAuthenticated = async (req, res) => {
     }
 
     // OPTIONAL: You can fetch user here if you want
-    // const user = await userModel.findById(decoded.userId).select("-password");
+    const user = await userModel.findById(decoded.userId).select("-password");
 
     // Everything is good → user is authenticated
     return res.json({
