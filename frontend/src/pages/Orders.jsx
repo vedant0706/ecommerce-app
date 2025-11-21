@@ -11,17 +11,17 @@ const Orders = () => {
 
   const loadOrderData = async () => {
     try {
-      // console.log("📦 Loading orders, isLoggedin:", isLoggedin); // Debug
+      console.log("📦 Loading orders, isLoggedin:", isLoggedin); // Debug
 
       if(!isLoggedin){
-        // console.log("❌ User not logged in");
+        console.log("❌ User not logged in");
         return null;
       }
       
       // ✅ Use axiosInstance (includes cookies automatically)
       const response = await axiosInstance.post('/api/order/userorders', {});
 
-      // console.log("📦 Orders response:", response.data); // Debug
+      console.log("📦 Orders response:", response.data); // Debug
 
       if (response.data.success){
         let allOrdersItem = []
@@ -36,12 +36,12 @@ const Orders = () => {
         })
         setorderData(allOrdersItem.reverse())
       } else {
-        // console.log("❌ Orders fetch failed:", response.data.message);
+        console.log("❌ Orders fetch failed:", response.data.message);
       }
 
     } catch (error) {
-      // console.error("❌ Load orders error:", error);
-      // console.error("Error response:", error.response?.data);
+      console.error("❌ Load orders error:", error);
+      console.error("Error response:", error.response?.data);
       toast.error(error.message)
     }
   }
