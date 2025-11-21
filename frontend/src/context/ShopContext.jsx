@@ -12,7 +12,7 @@ const ShopContextProvider = (props) => {
     import.meta.env.VITE_BACKEND_URL ||
     (window.location.hostname === "localhost"
       ? "http://localhost:4000"
-      : "https://aura-ecommerce-backend-seven.vercel.app");
+      : "https://aura-backend-ecommerce-app.vercel.app");
 
   // GLOBAL STATES
   const [search, setSearch] = useState("");
