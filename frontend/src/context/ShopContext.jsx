@@ -63,7 +63,9 @@ const ShopContextProvider = (props) => {
         setCurrentUserId(data.userData._id);
         getUserCart();
       }
-    } catch (error) {}
+    } catch (error) {
+      // toast.error(error.message);
+    }
   };
 
   // LOGIN SUCCESS HANDLER
