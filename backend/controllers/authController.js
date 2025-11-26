@@ -9,6 +9,16 @@ import {
 
 console.log("JWT_SECRET exists:", !!process.env.JWT_SECRET);
 
+// ✅ COOKIE CONFIGURATION FOR PRODUCTION
+const getCookieOptions = () => ({
+  httpOnly: true,
+  secure: true, // Always true for production (HTTPS)
+  sameSite: "none", // Required for cross-domain cookies
+  maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+  path: "/",
+  domain: process.env.NODE_ENV === "production" ? ".vercel.app" : undefined, // ✅ Share cookies across vercel.app subdomains
+});
+
 export const register = async (req, res) => {
   const { name, email, password } = req.body;
 
@@ -33,27 +43,20 @@ export const register = async (req, res) => {
       expiresIn: "7d",
     });
 
-    // In loginUser function
-res.cookie("token", token, {
-  httpOnly: true,
-  secure: true,      // ✅ Change this
-  sameSite: "none",  // ✅ Change this
-  maxAge: 7 * 24 * 60 * 60 * 1000,
-  path: "/",
-});
+    // ✅ SET COOKIE WITH PRODUCTION CONFIG
+    res.cookie("token", token, getCookieOptions());
 
     // Sending welcome email
     const mailOptions = {
       from: process.env.SENDER_EMAIL,
       to: email,
-      subject: "Welcome to Gem AI",
-      text: `Welcome to Gem AI website, Your current account has been created with email id: ${email}`,
+      subject: "Welcome to Aura",
+      text: `Welcome to Aura website, Your account has been created with email id: ${email}`,
     };
 
     await transporter.sendMail(mailOptions);
 
-    // ✅ ADDED: Return token in response
-    return res.json({ success: true, token: token });
+    return res.json({ success: true, message: "Registration successful" });
   } catch (error) {
     res.json({ success: false, message: error.message });
   }
@@ -86,20 +89,12 @@ export const login = async (req, res) => {
       expiresIn: "7d",
     });
 
-    // ✅ ADD THIS DEBUG LOG
-    console.log("Generated token:", token);
+    console.log("✅ Generated token for user:", user._id);
 
-    // In loginUser function
-res.cookie("token", token, {
-  httpOnly: true,
-  secure: true,      // ✅ Change this
-  sameSite: "none",  // ✅ Change this
-  maxAge: 7 * 24 * 60 * 60 * 1000,
-  path: "/",
-});
+    // ✅ SET COOKIE WITH PRODUCTION CONFIG
+    res.cookie("token", token, getCookieOptions());
 
-    // ✅ ADD THIS DEBUG LOG
-    console.log("Sending response with token:", token);
+    console.log("✅ Cookie set successfully");
 
     return res.json({
       success: true,
@@ -112,11 +107,9 @@ res.cookie("token", token, {
 
 export const logout = async (req, res) => {
   try {
-    res.clearCookie("token", {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: process.env.NODE_ENV === "production" ? "none" : "strict",
-    });
+    // ✅ CLEAR COOKIE WITH SAME OPTIONS
+    res.clearCookie("token", getCookieOptions());
+    
     return res.json({ success: true, message: "Logged Out" });
   } catch (error) {
     return res.json({ success: false, message: error.message });
@@ -199,10 +192,12 @@ export const verifyEmail = async (req, res) => {
   }
 };
 
-// /api/auth/is-auth → Check if user is logged in via httpOnly cookie
+// Check if user is logged in via httpOnly cookie
 export const isAuthenticated = async (req, res) => {
   try {
     const token = req.cookies?.token;
+
+    console.log("🔐 isAuth check - Cookie token exists:", !!token);
 
     if (!token) {
       return res.json({ success: false, message: "No token provided" });
@@ -215,18 +210,23 @@ export const isAuthenticated = async (req, res) => {
       return res.json({ success: false, message: "Invalid token" });
     }
 
-    // OPTIONAL: You can fetch user here if you want
+    // Fetch user to confirm they still exist
     const user = await userModel.findById(decoded.userId).select("-password");
 
-    // Everything is good → user is authenticated
+    if (!user) {
+      return res.json({ success: false, message: "User not found" });
+    }
+
+    console.log("✅ User authenticated:", user._id);
+
     return res.json({
       success: true,
       message: "Authenticated",
-      userId: decoded.userId,  // ← Very helpful for frontend
+      userId: decoded.userId,
     });
 
   } catch (error) {
-    console.error("Auth check failed:", error.message);
+    console.error("❌ Auth check failed:", error.message);
     return res.json({ success: false, message: "Invalid or expired token" });
   }
 };
@@ -268,7 +268,7 @@ export const sendResetOtp = async (req, res) => {
   }
 };
 
-// Reset User Password.
+// Reset User Password
 export const resetPassword = async (req, res) => {
   const { email, otp, newPassword } = req.body;
 
