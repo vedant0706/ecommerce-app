@@ -9,15 +9,19 @@ import {
 
 console.log("JWT_SECRET exists:", !!process.env.JWT_SECRET);
 
-// ✅ COOKIE CONFIGURATION FOR PRODUCTION
-const getCookieOptions = () => ({
-  httpOnly: true,
-  secure: true, // Always true for production (HTTPS)
-  sameSite: "none", // Required for cross-domain cookies
-  maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
-  path: "/",
-  domain: process.env.NODE_ENV === "production" ? ".vercel.app" : undefined, // ✅ Share cookies across vercel.app subdomains
-});
+// ✅ UPDATED: Cookie configuration for Vercel production
+const getCookieOptions = () => {
+  const isProduction = process.env.NODE_ENV === "production";
+  
+  return {
+    httpOnly: true,
+    secure: true, // Always true (Vercel uses HTTPS)
+    sameSite: "none", // Required for cross-origin
+    maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+    path: "/",
+    // ✅ CRITICAL: Don't set domain for Vercel - let browser handle it
+  };
+};
 
 export const register = async (req, res) => {
   const { name, email, password } = req.body;
@@ -43,7 +47,9 @@ export const register = async (req, res) => {
       expiresIn: "7d",
     });
 
-    // ✅ SET COOKIE WITH PRODUCTION CONFIG
+    console.log("✅ Register - Setting cookie with token");
+
+    // ✅ SET COOKIE
     res.cookie("token", token, getCookieOptions());
 
     // Sending welcome email
@@ -56,8 +62,14 @@ export const register = async (req, res) => {
 
     await transporter.sendMail(mailOptions);
 
-    return res.json({ success: true, message: "Registration successful" });
+    return res.json({ 
+      success: true, 
+      message: "Registration successful",
+      // ✅ DEBUG: Also return token in response for testing
+      debug: { tokenSet: !!token }
+    });
   } catch (error) {
+    console.error("❌ Register error:", error);
     res.json({ success: false, message: error.message });
   }
 };
@@ -89,29 +101,41 @@ export const login = async (req, res) => {
       expiresIn: "7d",
     });
 
-    console.log("✅ Generated token for user:", user._id);
+    console.log("✅ Login - User:", user._id);
+    console.log("✅ Login - Token generated:", token.substring(0, 20) + "...");
+    console.log("✅ Login - Cookie options:", getCookieOptions());
 
-    // ✅ SET COOKIE WITH PRODUCTION CONFIG
+    // ✅ SET COOKIE
     res.cookie("token", token, getCookieOptions());
 
-    console.log("✅ Cookie set successfully");
+    console.log("✅ Login - Cookie set in response");
 
     return res.json({
       success: true,
       message: "Login successful",
+      // ✅ DEBUG: Helpful for testing
+      debug: { 
+        userId: user._id,
+        tokenSet: !!token,
+        cookieOptions: getCookieOptions()
+      }
     });
   } catch (error) {
+    console.error("❌ Login error:", error);
     return res.json({ success: false, message: error.message });
   }
 };
 
 export const logout = async (req, res) => {
   try {
-    // ✅ CLEAR COOKIE WITH SAME OPTIONS
+    console.log("🚪 Logout - Clearing cookie");
+    
+    // ✅ CLEAR COOKIE with same options
     res.clearCookie("token", getCookieOptions());
     
     return res.json({ success: true, message: "Logged Out" });
   } catch (error) {
+    console.error("❌ Logout error:", error);
     return res.json({ success: false, message: error.message });
   }
 };
@@ -197,10 +221,17 @@ export const isAuthenticated = async (req, res) => {
   try {
     const token = req.cookies?.token;
 
-    console.log("🔐 isAuth check - Cookie token exists:", !!token);
+    console.log("🔐 isAuth check:");
+    console.log("  - Cookies received:", Object.keys(req.cookies || {}));
+    console.log("  - Token exists:", !!token);
+    console.log("  - Token value:", token ? token.substring(0, 20) + "..." : "none");
 
     if (!token) {
-      return res.json({ success: false, message: "No token provided" });
+      return res.json({ 
+        success: false, 
+        message: "No token provided",
+        debug: { cookies: Object.keys(req.cookies || {}) }
+      });
     }
 
     // Verify token
@@ -227,7 +258,11 @@ export const isAuthenticated = async (req, res) => {
 
   } catch (error) {
     console.error("❌ Auth check failed:", error.message);
-    return res.json({ success: false, message: "Invalid or expired token" });
+    return res.json({ 
+      success: false, 
+      message: "Invalid or expired token",
+      debug: { error: error.message }
+    });
   }
 };
 
