@@ -20,17 +20,9 @@
       "headers": [
         { "key": "Access-Control-Allow-Credentials", "value": "true" },
         { "key": "Access-Control-Allow-Origin", "value": "https://aura-ecommerce-app.vercel.app" },
-        { "key": "Access-Control-Allow-Methods", "value": "GET, POST, PUT, DELETE, PATCH, OPTIONS" },
-        { "key": "Access-Control-Allow-Headers", "value": "Content-Type, Authorization, X-Requested-With" }
+        { "key": "Access-Control-Allow-Methods", "value": "GET,POST,PUT,DELETE,PATCH,OPTIONS" },
+        { "key": "Access-Control-Allow-Headers", "value": "Content-Type,Authorization,Cookie" }
       ]
-    }
-  ],
-
-  "redirects": [
-    {
-      "source": "/api",
-      "destination": "https://aura-backend-ecommerce-app.vercel.app/api",
-      "permanent": false
     }
   ]
 }
