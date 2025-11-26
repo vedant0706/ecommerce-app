@@ -9,17 +9,17 @@ import connectCloudinary from "./config/cloudinary.js";
 
 // Route Imports
 import authRouter from "./routes/authRoute.js";
-import useRouter from "./routes/useRoute.js";
+import userRouter from "./routes/userRoute.js";
 import productRouter from "./routes/productRoute.js";
 import cartRouter from "./routes/cartRoute.js";
 import orderRouter from "./routes/orderRoute.js";
 
 // App Configuration
 const app = express();
-const PORT = process.env.PORT || 4000;
-
-// Middleware Setup
+await connectDB();
+await connectCloudinary();
 app.use(cookieParser());
+
 
 // CORS Configuration
 const allowedOrigins = [
@@ -33,12 +33,10 @@ const allowedOrigins = [
 app.use(
   cors({
     origin: function (origin, callback) {
-      // Allow requests with no origin (like mobile apps, Postman, curl)
       if (!origin) {
         return callback(null, true);
       }
 
-      // Check if origin is in allowed list
       if (allowedOrigins.includes(origin)) {
         callback(null, true);
       } else {
@@ -47,40 +45,30 @@ app.use(
     },
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
-    allowedHeaders: ["Content-Type", "Authorization", "Cookie", "token"],
+    allowedHeaders: ["Content-Type", "Authorization", "Cookie"],
     exposedHeaders: ["Set-Cookie"],
   })
 );
 
-// Body Parser Middleware
+
+// Body Parser
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Request Logging Middleware (Development)
-if (process.env.NODE_ENV === "development") {
-  app.use((req, res, next) => {
-    console.log(`${req.method} ${req.path}`);
-    next();
-  });
-}
-
-// Health Check Route
-app.get("/", (req, res) => {
-  res.status(200).json({
-    success: true,
-    message: "API is working",
-    version: "1.0.0",
-  });
+app.use((req, res, next) => {
+  next();
 });
 
+
 // API Routes
+app.get("/", (req, res) => res.send("API is Working"));
 app.use("/api/auth", authRouter);
-app.use("/api/user", useRouter);
+app.use("/api/user", userRouter);
 app.use("/api/product", productRouter);
 app.use("/api/cart", cartRouter);
 app.use("/api/order", orderRouter);
 
-// 404 Handler - Catch Undefined Routes
+// 404 handler for undefined routes
 app.use((req, res) => {
   res.status(404).json({
     success: false,
@@ -88,48 +76,18 @@ app.use((req, res) => {
   });
 });
 
-// Global Error Handling Middleware
+// Error handling middleware
 app.use((err, req, res, next) => {
-  console.error("Error:", err.message);
-
-  // Handle specific error types
-  if (err.message === "Not allowed by CORS") {
-    return res.status(403).json({
-      success: false,
-      message: "CORS policy violation",
-    });
-  }
-
-  // Default error response
-  res.status(err.status || 500).json({
+  res.status(500).json({
     success: false,
     message: err.message || "Internal Server Error",
-    ...(process.env.NODE_ENV === "development" && { stack: err.stack }),
   });
 });
 
-// Database & External Services Connection
-const startServer = async () => {
-  try {
-    // Connect to database
-    await connectDB();
-    console.log("✅ Database connected successfully");
+const PORT = process.env.PORT || 4000;
 
-    // Connect to Cloudinary
-    connectCloudinary();
-    console.log("✅ Cloudinary connected successfully");
-
-    // Start Server
-    app.listen(PORT, () => {
-      console.log(`🚀 Server is running on port ${PORT}`);
-      console.log(`📍 Environment: ${process.env.NODE_ENV || "development"}`);
-    });
-  } catch (error) {
-    console.error("❌ Failed to start server:", error.message);
-    process.exit(1);
-  }
-};
-
-startServer();
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
+});
 
 export default app;
