@@ -5,21 +5,28 @@ import bcrypt from "bcrypt";
 
 // ✅ FIX: Use userId consistently
 const createToken = (id) => {
-  return jwt.sign({ userId: id }, process.env.JWT_SECRET); // Changed from { id } to { userId }
+  return jwt.sign({ userId: id }, process.env.JWT_SECRET, { expiresIn: "7d" });
 };
 
-// getUsrData
+// getUserData - ✅ FIXED to handle req.user properly
 const getUserData = async (req, res) => {
   try {
+    console.log("📋 getUserData called");
+    console.log("  - req.userId:", req.userId);
+    console.log("  - req.user exists:", !!req.user);
+    
     // ✅ The user object is already attached by userAuth middleware
-    const user = req.user; // Use req.user instead of fetching again
+    const user = req.user;
     
     if (!user) {
+      console.log("❌ No user object in request");
       return res.status(404).json({
         success: false,
         message: "User not found"
       });
     }
+
+    console.log("✅ Returning user data:", user.email);
 
     res.json({
       success: true,
@@ -27,7 +34,8 @@ const getUserData = async (req, res) => {
         _id: user._id,
         name: user.name,
         email: user.email,
-        // role: user.role, // Include role if it exists in your user model
+        isAccountVerified: user.isAccountVerified,
+        // Add any other fields you need
       }
     });
     
@@ -71,11 +79,12 @@ const registerUser = async (req, res) => {
   try {
     const { name, email, password } = req.body;
 
-    //checking user alreday exiss or not.
+    //checking user already exists or not.
     const exists = await userModel.findOne({ email });
     if (exists) {
-      return res.json({ success: false, message: "User alredy exists" });
+      return res.json({ success: false, message: "User already exists" });
     }
+    
     // validating email format & strong password
     if (!validator.isEmail(email)) {
       return res.json({
@@ -83,9 +92,10 @@ const registerUser = async (req, res) => {
         message: "Please enter a valid email",
       });
     }
+    
     if (password.length < 8) {
       return res.json({
-        success: false, // ✅ Fixed: was true, should be false
+        success: false,
         message: "Please enter a strong password",
       });
     }

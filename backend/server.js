@@ -16,13 +16,12 @@ import orderRouter from "./routes/orderRoute.js";
 
 // App Configuration
 const app = express();
-const PORT = process.env.PORT || 4000;
-
-// ✅ MIDDLEWARE SETUP - ORDER MATTERS!
-// 1. Cookie Parser FIRST
+await connectDB();
+await connectCloudinary();
 app.use(cookieParser());
 
-// 2. CORS Configuration
+
+// CORS Configuration
 const allowedOrigins = [
   "http://localhost:5173",
   "http://localhost:5174",
@@ -34,7 +33,6 @@ const allowedOrigins = [
 app.use(
   cors({
     origin: function (origin, callback) {
-      // Allow requests with no origin (mobile apps, Postman)
       if (!origin) {
         return callback(null, true);
       }
@@ -42,48 +40,35 @@ app.use(
       if (allowedOrigins.includes(origin)) {
         callback(null, true);
       } else {
-        console.log("❌ CORS blocked origin:", origin);
         callback(new Error("Not allowed by CORS"));
       }
     },
-    credentials: true, // ✅ CRITICAL: Allow cookies
+    credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization", "Cookie"],
     exposedHeaders: ["Set-Cookie"],
   })
 );
 
-// 3. Body Parser
+
+// Body Parser
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// 4. Request Logging (Development)
-if (process.env.NODE_ENV === "development") {
-  app.use((req, res, next) => {
-    console.log(`${req.method} ${req.path}`);
-    console.log("Cookies:", req.cookies);
-    next();
-  });
-}
-
-// Health Check Route
-app.get("/", (req, res) => {
-  res.status(200).json({
-    success: true,
-    message: "API is Working",
-    version: "1.0.0",
-    environment: process.env.NODE_ENV || "development",
-  });
+app.use((req, res, next) => {
+  next();
 });
 
+
 // API Routes
+app.get("/", (req, res) => res.send("API is Working"));
 app.use("/api/auth", authRouter);
 app.use("/api/user", userRouter);
 app.use("/api/product", productRouter);
 app.use("/api/cart", cartRouter);
 app.use("/api/order", orderRouter);
 
-// 404 Handler - Catch Undefined Routes
+// 404 handler for undefined routes
 app.use((req, res) => {
   res.status(404).json({
     success: false,
@@ -91,49 +76,18 @@ app.use((req, res) => {
   });
 });
 
-// Global Error Handling Middleware
+// Error handling middleware
 app.use((err, req, res, next) => {
-  console.error("❌ Error:", err.message);
-
-  // Handle CORS errors
-  if (err.message === "Not allowed by CORS") {
-    return res.status(403).json({
-      success: false,
-      message: "CORS policy violation",
-    });
-  }
-
-  // Default error response
-  res.status(err.status || 500).json({
+  res.status(500).json({
     success: false,
     message: err.message || "Internal Server Error",
-    ...(process.env.NODE_ENV === "development" && { stack: err.stack }),
   });
 });
 
-// Database & Server Startup
-const startServer = async () => {
-  try {
-    // Connect to database
-    await connectDB();
-    console.log("✅ Database connected successfully");
+const PORT = process.env.PORT || 4000;
 
-    // Connect to Cloudinary
-    await connectCloudinary();
-    console.log("✅ Cloudinary connected successfully");
-
-    // Start Server
-    app.listen(PORT, () => {
-      console.log(`🚀 Server is running on port ${PORT}`);
-      console.log(`📍 Environment: ${process.env.NODE_ENV || "development"}`);
-      console.log(`🔐 JWT Secret configured: ${!!process.env.JWT_SECRET}`);
-    });
-  } catch (error) {
-    console.error("❌ Failed to start server:", error.message);
-    process.exit(1);
-  }
-};
-
-startServer();
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
+});
 
 export default app;
