@@ -13,46 +13,73 @@ const Login = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   const onSubmitHandler = async (e) => {
-  e.preventDefault();
+    e.preventDefault();
 
-  try {
-    if (state === "Sign Up") {
-      const { data } = await axios.post(
-        backendUrl + "/api/auth/register",
-        { name, email, password },
-        { withCredentials: true }
-      );
+    if (isLoading) return; // Prevent double submission
 
-      if (data.success) {
-        toast.success("Registration successful!");
-        handleLoginSuccess();
-        navigate("/");
+    try {
+      setIsLoading(true);
+
+      if (state === "Sign Up") {
+        console.log("📝 Registering user...");
+        
+        const { data } = await axios.post(
+          `${backendUrl}/api/auth/register`,
+          { name, email, password },
+          { withCredentials: true }
+        );
+
+        console.log("📝 Register response:", data);
+
+        if (data.success) {
+          toast.success("Registration successful!");
+          
+          // Call login success handler
+          handleLoginSuccess();
+          
+          // Navigate to home after a short delay
+          setTimeout(() => {
+            navigate("/");
+          }, 500);
+        } else {
+          toast.error(data.message || "Registration failed");
+        }
       } else {
-        toast.error(data.message || "Registration failed");
-      }
-    } 
-    else {
-      const { data } = await axios.post(
-        backendUrl + "/api/auth/login",
-        { email, password },
-        { withCredentials: true }   // <-- MUST HAVE THIS
-      );
+        // LOGIN
+        console.log("🔐 Logging in user...");
+        
+        const { data } = await axios.post(
+          `${backendUrl}/api/auth/login`,
+          { email, password },
+          { withCredentials: true }
+        );
 
-      if (data.success) {
-        toast.success("Login successful!");
-        handleLoginSuccess();
-        navigate("/");
-      } else {
-        toast.error(data.message || "Login failed");
+        console.log("🔐 Login response:", data);
+
+        if (data.success) {
+          toast.success("Login successful!");
+          
+          // ✅ CRITICAL: Call login success handler FIRST
+          handleLoginSuccess();
+          
+          // ✅ Navigate after a delay to allow auth check to complete
+          setTimeout(() => {
+            navigate("/");
+          }, 1000);
+        } else {
+          toast.error(data.message || "Login failed");
+        }
       }
+    } catch (error) {
+      console.error("❌ Auth error:", error);
+      toast.error(error.response?.data?.message || error.message);
+    } finally {
+      setIsLoading(false);
     }
-  } catch (error) {
-    toast.error(error.response?.data?.message || error.message);
-  }
-};
-
+  };
 
   return (
     <div className="flex items-center justify-center min-h-screen px-6 ssm:px-0">
@@ -92,7 +119,7 @@ const Login = () => {
               className="bg-transparent outline-none"
             />
           </div>
-          
+
           <div className="mb-4 flex items-center gap-3 w-full px-5 py-2.5 rounded-full text-white bg-black">
             <img src={assets.lock_icon} alt="" />
             <input
@@ -104,22 +131,26 @@ const Login = () => {
               className="bg-transparent outline-none"
             />
           </div>
-          
-          <p
-            onClick={() => navigate("/reset-password")}
-            className="mb-4 text-indigo-500"
-          >
-            <span className="text-black hover:text-blue-800 hover:font-bold cursor-pointer">
-              Forgot Password ?
-            </span>
-          </p>
-          
-          {/* ✅ FIXED: Removed onClick, made it type="submit" */}
+
+          {state === "Login" && (
+            <p
+              onClick={() => navigate("/reset-password")}
+              className="mb-4 text-indigo-500"
+            >
+              <span className="text-black hover:text-blue-800 hover:font-bold cursor-pointer">
+                Forgot Password ?
+              </span>
+            </p>
+          )}
+
           <button
             type="submit"
-            className="text-lg w-full py-2.5 rounded-full text-white bg-black hover:scale-y-110 font-medium cursor-pointer"
+            disabled={isLoading}
+            className={`text-lg w-full py-2.5 rounded-full text-white bg-black hover:scale-y-110 font-medium cursor-pointer ${
+              isLoading ? "opacity-50 cursor-not-allowed" : ""
+            }`}
           >
-            {state}
+            {isLoading ? "Please wait..." : state}
           </button>
         </form>
 
