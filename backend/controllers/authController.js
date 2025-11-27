@@ -9,19 +9,20 @@ import {
 
 console.log("JWT_SECRET exists:", !!process.env.JWT_SECRET);
 
-// ✅ COOKIE CONFIGURATION - Works for both localhost AND production
+// ✅ FIXED: Cookie configuration that works everywhere
 const getCookieOptions = () => {
   const isProduction = process.env.NODE_ENV === "production";
   
-  console.log("🍪 Cookie environment:", isProduction ? "PRODUCTION" : "DEVELOPMENT");
-  
-  return {
+  const options = {
     httpOnly: true,
-    secure: isProduction, // true in production (HTTPS), false in dev (HTTP)
-    sameSite: isProduction ? "none" : "lax", // "none" for cross-domain, "lax" for localhost
+    secure: isProduction, // true in production, false in dev
+    sameSite: isProduction ? "none" : "lax",
     maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
     path: "/",
   };
+
+  console.log("🍪 Cookie options:", options);
+  return options;
 };
 
 export const register = async (req, res) => {
@@ -105,12 +106,12 @@ export const login = async (req, res) => {
     console.log("✅ Login successful:");
     console.log("  - User ID:", user._id);
     console.log("  - Email:", user.email);
-    console.log("  - Token generated:", token.substring(0, 20) + "...");
-    console.log("  - Cookie options:", cookieOptions);
+    console.log("  - Setting cookie with options:", cookieOptions);
 
+    // ✅ Set cookie
     res.cookie("token", token, cookieOptions);
 
-    console.log("✅ Cookie set successfully");
+    console.log("✅ Cookie should be set now");
 
     return res.json({
       success: true,

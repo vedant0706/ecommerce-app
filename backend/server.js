@@ -26,7 +26,6 @@ const allowedOrigins = [
   "http://localhost:5173",
   "http://localhost:5174",
   "https://aura-ecommerce-app.vercel.app",
-  "https://admin-aura-ecommerce-app.vercel.app",
   process.env.CLIENT_URL,
 ].filter(Boolean);
 
@@ -40,6 +39,7 @@ app.use(
       if (allowedOrigins.includes(origin)) {
         callback(null, true);
       } else {
+        console.log("❌ CORS blocked:", origin);
         callback(new Error("Not allowed by CORS"));
       }
     },
