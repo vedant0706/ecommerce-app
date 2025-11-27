@@ -29,35 +29,26 @@ const ShopContextProvider = (props) => {
   const [currentUserId, setCurrentUserId] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
 
-  // ✅ AXIOS INSTANCE - Works for both localhost and production
-  const axiosInstance = axios.create({
-    baseURL: backendUrl,
-    withCredentials: true,
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  });
+  // ✅ AXIOS INSTANCE
+const axiosInstance = axios.create({
+  baseURL: backendUrl,
+  withCredentials: true, // ✅ CRITICAL
+  headers: {
+    'Content-Type': 'application/json',
+  },
+});
 
-  // Response interceptor for error handling
-  axiosInstance.interceptors.response.use(
-    (response) => response,
-    (error) => {
-      console.error("❌ API Error:", error.response?.status, error.response?.data);
-      
-      if (error.response?.status === 401) {
-        console.log("❌ 401 Unauthorized - clearing auth state");
-        setIsLoggedin(false);
-        setUserData(null);
-        setCurrentUserId(null);
-      }
-      
-      if (error.response?.status === 404) {
-        console.error("❌ 404 Not Found:", error.config?.url);
-      }
-      
-      return Promise.reject(error);
-    }
-  );
+// ✅ Also add interceptor to ensure credentials
+axiosInstance.interceptors.request.use(
+  (config) => {
+    config.withCredentials = true; // Force credentials
+    console.log("📤 Request:", config.method.toUpperCase(), config.url);
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  }
+);
 
   // CHECK AUTH USING COOKIE
   const checkAuthStatus = async () => {
