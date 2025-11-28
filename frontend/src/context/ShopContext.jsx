@@ -10,12 +10,12 @@ const ShopContextProvider = (props) => {
   const currency = "₹ ";
   const delivery_fee = 50;
 
-  // const backendUrl =
-  //   import.meta.env.MODE === "production"
-  //     ? ""
-  //     : import.meta.env.VITE_BACKEND_URL || "http://localhost:4000";
+  const backendUrl =
+    import.meta.env.MODE === "production"
+      ? ""
+      : import.meta.env.VITE_BACKEND_URL || "http://localhost:4000";
 
-  const backendUrl = import.meta.env.VITE_BACKEND_URL;
+  // const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
 
   // GLOBAL STATES
@@ -41,14 +41,42 @@ const ShopContextProvider = (props) => {
   axios.defaults.withCredentials = true;
 
   // Request interceptor - attach token if exists
-  axiosInstance.interceptors.request.use(
+  // axiosInstance.interceptors.request.use(
+  //   (config) => {
+  //     const token = localStorage.getItem("token");
+
+  //     if (token) {
+  //       config.headers.Authorization = `Bearer ${token}`;
+  //     }
+
+  //     return config;
+  //   },
+  //   (error) => {
+  //     return Promise.reject(error);
+  //   }
+  // );
+
+  // // Response interceptor - handle 401 errors
+  // axiosInstance.interceptors.response.use(
+  //   (response) => {
+  //     return response;
+  //   },
+  //   (error) => {
+  //     if (error.response?.status === 401) {
+  //       setIsLoggedin(false);
+  //       setUserData(null);
+  //       setCurrentUserId(null);
+  //       setCartItems({});
+  //       localStorage.removeItem("token");
+  //       toast.error("Session expired. Please login again.");
+  //       navigate("/login");
+  //     }
+  //     return Promise.reject(error);
+  //   }
+  // );
+
+    axiosInstance.interceptors.request.use(
     (config) => {
-      const token = localStorage.getItem("token");
-
-      if (token) {
-        config.headers.Authorization = `Bearer ${token}`;
-      }
-
       return config;
     },
     (error) => {
@@ -56,24 +84,15 @@ const ShopContextProvider = (props) => {
     }
   );
 
-  // Response interceptor - handle 401 errors
   axiosInstance.interceptors.response.use(
     (response) => {
       return response;
     },
     (error) => {
-      if (error.response?.status === 401) {
-        setIsLoggedin(false);
-        setUserData(null);
-        setCurrentUserId(null);
-        setCartItems({});
-        localStorage.removeItem("token");
-        toast.error("Session expired. Please login again.");
-        navigate("/login");
-      }
       return Promise.reject(error);
     }
   );
+
 
   // CHECK AUTH USING COOKIE
   const checkAuthStatus = async () => {
@@ -118,36 +137,60 @@ const ShopContextProvider = (props) => {
   };
 
   // LOGIN SUCCESS HANDLER
-  const handleLoginSuccess = async (token) => {
-    if (token) {
-      localStorage.setItem("token", token);
-    }
+  // const handleLoginSuccess = async (token) => {
+  //   if (token) {
+  //     localStorage.setItem("token", token);
+  //   }
 
-    setIsLoggedin(true);
+  //   setIsLoggedin(true);
 
-    // Wait for cookie to be set
-    await new Promise((resolve) => setTimeout(resolve, 300));
+  //   // Wait for cookie to be set
+  //   await new Promise((resolve) => setTimeout(resolve, 300));
 
-    await getUserData();
+  //   await getUserData();
+  //   toast.success("Login successful!");
+  // };
+
+  const handleLoginSuccess = async () => {
+    await new Promise((resolve) => setTimeout(resolve, 200));
+
+    await checkAuthStatus();
+
     toast.success("Login successful!");
+    navigate("/");
   };
 
   // LOGOUT
-  const handleLogout = async () => {
-    try {
-      const { data } = await axiosInstance.post("/api/auth/logout");
+  // const handleLogout = async () => {
+  //   try {
+  //     const { data } = await axiosInstance.post("/api/auth/logout");
 
-      if (data.success) {
-        setIsLoggedin(false);
-        setUserData(null);
-        setCurrentUserId(null);
-        setCartItems({});
-        localStorage.removeItem("token");
-        toast.success("Logged out successfully!");
-        navigate("/login");
-      }
+  //     if (data.success) {
+  //       setIsLoggedin(false);
+  //       setUserData(null);
+  //       setCurrentUserId(null);
+  //       setCartItems({});
+  //       localStorage.removeItem("token");
+  //       toast.success("Logged out successfully!");
+  //       navigate("/login");
+  //     }
+  //   } catch (error) {
+  //     toast.error(error.response?.data?.message || "Logout failed!");
+  //   }
+  // };
+
+   const handleLogout = async () => {
+    try {
+      await axiosInstance.post("/api/auth/logout");
+
+      setIsLoggedin(false);
+      setUserData(null);
+      setCurrentUserId(null);
+
+      toast.success("Logged out successfully!");
+      navigate("/login");
     } catch (error) {
-      toast.error(error.response?.data?.message || "Logout failed!");
+      toast.error("Logout failed!");
     }
   };
 
