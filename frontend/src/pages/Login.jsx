@@ -1,89 +1,57 @@
 import { useContext, useState } from "react";
 import { assets } from "../assets/assets.js";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 import { toast } from "react-toastify";
 import { ShopContext } from "../context/ShopContext.jsx";
 
 const Login = () => {
   const navigate = useNavigate();
-  const { backendUrl, handleLoginSuccess } = useContext(ShopContext);
+
+  const { axiosInstance, handleLoginSuccess } = useContext(ShopContext);
 
   const [state, setState] = useState("Sign Up");
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
 
   const onSubmitHandler = async (e) => {
-    e.preventDefault();
-
-    if (isLoading) return; // Prevent double submission
-
     try {
-      setIsLoading(true);
+      e.preventDefault();
 
       if (state === "Sign Up") {
-        console.log("📝 Registering user...");
-        
-        const { data } = await axios.post(
-          `${backendUrl}/api/auth/register`,
-          { name, email, password },
-          { withCredentials: true }
-        );
-
-        console.log("📝 Register response:", data);
+        const { data } = await axiosInstance.post("/api/auth/register", {
+          name,
+          email,
+          password,
+        });
 
         if (data.success) {
-          toast.success("Registration successful!");
-          
-          // Call login success handler
           handleLoginSuccess();
-          
-          // Navigate to home after a short delay
-          setTimeout(() => {
-            navigate("/");
-          }, 500);
+          navigate("/");
         } else {
-          toast.error(data.message || "Registration failed");
+          toast.error(data.message);
         }
       } else {
-        // LOGIN
-        console.log("🔐 Logging in user...");
-        
-        const { data } = await axios.post(
-          `${backendUrl}/api/auth/login`,
-          { email, password },
-          { withCredentials: true }
-        );
-
-        console.log("🔐 Login response:", data);
+        const { data } = await axiosInstance.post("/api/auth/login", {
+          email,
+          password,
+        });
 
         if (data.success) {
-          toast.success("Login successful!");
-          
-          // ✅ CRITICAL: Call login success handler FIRST
           handleLoginSuccess();
-          
-          // ✅ Navigate after a delay to allow auth check to complete
-          setTimeout(() => {
-            navigate("/");
-          }, 1000);
+          navigate("/");
         } else {
-          toast.error(data.message || "Login failed");
+          toast.error(data.message);
         }
       }
     } catch (error) {
-      console.error("❌ Auth error:", error);
-      toast.error(error.response?.data?.message || error.message);
-    } finally {
-      setIsLoading(false);
+      toast.error(error.message);
     }
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen px-6 ssm:px-0">
-      <div className="bg-white p-10 rounded-lg w-full sm:w-96 text-black text-sm shadow-black shadow-2xl">
+    <div className="flex items-center justify-center min-h-screen px-6 ssm:px-0 bg-gradient-to-br from-purple-900 to-purple-600 ">
+      <div className="bg-white p-10 rounded-lg shadow-lg w-full sm:w-96 text-black text-sm">
         <h2 className="text-3xl font-semibold text-black text-center mb-3">
           {state === "Sign Up" ? "Create Account" : "Login"}
         </h2>
@@ -119,7 +87,6 @@ const Login = () => {
               className="bg-transparent outline-none"
             />
           </div>
-
           <div className="mb-4 flex items-center gap-3 w-full px-5 py-2.5 rounded-full text-white bg-black">
             <img src={assets.lock_icon} alt="" />
             <input
@@ -131,26 +98,16 @@ const Login = () => {
               className="bg-transparent outline-none"
             />
           </div>
-
-          {state === "Login" && (
-            <p
-              onClick={() => navigate("/reset-password")}
-              className="mb-4 text-indigo-500"
-            >
-              <span className="text-black hover:text-blue-800 hover:font-bold cursor-pointer">
-                Forgot Password ?
-              </span>
-            </p>
-          )}
-
-          <button
-            type="submit"
-            disabled={isLoading}
-            className={`text-lg w-full py-2.5 rounded-full text-white bg-black hover:scale-y-110 font-medium cursor-pointer ${
-              isLoading ? "opacity-50 cursor-not-allowed" : ""
-            }`}
+          <p
+            onClick={() => navigate("/reset-password")}
+            className="mb-4 text-indigo-500"
           >
-            {isLoading ? "Please wait..." : state}
+            <span className="text-black hover:text-blue-800 hover:font-bold cursor-pointer">
+              Forgot Password ?
+            </span>
+          </p>
+          <button className="text-lg w-full py-2.5 rounded-full bg-gradient-to-r from-purple-900 to-purple-500 text-black hover:text-white hover:scale-y-105 font-medium cursor-pointer">
+            {state}
           </button>
         </form>
 
@@ -159,18 +116,18 @@ const Login = () => {
             Already have an account?
             <span
               onClick={() => setState("Login")}
-              className="text-blue-700 hover:text-blue-900 cursor-pointer underline ml-1"
+              className="text-blue-700 hover:text-blue-900 cursor-pointer underline"
             >
               Login here
             </span>
           </p>
         ) : (
-          <p className="text-black text-center text-xs mt-4">
+          <p
+            onClick={() => setState("Sign Up")}
+            className="text-gray-900 text-center text-xs mt-4"
+          >
             Don't have an account?
-            <span
-              onClick={() => setState("Sign Up")}
-              className="text-blue-700 hover:text-blue-900 cursor-pointer underline ml-1"
-            >
+            <span className="text-blue-700 hover:text-blue-300 cursor-pointer underline">
               Sign Up
             </span>
           </p>
