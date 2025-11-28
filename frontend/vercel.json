@@ -2,17 +2,21 @@
   "version": 2,
   "cleanUrls": true,
   "trailingSlash": false,
-
+  
   "rewrites": [
     {
-      "source": "/((?!api/.*).*)",
+      "source": "/api/:path*",
+      "destination": "https://aura-backend-ecommerce-app.vercel.app/api/:path*"
+    },
+    {
+      "source": "/:path*",
       "destination": "/index.html"
     }
   ],
-
+  
   "headers": [
     {
-      "source": "/(.*)",
+      "source": "/api/:path*",
       "headers": [
         { 
           "key": "Access-Control-Allow-Credentials", 
@@ -20,7 +24,7 @@
         },
         { 
           "key": "Access-Control-Allow-Origin", 
-          "value": "https://aura-backend-ecommerce-app.vercel.app" 
+          "value": "https://aura-ecommerce-app.vercel.app" 
         },
         { 
           "key": "Access-Control-Allow-Methods", 
