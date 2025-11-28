@@ -9,7 +9,6 @@ import connectCloudinary from "./config/cloudinary.js";
 
 // Route Imports
 import authRouter from "./routes/authRoute.js";
-import userRouter from "./routes/userRoute.js";
 import productRouter from "./routes/productRoute.js";
 import cartRouter from "./routes/cartRoute.js";
 import orderRouter from "./routes/orderRoute.js";
@@ -26,6 +25,7 @@ const allowedOrigins = [
   "http://localhost:5173",
   "http://localhost:5174",
   "https://aura-ecommerce-app.vercel.app",
+  "https://admin-aura-ecommerce-app.vercel.app",
   process.env.CLIENT_URL,
 ].filter(Boolean);
 
@@ -39,7 +39,6 @@ app.use(
       if (allowedOrigins.includes(origin)) {
         callback(null, true);
       } else {
-        console.log("❌ CORS blocked:", origin);
         callback(new Error("Not allowed by CORS"));
       }
     },
@@ -63,7 +62,6 @@ app.use((req, res, next) => {
 // API Routes
 app.get("/", (req, res) => res.send("API is Working"));
 app.use("/api/auth", authRouter);
-app.use("/api/user", userRouter);
 app.use("/api/product", productRouter);
 app.use("/api/cart", cartRouter);
 app.use("/api/order", orderRouter);

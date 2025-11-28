@@ -1,141 +1,129 @@
-import validator from "validator";
-import userModel from "../models/userModel.js";
-import jwt from "jsonwebtoken";
-import bcrypt from "bcrypt";
+// import validator from "validator";
+// import userModel from "../models/userModel.js";
+// import jwt from "jsonwebtoken";
+// import bcrypt from "bcrypt";
 
-// ✅ FIX: Use userId consistently
-const createToken = (id) => {
-  return jwt.sign({ userId: id }, process.env.JWT_SECRET, { expiresIn: "7d" });
-};
+// // ✅ FIX: Use userId consistently
+// const createToken = (id) => {
+//   return jwt.sign({ userId: id }, process.env.JWT_SECRET, { expiresIn: "7d" });
+// };
 
-// getUserData - ✅ FIXED to handle req.user properly
-const getUserData = async (req, res) => {
-  try {
-    console.log("📋 getUserData called");
-    console.log("  - req.userId:", req.userId);
-    console.log("  - req.user exists:", !!req.user);
+// export const getUserData = async (req, res) => {
+//     try {
+//         const userId = req.userId;
+
+//         if (!userId) {
+//             return res.json({ success: false, message: "Not authenticated" });
+//         }
+
+//         const user = await userModel.findById(userId).select('-password');
+
+//         if (!user) {
+//             return res.json({ success: false, message: "User not found" });
+//         }
+
+//         res.json({
+//             success: true,
+//             userData: {
+//                 _id: user._id,
+//                 name: user.name,
+//                 email: user.email,
+//                 role: user.role,
+//                 isAccountVerified: user.isAccountVerified,
+//             },
+//         });
+//     } catch (error) {
+//         res.json({ success: false, message: error.message });
+//     }
+// };
+
+// // Route for user login
+// const loginUser = async (req, res) => {
+//   try {
+//     const { email, password } = req.body;
+
+//     const user = await userModel.findOne({ email });
+
+//     if (!user) {
+//       return res.json({ success: false, message: "User doesn't exists" });
+//     }
+
+//     const isMatch = await bcrypt.compare(password, user.password);
+
+//     if (isMatch) {
+//       const token = createToken(user._id);
+//       res.json({ success: true, token });
+//     } else {
+//       res.json({ success: false, message: "Invalid credentials" });
+//     }
+//   } catch (error) {
+//     console.log(error);
+//     res.json({ success: false, message: error.message });
+//   }
+// };
+
+// // Route for user register
+// const registerUser = async (req, res) => {
+//   try {
+//     const { name, email, password } = req.body;
+
+//     //checking user already exists or not.
+//     const exists = await userModel.findOne({ email });
+//     if (exists) {
+//       return res.json({ success: false, message: "User already exists" });
+//     }
     
-    // ✅ The user object is already attached by userAuth middleware
-    const user = req.user;
+//     // validating email format & strong password
+//     if (!validator.isEmail(email)) {
+//       return res.json({
+//         success: false,
+//         message: "Please enter a valid email",
+//       });
+//     }
     
-    if (!user) {
-      console.log("❌ No user object in request");
-      return res.status(404).json({
-        success: false,
-        message: "User not found"
-      });
-    }
+//     if (password.length < 8) {
+//       return res.json({
+//         success: false,
+//         message: "Please enter a strong password",
+//       });
+//     }
 
-    console.log("✅ Returning user data:", user.email);
+//     //hashing user password
+//     const salt = await bcrypt.genSalt(10);
+//     const hashedPassword = await bcrypt.hash(password, salt);
 
-    res.json({
-      success: true,
-      userData: {
-        _id: user._id,
-        name: user.name,
-        email: user.email,
-        isAccountVerified: user.isAccountVerified,
-        // Add any other fields you need
-      }
-    });
-    
-  } catch (error) {
-    console.error("❌ getUserData Error:", error);
-    res.status(500).json({
-      success: false,
-      message: "Failed to fetch user data",
-      error: error.message
-    });
-  }
-};
+//     const newUser = new userModel({
+//       name,
+//       email,
+//       password: hashedPassword,
+//     });
 
-// Route for user login
-const loginUser = async (req, res) => {
-  try {
-    const { email, password } = req.body;
+//     const user = await newUser.save();
 
-    const user = await userModel.findOne({ email });
+//     const token = createToken(user._id);
 
-    if (!user) {
-      return res.json({ success: false, message: "User doesn't exists" });
-    }
+//     res.json({ success: true, token });
+//   } catch (error) {
+//     console.log(error);
+//     res.json({ success: false, message: error.message });
+//   }
+// };
 
-    const isMatch = await bcrypt.compare(password, user.password);
+// // Route for admin login
+// const adminLogin = async (req, res) => {
+//     try {
+//         const {email, password} = req.body
 
-    if (isMatch) {
-      const token = createToken(user._id);
-      res.json({ success: true, token });
-    } else {
-      res.json({ success: false, message: "Invalid credentials" });
-    }
-  } catch (error) {
-    console.log(error);
-    res.json({ success: false, message: error.message });
-  }
-};
+//         if(email === process.env.ADMIN_EMAIL && password === process.env.ADMIN_PASSWORD) {
+//             const token = jwt.sign(email + password, process.env.JWT_SECRET);
+//             res.json({success: true, token})
+//         } else{
+//             res.json({success: false, message: "Invalid Credentials"})
+//         }
+//     } catch (error) {
+//         console.log(error);
+//         res.json({ success: false, message: error.message });
+//     }
+// };
 
-// Route for user register
-const registerUser = async (req, res) => {
-  try {
-    const { name, email, password } = req.body;
-
-    //checking user already exists or not.
-    const exists = await userModel.findOne({ email });
-    if (exists) {
-      return res.json({ success: false, message: "User already exists" });
-    }
-    
-    // validating email format & strong password
-    if (!validator.isEmail(email)) {
-      return res.json({
-        success: false,
-        message: "Please enter a valid email",
-      });
-    }
-    
-    if (password.length < 8) {
-      return res.json({
-        success: false,
-        message: "Please enter a strong password",
-      });
-    }
-
-    //hashing user password
-    const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(password, salt);
-
-    const newUser = new userModel({
-      name,
-      email,
-      password: hashedPassword,
-    });
-
-    const user = await newUser.save();
-
-    const token = createToken(user._id);
-
-    res.json({ success: true, token });
-  } catch (error) {
-    console.log(error);
-    res.json({ success: false, message: error.message });
-  }
-};
-
-// Route for admin login
-const adminLogin = async (req, res) => {
-    try {
-        const {email, password} = req.body
-
-        if(email === process.env.ADMIN_EMAIL && password === process.env.ADMIN_PASSWORD) {
-            const token = jwt.sign(email + password, process.env.JWT_SECRET);
-            res.json({success: true, token})
-        } else{
-            res.json({success: false, message: "Invalid Credentials"})
-        }
-    } catch (error) {
-        console.log(error);
-        res.json({ success: false, message: error.message });
-    }
-};
-
-export { getUserData, loginUser, registerUser, adminLogin };
+// export { loginUser, registerUser, adminLogin };

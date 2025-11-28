@@ -9,20 +9,34 @@ import {
 
 console.log("JWT_SECRET exists:", !!process.env.JWT_SECRET);
 
-// ✅ FIXED: Cookie configuration that works everywhere
-const getCookieOptions = () => {
-  const isProduction = process.env.NODE_ENV === "production";
-  
-  const options = {
-    httpOnly: true,
-    secure: isProduction, // true in production, false in dev
-    sameSite: isProduction ? "none" : "lax",
-    maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
-    path: "/",
-  };
 
-  console.log("🍪 Cookie options:", options);
-  return options;
+export const getUserData = async (req, res) => {
+    try {
+        const userId = req.userId;
+
+        if (!userId) {
+            return res.json({ success: false, message: "Not authenticated" });
+        }
+
+        const user = await userModel.findById(userId).select('-password');
+
+        if (!user) {
+            return res.json({ success: false, message: "User not found" });
+        }
+
+        res.json({
+            success: true,
+            userData: {
+                _id: user._id,
+                name: user.name,
+                email: user.email,
+                role: user.role,
+                isAccountVerified: user.isAccountVerified,
+            },
+        });
+    } catch (error) {
+        res.json({ success: false, message: error.message });
+    }
 };
 
 export const register = async (req, res) => {
@@ -49,27 +63,29 @@ export const register = async (req, res) => {
       expiresIn: "7d",
     });
 
-    const cookieOptions = getCookieOptions();
-    console.log("✅ Register - Setting cookie with options:", cookieOptions);
+    // In loginUser function
+res.cookie("token", token, {
+  httpOnly: true,
+  secure: process.env.NODE_ENV === "production", // true for production
+  sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+  maxAge: 7 * 24 * 60 * 60 * 1000,
+  path: "/",
+});
 
-    res.cookie("token", token, cookieOptions);
 
     // Sending welcome email
     const mailOptions = {
       from: process.env.SENDER_EMAIL,
       to: email,
-      subject: "Welcome to Aura",
-      text: `Welcome to Aura website, Your account has been created with email id: ${email}`,
+      subject: "Welcome to Gem AI",
+      text: `Welcome to Gem AI website, Your current account has been created with email id: ${email}`,
     };
 
     await transporter.sendMail(mailOptions);
 
-    return res.json({ 
-      success: true, 
-      message: "Registration successful"
-    });
+    // âœ… ADDED: Return token in response
+    return res.json({ success: true, token: token });
   } catch (error) {
-    console.error("❌ Register error:", error);
     res.json({ success: false, message: error.message });
   }
 };
@@ -101,37 +117,40 @@ export const login = async (req, res) => {
       expiresIn: "7d",
     });
 
-    const cookieOptions = getCookieOptions();
-    
-    console.log("✅ Login successful:");
-    console.log("  - User ID:", user._id);
-    console.log("  - Email:", user.email);
-    console.log("  - Setting cookie with options:", cookieOptions);
+    // âœ… ADD THIS DEBUG LOG
+    console.log("Generated token:", token);
 
-    // ✅ Set cookie
-    res.cookie("token", token, cookieOptions);
+    // In loginUser function
+res.cookie("token", token, {
+  httpOnly: true,
+  secure: process.env.NODE_ENV === "production", // true for production
+  sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+  maxAge: 7 * 24 * 60 * 60 * 1000,
+  path: "/",
+});
 
-    console.log("✅ Cookie should be set now");
+
+    // âœ… ADD THIS DEBUG LOG
+    console.log("Sending response with token:", token);
 
     return res.json({
       success: true,
       message: "Login successful",
     });
   } catch (error) {
-    console.error("❌ Login error:", error);
     return res.json({ success: false, message: error.message });
   }
 };
 
 export const logout = async (req, res) => {
   try {
-    console.log("🚪 Logout - Clearing cookie");
-    
-    res.clearCookie("token", getCookieOptions());
-    
+    res.clearCookie("token", {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: process.env.NODE_ENV === "production" ? "none" : "strict",
+    });
     return res.json({ success: true, message: "Logged Out" });
   } catch (error) {
-    console.error("❌ Logout error:", error);
     return res.json({ success: false, message: error.message });
   }
 };
@@ -212,20 +231,13 @@ export const verifyEmail = async (req, res) => {
   }
 };
 
-// Check if user is logged in via httpOnly cookie
+// /api/auth/is-auth â†’ Check if user is logged in via httpOnly cookie
 export const isAuthenticated = async (req, res) => {
   try {
     const token = req.cookies?.token;
 
-    console.log("🔐 Auth check:");
-    console.log("  - All cookies:", Object.keys(req.cookies || {}));
-    console.log("  - Token exists:", !!token);
-
     if (!token) {
-      return res.json({ 
-        success: false, 
-        message: "No token provided"
-      });
+      return res.json({ success: false, message: "No token provided" });
     }
 
     // Verify token
@@ -235,27 +247,19 @@ export const isAuthenticated = async (req, res) => {
       return res.json({ success: false, message: "Invalid token" });
     }
 
-    // Fetch user to confirm they still exist
+    // OPTIONAL: You can fetch user here if you want
     const user = await userModel.findById(decoded.userId).select("-password");
 
-    if (!user) {
-      return res.json({ success: false, message: "User not found" });
-    }
-
-    console.log("✅ User authenticated:", user.email);
-
+    // Everything is good â†’ user is authenticated
     return res.json({
       success: true,
       message: "Authenticated",
-      userId: decoded.userId,
+      userId: decoded.userId,  // â† Very helpful for frontend
     });
 
   } catch (error) {
-    console.error("❌ Auth check failed:", error.message);
-    return res.json({ 
-      success: false, 
-      message: "Invalid or expired token"
-    });
+    console.error("Auth check failed:", error.message);
+    return res.json({ success: false, message: "Invalid or expired token" });
   }
 };
 
@@ -296,7 +300,7 @@ export const sendResetOtp = async (req, res) => {
   }
 };
 
-// Reset User Password
+// Reset User Password.
 export const resetPassword = async (req, res) => {
   const { email, otp, newPassword } = req.body;
 
@@ -333,4 +337,21 @@ export const resetPassword = async (req, res) => {
   } catch (error) {
     res.json({ success: false, message: error.message });
   }
+};
+
+// Route for admin login
+export const adminLogin = async (req, res) => {
+    try {
+        const {email, password} = req.body
+
+        if(email === process.env.ADMIN_EMAIL && password === process.env.ADMIN_PASSWORD) {
+            const token = jwt.sign(email + password, process.env.JWT_SECRET);
+            res.json({success: true, token})
+        } else{
+            res.json({success: false, message: "Invalid Credentials"})
+        }
+    } catch (error) {
+        console.log(error);
+        res.json({ success: false, message: error.message });
+    }
 };

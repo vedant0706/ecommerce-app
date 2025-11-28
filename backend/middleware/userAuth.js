@@ -3,44 +3,43 @@ import userModel from "../models/userModel.js";
 
 /**
  * Universal Authentication Middleware
- * Combines token verification from multiple sources and user validation
  */
 const userAuth = async (req, res, next) => {
   try {
     let token = null;
 
-    // ------------------------------
-    // 1. Check cookies (best for httpOnly cookies)
-    // ------------------------------
+    // --------------------------------------
+    // 1. Check cookies
+    // --------------------------------------
     if (req.cookies?.token) {
       token = req.cookies.token;
     }
 
-    // ------------------------------
-    // 2. Check Authorization Header (Bearer token)
-    // ------------------------------
+    // --------------------------------------
+    // 2. Authorization header (Bearer token)
+    // --------------------------------------
     if (!token) {
       const authHeader = req.headers.authorization || req.headers.Authorization;
-      
+
       if (authHeader) {
         if (authHeader.startsWith("Bearer ")) {
-          token = authHeader.split(" ")[1]; // Extract token after "Bearer"
+          token = authHeader.split(" ")[1];
         } else {
-          token = authHeader; // Use directly if no "Bearer"
+          token = authHeader;
         }
       }
     }
 
-    // ------------------------------
+    // --------------------------------------
     // 3. Custom header: token
-    // ------------------------------
+    // --------------------------------------
     if (!token && req.headers.token) {
       token = req.headers.token;
     }
 
-    // ------------------------------
-    // If still no token â†’ Unauthorized
-    // ------------------------------
+    // --------------------------------------
+    // No token → Unauthorized
+    // --------------------------------------
     if (!token || token === "null" || token === "undefined") {
       return res.status(401).json({
         success: false,
@@ -48,24 +47,24 @@ const userAuth = async (req, res, next) => {
       });
     }
 
-    // ------------------------------
-    // Verify the token
-    // ------------------------------
+    // --------------------------------------
+    // Verify token
+    // --------------------------------------
     let decoded;
     try {
       decoded = jwt.verify(token, process.env.JWT_SECRET);
-      console.log("âœ… Token Decoded Successfully:", decoded);
+      console.log("✓ Token Decoded Successfully:", decoded);
     } catch (err) {
-      console.log("âŒ Token Verification Failed:", err.message);
+      console.log("✗ Token Verification Failed:", err.message);
       return res.status(401).json({
         success: false,
         message: "Invalid or expired token",
       });
     }
 
-    // ------------------------------
-    // Extract userId (handle both formats)
-    // ------------------------------
+    // --------------------------------------
+    // Extract userId
+    // --------------------------------------
     const userId = decoded.userId || decoded.id;
 
     if (!userId) {
@@ -75,9 +74,9 @@ const userAuth = async (req, res, next) => {
       });
     }
 
-    // ------------------------------
-    // Check if user exists in DB
-    // ------------------------------
+    // --------------------------------------
+    // Check DB for user
+    // --------------------------------------
     const user = await userModel.findById(userId).select("-password");
 
     if (!user) {
@@ -87,24 +86,24 @@ const userAuth = async (req, res, next) => {
       });
     }
 
-    // ------------------------------
-    // Attach user data to request (multiple formats for compatibility)
-    // ------------------------------
-    req.userId = user._id;           // For routes expecting req.userId
+    // --------------------------------------
+    // Attach user data safely
+    // --------------------------------------
+    req.userId = user._id;
     req.userEmail = user.email;
     req.userName = user.name;
-    req.user = user;                 // Full user object
-    
-    // Also attach to req.body for legacy compatibility
+    req.user = user;
+
+    // SAFE FIX → Prevent crash on GET requests
+    req.body = req.body || {};
     req.body.userId = user._id;
 
-    console.log("âœ… Authentication Successful - User ID:", user._id);
+    console.log("✓ Authentication Successful - User ID:", user._id);
 
-    // Success â†’ continue to next middleware/route
     next();
-    
+
   } catch (error) {
-    console.error("âŒ Authentication Error:", error.message);
+    console.error("✗ Authentication Error:", error.message);
     res.status(500).json({
       success: false,
       message: "Authentication error",

@@ -12,15 +12,12 @@ const razorpayInstance = new Razorpay({
     key_secret: process.env.RAZORPAY_KEY_SECRET
 })
 
-
-// ✅ FIXED: Placing orders using COD Method
+// Placing orders using COD Method
 const placeOrder = async (req, res) => {
   try {
-    // ✅ Get userId from authUser middleware (it's already set in req.body.userId)
     const { userId, items, amount, address } = req.body;
     
-    console.log("📦 Place Order - User ID:", userId); // Debug
-    console.log("📦 Place Order - Items:", items); // Debug
+    console.log("📦 Place Order - User ID:", userId);
     
     if (!userId) {
       return res.status(401).json({ 
@@ -54,14 +51,12 @@ const placeOrder = async (req, res) => {
       date: Date.now()
     };
     
-    // Save order to database
     const newOrder = new orderModel(orderData);
     await newOrder.save();
 
-    // ✅ Clear user's cart after successful order
     await userModel.findByIdAndUpdate(userId, { cartData: {} });
     
-    console.log("✅ Order placed successfully:", newOrder._id); // Debug
+    console.log("✅ Order placed successfully:", newOrder._id);
     
     res.json({ success: true, message: "Order Placed", orderId: newOrder._id });
     
@@ -74,7 +69,7 @@ const placeOrder = async (req, res) => {
   }
 };
 
-// ✅ FIXED: Placing orders using Razorpay Method
+// Placing orders using Razorpay Method
 const placeOrderRazorpay = async (req, res) => {
     try {
         const {userId, items, amount, address} = req.body
@@ -118,7 +113,6 @@ const placeOrderRazorpay = async (req, res) => {
     }
 }
 
-
 const verifyRazorpay = async (req, res) => {
     try {
         const {userId, razorpay_order_id} =  req.body
@@ -140,7 +134,6 @@ const verifyRazorpay = async (req, res) => {
 
 // All orders data for Admin Panel
 const allOrders = async (req, res) => {
-
     try {
         const orders = await orderModel.find({})
         res.json({success: true, orders})
@@ -148,30 +141,47 @@ const allOrders = async (req, res) => {
         console.log(error)
         res.json({success: false, message: error.message})
     }
-
 }
 
-// User Order Data for Frontend
+// ✅ UPDATED: User Order Data for Frontend
 const userOrders = async (req, res) => {
     try {
-        const {userId} = req.body
+        console.log("\n📦 === USER ORDERS REQUEST ===");
+        
+        // ✅ Check multiple locations
+        const userId = req.userId || req.body.userId || req.user?._id;
+        
+        console.log("  - req.userId:", req.userId);
+        console.log("  - req.body.userId:", req.body.userId);
+        console.log("  - Final userId:", userId);
         
         if (!userId) {
+            console.log("❌ No userId found");
             return res.status(401).json({ 
                 success: false, 
                 message: "User not authenticated" 
             });
         }
 
-        const orders = await orderModel.find({userId})
-        res.json({success:true, orders})
+        console.log("  - Fetching orders for user:", userId);
+        
+        const orders = await orderModel.find({ userId });
+        
+        console.log("  - Found", orders.length, "orders");
+        
+        res.json({
+            success: true, 
+            orders: orders
+        });
 
     } catch (error) {
-        console.log(error)
-        res.json({success: false, message: error.message})
+        console.error("❌ User orders error:", error);
+        res.status(500).json({
+            success: false, 
+            message: error.message
+        });
     }
-
-}
+};
 
 // update order status from Admin Panel
 const updateStatus = async (req, res) => {
