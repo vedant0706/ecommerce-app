@@ -251,17 +251,17 @@ const ShopContextProvider = (props) => {
 
   // FETCH PRODUCTS
   const getProductsData = async () => {
-    try {
-      const { data } = await axios.get(`${backendUrl}/api/product/list`);
-      if (data.success) {
-        setProducts(data.products);
-      } else {
-        toast.error("Failed to load products");
-      }
-    } catch (error) {
-      toast.error(error.response?.data?.message || "Failed to load products");
+  try {
+    const { data } = await axiosInstance.get("/api/product/list");
+    if (data.success) {
+      setProducts(data.products);
+    } else {
+      toast.error("Failed to load products");
     }
-  };
+  } catch (error) {
+    toast.error(error.response?.data?.message || "Failed to load products");
+  }
+};
 
   // FETCH CART
   const getUserCart = async () => {
