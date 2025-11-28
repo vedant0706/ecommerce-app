@@ -1,11 +1,5 @@
 {
   "version": 2,
-  "rewrites": [
-    {
-      "source": "/api/:path*",
-      "destination": "https://aura-backend-ecommerce-app.vercel.app/api/:path*"
-    }
-  ],
   "routes": [
     {
       "src": "/(.*)",
