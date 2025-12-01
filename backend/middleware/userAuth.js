@@ -1,23 +1,14 @@
 import jwt from "jsonwebtoken";
 import userModel from "../models/userModel.js";
 
-/**
- * Universal Authentication Middleware
- */
 const userAuth = async (req, res, next) => {
   try {
     let token = null;
 
-    // --------------------------------------
-    // 1. Check cookies
-    // --------------------------------------
     if (req.cookies?.token) {
       token = req.cookies.token;
     }
 
-    // --------------------------------------
-    // 2. Authorization header (Bearer token)
-    // --------------------------------------
     if (!token) {
       const authHeader = req.headers.authorization || req.headers.Authorization;
 
@@ -30,16 +21,10 @@ const userAuth = async (req, res, next) => {
       }
     }
 
-    // --------------------------------------
-    // 3. Custom header: token
-    // --------------------------------------
     if (!token && req.headers.token) {
       token = req.headers.token;
     }
 
-    // --------------------------------------
-    // No token → Unauthorized
-    // --------------------------------------
     if (!token || token === "null" || token === "undefined") {
       return res.status(401).json({
         success: false,
@@ -47,24 +32,16 @@ const userAuth = async (req, res, next) => {
       });
     }
 
-    // --------------------------------------
-    // Verify token
-    // --------------------------------------
     let decoded;
     try {
       decoded = jwt.verify(token, process.env.JWT_SECRET);
-      console.log("✓ Token Decoded Successfully:", decoded);
     } catch (err) {
-      console.log("✗ Token Verification Failed:", err.message);
       return res.status(401).json({
         success: false,
         message: "Invalid or expired token",
       });
     }
 
-    // --------------------------------------
-    // Extract userId
-    // --------------------------------------
     const userId = decoded.userId || decoded.id;
 
     if (!userId) {
@@ -74,9 +51,6 @@ const userAuth = async (req, res, next) => {
       });
     }
 
-    // --------------------------------------
-    // Check DB for user
-    // --------------------------------------
     const user = await userModel.findById(userId).select("-password");
 
     if (!user) {
@@ -86,24 +60,16 @@ const userAuth = async (req, res, next) => {
       });
     }
 
-    // --------------------------------------
-    // Attach user data safely
-    // --------------------------------------
     req.userId = user._id;
     req.userEmail = user.email;
     req.userName = user.name;
     req.user = user;
 
-    // SAFE FIX → Prevent crash on GET requests
     req.body = req.body || {};
     req.body.userId = user._id;
 
-    console.log("✓ Authentication Successful - User ID:", user._id);
-
     next();
-
   } catch (error) {
-    console.error("✗ Authentication Error:", error.message);
     res.status(500).json({
       success: false,
       message: "Authentication error",

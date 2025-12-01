@@ -2,25 +2,18 @@ import express from "express";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 import "dotenv/config";
-
-// Database & External Services
 import connectDB from "./config/mongodb.js";
 import connectCloudinary from "./config/cloudinary.js";
-
-// Route Imports
 import authRouter from "./routes/authRoute.js";
 import productRouter from "./routes/productRoute.js";
 import cartRouter from "./routes/cartRoute.js";
 import orderRouter from "./routes/orderRoute.js";
 
-// App Configuration
 const app = express();
 await connectDB();
 await connectCloudinary();
 app.use(cookieParser());
 
-
-// CORS Configuration
 const allowedOrigins = [
   "http://localhost:5173",
   "http://localhost:5174",
@@ -49,8 +42,6 @@ app.use(
   })
 );
 
-
-// Body Parser
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -58,15 +49,12 @@ app.use((req, res, next) => {
   next();
 });
 
-
-// API Routes
 app.get("/", (req, res) => res.send("API is Working"));
 app.use("/api/auth", authRouter);
 app.use("/api/product", productRouter);
 app.use("/api/cart", cartRouter);
 app.use("/api/order", orderRouter);
 
-// 404 handler for undefined routes
 app.use((req, res) => {
   res.status(404).json({
     success: false,
@@ -74,7 +62,6 @@ app.use((req, res) => {
   });
 });
 
-// Error handling middleware
 app.use((err, req, res, next) => {
   res.status(500).json({
     success: false,

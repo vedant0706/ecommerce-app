@@ -7,36 +7,32 @@ import {
   PASSWORD_RESET_TEMPLATE,
 } from "../config/emailTemplates.js";
 
-console.log("JWT_SECRET exists:", !!process.env.JWT_SECRET);
-
-
 export const getUserData = async (req, res) => {
-    try {
-        const userId = req.userId;
+  try {
+    const userId = req.userId;
 
-        if (!userId) {
-            return res.json({ success: false, message: "Not authenticated" });
-        }
-
-        const user = await userModel.findById(userId).select('-password');
-
-        if (!user) {
-            return res.json({ success: false, message: "User not found" });
-        }
-
-        res.json({
-            success: true,
-            userData: {
-                _id: user._id,
-                name: user.name,
-                email: user.email,
-                role: user.role,
-                isAccountVerified: user.isAccountVerified,
-            },
-        });
-    } catch (error) {
-        res.json({ success: false, message: error.message });
+    if (!userId) {
+      return res.json({ success: false, message: "Not authenticated" });
     }
+
+    const user = await userModel.findById(userId).select("-password");
+
+    if (!user) {
+      return res.json({ success: false, message: "User not found" });
+    }
+
+    res.json({
+      success: true,
+      userData: {
+        _id: user._id,
+        name: user.name,
+        email: user.email,
+        isAccountVerified: user.isAccountVerified,
+      },
+    });
+  } catch (error) {
+    res.json({ success: false, message: error.message });
+  }
 };
 
 export const register = async (req, res) => {
@@ -63,27 +59,23 @@ export const register = async (req, res) => {
       expiresIn: "7d",
     });
 
-    // In loginUser function
-res.cookie("token", token, {
-  httpOnly: true,
-  secure: process.env.NODE_ENV === "production", // true for production
-  sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
-  maxAge: 7 * 24 * 60 * 60 * 1000,
-  path: "/",
-});
+    res.cookie("token", token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+      maxAge: 7 * 24 * 60 * 60 * 1000,
+      path: "/",
+    });
 
-
-    // Sending welcome email
     const mailOptions = {
       from: process.env.SENDER_EMAIL,
       to: email,
-      subject: "Welcome to Gem AI",
-      text: `Welcome to Gem AI website, Your current account has been created with email id: ${email}`,
+      subject: "Welcome to AURA E-commerce Platform",
+      text: `Welcome to AURA E-commerce website, Your current account has been created with email id: ${email}`,
     };
 
     await transporter.sendMail(mailOptions);
 
-    // âœ… ADDED: Return token in response
     return res.json({ success: true, token: token });
   } catch (error) {
     res.json({ success: false, message: error.message });
@@ -117,25 +109,18 @@ export const login = async (req, res) => {
       expiresIn: "7d",
     });
 
-    // âœ… ADD THIS DEBUG LOG
-    console.log("Generated token:", token);
-
-    // In loginUser function
-res.cookie("token", token, {
-  httpOnly: true,
-  secure: process.env.NODE_ENV === "production", // true for production
-  sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
-  maxAge: 7 * 24 * 60 * 60 * 1000,
-  path: "/",
-});
-
-
-    // âœ… ADD THIS DEBUG LOG
-    console.log("Sending response with token:", token);
+    res.cookie("token", token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+      maxAge: 7 * 24 * 60 * 60 * 1000,
+      path: "/",
+    });
 
     return res.json({
       success: true,
       message: "Login successful",
+      token: token,
     });
   } catch (error) {
     return res.json({ success: false, message: error.message });
@@ -155,7 +140,6 @@ export const logout = async (req, res) => {
   }
 };
 
-// Send Verification OTP to the User's Email
 export const sendVerifyOtp = async (req, res) => {
   try {
     const userId = req.userId;
@@ -197,7 +181,6 @@ export const sendVerifyOtp = async (req, res) => {
   }
 };
 
-// Verify the email using OTP
 export const verifyEmail = async (req, res) => {
   const { otp } = req.body;
   const userId = req.userId;
@@ -231,7 +214,6 @@ export const verifyEmail = async (req, res) => {
   }
 };
 
-// /api/auth/is-auth â†’ Check if user is logged in via httpOnly cookie
 export const isAuthenticated = async (req, res) => {
   try {
     const token = req.cookies?.token;
@@ -240,30 +222,24 @@ export const isAuthenticated = async (req, res) => {
       return res.json({ success: false, message: "No token provided" });
     }
 
-    // Verify token
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
     if (!decoded || !decoded.userId) {
       return res.json({ success: false, message: "Invalid token" });
     }
 
-    // OPTIONAL: You can fetch user here if you want
     const user = await userModel.findById(decoded.userId).select("-password");
 
-    // Everything is good â†’ user is authenticated
     return res.json({
       success: true,
       message: "Authenticated",
-      userId: decoded.userId,  // â† Very helpful for frontend
+      userId: decoded.userId,
     });
-
   } catch (error) {
-    console.error("Auth check failed:", error.message);
     return res.json({ success: false, message: "Invalid or expired token" });
   }
 };
 
-// Send Password Reset OTP
 export const sendResetOtp = async (req, res) => {
   const { email } = req.body;
 
@@ -300,7 +276,6 @@ export const sendResetOtp = async (req, res) => {
   }
 };
 
-// Reset User Password.
 export const resetPassword = async (req, res) => {
   const { email, otp, newPassword } = req.body;
 
@@ -339,19 +314,20 @@ export const resetPassword = async (req, res) => {
   }
 };
 
-// Route for admin login
 export const adminLogin = async (req, res) => {
-    try {
-        const {email, password} = req.body
+  try {
+    const { email, password } = req.body;
 
-        if(email === process.env.ADMIN_EMAIL && password === process.env.ADMIN_PASSWORD) {
-            const token = jwt.sign(email + password, process.env.JWT_SECRET);
-            res.json({success: true, token})
-        } else{
-            res.json({success: false, message: "Invalid Credentials"})
-        }
-    } catch (error) {
-        console.log(error);
-        res.json({ success: false, message: error.message });
+    if (
+      email === process.env.ADMIN_EMAIL &&
+      password === process.env.ADMIN_PASSWORD
+    ) {
+      const token = jwt.sign(email + password, process.env.JWT_SECRET);
+      res.json({ success: true, token });
+    } else {
+      res.json({ success: false, message: "Invalid Credentials" });
     }
+  } catch (error) {
+    res.json({ success: false, message: error.message });
+  }
 };

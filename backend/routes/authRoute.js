@@ -4,7 +4,7 @@ import userAuth from '../middleware/userAuth.js';
 
 const authRouter = express.Router();
 
-authRouter.post('/data', userAuth, getUserData);
+authRouter.get('/data', userAuth, getUserData);
 authRouter.post('/admin', adminLogin);
 authRouter.post('/register', register);
 authRouter.post('/login', login);
