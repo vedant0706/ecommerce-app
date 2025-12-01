@@ -20,6 +20,7 @@ const allowedOrigins = [
   "https://aura-ecommerce-app.vercel.app",
   "https://admin-aura-ecommerce-app.vercel.app",
   process.env.CLIENT_URL,
+  process.env.ADMIN_URL,
 ].filter(Boolean);
 
 app.use(
@@ -37,7 +38,7 @@ app.use(
     },
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
-    allowedHeaders: ["Content-Type", "Authorization", "Cookie"],
+    allowedHeaders: ["Content-Type", "Authorization", "Cookie", "token"],
     exposedHeaders: ["Set-Cookie"],
   })
 );

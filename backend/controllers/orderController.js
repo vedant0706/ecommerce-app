@@ -157,7 +157,7 @@ const updateStatus = async (req, res) => {
     const { orderId, status } = req.body;
 
     await orderModel.findByIdAndUpdate(orderId, { status });
-    res.json({ sucess: true, message: "Status Updated" });
+    res.json({ success: true, message: "Status Updated" });
   } catch (error) {
     res.json({ success: false, message: error.message });
   }
