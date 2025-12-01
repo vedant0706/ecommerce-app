@@ -7,25 +7,27 @@ import List from "./pages/List";
 import Orders from "./pages/Orders";
 import { useState } from "react";
 import Login from "./components/Login";
-import { ToastContainer } from 'react-toastify';
+import { ToastContainer } from "react-toastify";
 import { useEffect } from "react";
 
-export const backendUrl = import.meta.env.VITE_BACKEND_URL
-export const currency = '₹ '
+export const backendUrl = import.meta.env.VITE_BACKEND_URL;
+export const currency = "₹ ";
 
 const App = () => {
-  const [token, setToken] = useState(localStorage.getItem('token')? localStorage.getItem('token') : '');
+  const [token, setToken] = useState(
+    localStorage.getItem("token") ? localStorage.getItem("token") : ""
+  );
 
   useEffect(() => {
-    localStorage.setItem('token', token)
-  }, [token])
+    localStorage.setItem("token", token);
+  }, [token]);
 
   return (
     <div className="bg-gray-50 min-h-screen">
       <ToastContainer />
-      {token === "" ? 
+      {token === "" ? (
         <Login setToken={setToken} />
-       : 
+      ) : (
         <>
           <Navbar setToken={setToken} />
           <hr />
@@ -40,7 +42,7 @@ const App = () => {
             </div>
           </div>
         </>
-      }
+      )}
     </div>
   );
 };
