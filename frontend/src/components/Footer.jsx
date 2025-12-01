@@ -7,8 +7,8 @@ const Footer = () => {
     <div>
       <div className="flex flex-col sm:grid grid-cols-[3fr_1fr_1fr] gap-14 my-10 mt-40 text-sm">
         <div>
-          <Link to='/'>
-          <img src={assets.nav1_logo} className="mb-5 w-32" alt="" />
+          <Link to="/">
+            <img src={assets.nav1_logo} className="mb-5 w-32" alt="" />
           </Link>
           <p className="w-full md:w-2/3 text-gray-600">
             Elegant styles, curated trends, and timeless fashion delivered
