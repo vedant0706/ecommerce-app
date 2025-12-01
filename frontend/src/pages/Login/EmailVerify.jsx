@@ -2,7 +2,7 @@ import React, { useContext, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import ShopContext from "../../context/ShopContext.jsx";
+import { ShopContext } from "../../context/ShopContext.jsx";
 
 const EmailVerify = () => {
   axios.defaults.withCredentials = true;
@@ -61,10 +61,10 @@ const EmailVerify = () => {
   }, [isLoggedin, userData]);
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-linear-0 from-purple-900 to-purple-600">
+    <div className="flex items-center justify-center min-h-screen bg-white">
       <form
         onSubmit={onSubmitHandler}
-        className="bg-white p-8 rounded-lg shadow-lg w-96 text-sm"
+        className="bg-white p-8 rounded-lg shadow-2xl shadow-black w-96 text-sm"
       >
         <h1 className="text-black text-2xl font-semibold text-center mb-4">
           Email Verify OTP
@@ -88,7 +88,7 @@ const EmailVerify = () => {
               />
             ))}
         </div>
-        <button className="text-lg w-full py-3 bg-gradient-to-r from-purple-900 to-purple-500 text-black hover:text-white hover:scale-y-105 rounded-full cursor-pointer">
+        <button className="text-lg w-full py-3 bg-black text-white hover:scale-y-110 rounded-full cursor-pointer">
           Verify Email
         </button>
       </form>

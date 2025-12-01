@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { assets } from "../../assets/assets.js";
 import axios from "axios";
 import { toast } from "react-toastify";
-import {ShopContext} from "../../context/ShopContext.jsx";
+import { ShopContext } from "../../context/ShopContext.jsx";
 import { MdOutlineMail } from "react-icons/md";
 
 const ResetPassword = () => {
@@ -78,7 +78,6 @@ const ResetPassword = () => {
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-white">
-      {/* enter email id */}
       {!isEmailSent && (
         <form
           onSubmit={onSubmitEmail}
@@ -91,7 +90,6 @@ const ResetPassword = () => {
             Enter your registered email address.
           </p>
           <div className="mb-4 flex items-center gap-3 w-full px-2.5 py-2.5 rounded-full bg-black">
-            {/* <img src={assets.mail_icon} alt="" className="w-3.5 h-3.5" /> */}
             <span className="text-lg text-white">
               <MdOutlineMail />
             </span>
@@ -110,7 +108,6 @@ const ResetPassword = () => {
         </form>
       )}
 
-      {/* OTP input form */}
       {!isOtpSubmitted && isEmailSent && (
         <form
           onSubmit={onSubmitOTP}
@@ -144,7 +141,6 @@ const ResetPassword = () => {
         </form>
       )}
 
-      {/* Enter new password */}
       {isOtpSubmitted && isEmailSent && (
         <form
           onSubmit={onSubmitNewPassword}

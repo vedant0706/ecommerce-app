@@ -14,7 +14,6 @@ const Cart = () => {
   const [cartData, setCartData] = useState([]);
 
 useEffect(() => {
-  // This line protects you when products is not loaded yet
   if (!products || products.length === 0) {
     setCartData([]);
     return;

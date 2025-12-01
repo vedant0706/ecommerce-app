@@ -5,7 +5,6 @@ import { assets } from "../assets/assets";
 import { ShopContext } from "../context/ShopContext";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
-// import axios from "axios";
 
 const PlaceOrder = () => {
   const [method, setMethod] = useState("cod");
@@ -35,10 +34,7 @@ const PlaceOrder = () => {
     phone: "",
   });
 
-  // ✅ Check authentication using isLoggedin (cookie-based)
   useEffect(() => {
-    // console.log("🔐 PlaceOrder - Is logged in:", isLoggedin); // Debug
-    
     if (!isLoggedin) {
       toast.error("Please login to place an order");
       navigate("/login");
@@ -56,26 +52,26 @@ const PlaceOrder = () => {
       key: import.meta.env.VITE_RAZORPAY_KEY_ID,
       amount: order.amount,
       currency: order.currency,
-      name: 'Order Payment',
-      description: 'Order Payment',
+      name: "Order Payment",
+      description: "Order Payment",
       order_id: order.id,
       receipt: order.receipt,
       handler: async (response) => {
-        // console.log(response);
         try {
           const { data } = await axiosInstance.post(
-            '/api/order/verifyRazorpay',
+            "/api/order/verifyRazorpay",
             response
           );
           if (data.success) {
-            navigate('/orders');
+            navigate("/orders");
             setCartItems({});
           }
         } catch (error) {
-          // console.log(error);
-          toast.error(error.response?.data?.message || "Payment verification failed");
+          toast.error(
+            error.response?.data?.message || "Payment verification failed"
+          );
         }
-      }
+      },
     };
     const rzp = new window.Razorpay(options);
     rzp.open();
@@ -83,8 +79,6 @@ const PlaceOrder = () => {
 
   const onSubmitHandler = async (event) => {
     event.preventDefault();
-
-    // console.log("📝 Submitting order, isLoggedin:", isLoggedin); // Debug
 
     if (!isLoggedin) {
       toast.error("Please login to place an order");
@@ -123,17 +117,13 @@ const PlaceOrder = () => {
         amount: getCartAmount() + delivery_fee,
       };
 
-      // console.log("📦 Order data:", orderData); // Debug
-
       switch (method) {
-        // ✅ Using axiosInstance (includes cookies automatically)
-        case 'cod': {
-          // console.log("💰 Placing COD order..."); // Debug
-          
-          const response = await axiosInstance.post("/api/order/place", orderData);
-          
-          // console.log("✅ COD Response:", response.data); // Debug
-          
+        case "cod": {
+          const response = await axiosInstance.post(
+            "/api/order/place",
+            orderData
+          );
+
           if (response.data.success) {
             setCartItems({});
             toast.success("Order placed successfully!");
@@ -144,9 +134,9 @@ const PlaceOrder = () => {
           break;
         }
 
-        case 'razorpay': {
+        case "razorpay": {
           const responseRazorpay = await axiosInstance.post(
-            '/api/order/razorpay',
+            "/api/order/razorpay",
             orderData
           );
           if (responseRazorpay.data.success) {
@@ -161,14 +151,15 @@ const PlaceOrder = () => {
           break;
       }
     } catch (error) {
-      // console.error("❌ Order placement error:", error); // Debug
-      // console.error("Error response:", error.response); // Debug
-      
       if (error.response?.status === 401) {
         toast.error("Session expired. Please login again");
         navigate("/login");
       } else {
-        toast.error(error.response?.data?.message || error.message || "Order placement failed");
+        toast.error(
+          error.response?.data?.message ||
+            error.message ||
+            "Order placement failed"
+        );
       }
     }
   };
@@ -178,7 +169,6 @@ const PlaceOrder = () => {
       onSubmit={onSubmitHandler}
       className="flex flex-col sm:flex-row justify-between gap-4 pt-5 sm:pt-14 min-h-[80vh] border-t"
     >
-      {/* Left Side */}
       <div className="flex flex-col gap-4 w-full sm:max-w-[480px]">
         <div className="text-xl sm:text-2xl my-3">
           <Title text1={"DELIVERY"} text2={"INFORMATION"} />
@@ -275,7 +265,6 @@ const PlaceOrder = () => {
         />
       </div>
 
-      {/* Right Side */}
       <div className="mt-8">
         <div className="mt-8 min-w-80">
           <CartTotal />
@@ -283,7 +272,7 @@ const PlaceOrder = () => {
 
         <div className="mt-12">
           <Title text1={"PAYMENT"} text2={"METHOD"} />
-          {/* Payment Method Selection */}
+
           <div className="flex gap-3 flex-col lg:flex-row">
             <div
               onClick={() => setMethod("razorpay")}

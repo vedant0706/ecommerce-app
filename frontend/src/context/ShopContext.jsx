@@ -15,10 +15,6 @@ const ShopContextProvider = (props) => {
       ? ""
       : import.meta.env.VITE_BACKEND_URL || "http://localhost:4000";
 
-  // const backendUrl = import.meta.env.VITE_BACKEND_URL;
-
-
-  // GLOBAL STATES
   const [search, setSearch] = useState("");
   const [showSearch, setShowSearch] = useState(false);
   const [cartItems, setCartItems] = useState({});
@@ -29,7 +25,6 @@ const ShopContextProvider = (props) => {
   const [currentUserId, setCurrentUserId] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
 
-  // AXIOS INSTANCE (COOKIE BASED)
   const axiosInstance = axios.create({
     baseURL: backendUrl,
     withCredentials: true,
@@ -40,42 +35,7 @@ const ShopContextProvider = (props) => {
 
   axios.defaults.withCredentials = true;
 
-  // Request interceptor - attach token if exists
-  // axiosInstance.interceptors.request.use(
-  //   (config) => {
-  //     const token = localStorage.getItem("token");
-
-  //     if (token) {
-  //       config.headers.Authorization = `Bearer ${token}`;
-  //     }
-
-  //     return config;
-  //   },
-  //   (error) => {
-  //     return Promise.reject(error);
-  //   }
-  // );
-
-  // // Response interceptor - handle 401 errors
-  // axiosInstance.interceptors.response.use(
-  //   (response) => {
-  //     return response;
-  //   },
-  //   (error) => {
-  //     if (error.response?.status === 401) {
-  //       setIsLoggedin(false);
-  //       setUserData(null);
-  //       setCurrentUserId(null);
-  //       setCartItems({});
-  //       localStorage.removeItem("token");
-  //       toast.error("Session expired. Please login again.");
-  //       navigate("/login");
-  //     }
-  //     return Promise.reject(error);
-  //   }
-  // );
-
-    axiosInstance.interceptors.request.use(
+  axiosInstance.interceptors.request.use(
     (config) => {
       return config;
     },
@@ -93,8 +53,6 @@ const ShopContextProvider = (props) => {
     }
   );
 
-
-  // CHECK AUTH USING COOKIE
   const checkAuthStatus = async () => {
     try {
       setIsLoading(true);
@@ -113,16 +71,16 @@ const ShopContextProvider = (props) => {
       }
     } catch (error) {
       setIsLoggedin(false);
-      console.error("Auth check failed:", error);
     } finally {
       setIsLoading(false);
     }
   };
 
-  // FETCH USER DATA
   const getUserData = async () => {
     try {
-      const { data } = await axiosInstance.get("/api/auth/data");
+      const { data } = await axiosInstance.get("/api/auth/data", {
+        withCredentials: true,
+      });
 
       if (data.success) {
         setUserData(data.userData);
@@ -131,25 +89,8 @@ const ShopContextProvider = (props) => {
       } else {
         toast.error(data.message);
       }
-    } catch (error) {
-      // toast.error(error.response?.data?.message || "Failed to fetch user data");
-    }
+    } catch (error) {}
   };
-
-  // LOGIN SUCCESS HANDLER
-  // const handleLoginSuccess = async (token) => {
-  //   if (token) {
-  //     localStorage.setItem("token", token);
-  //   }
-
-  //   setIsLoggedin(true);
-
-  //   // Wait for cookie to be set
-  //   await new Promise((resolve) => setTimeout(resolve, 300));
-
-  //   await getUserData();
-  //   toast.success("Login successful!");
-  // };
 
   const handleLoginSuccess = async () => {
     await new Promise((resolve) => setTimeout(resolve, 200));
@@ -160,26 +101,7 @@ const ShopContextProvider = (props) => {
     navigate("/");
   };
 
-  // LOGOUT
-  // const handleLogout = async () => {
-  //   try {
-  //     const { data } = await axiosInstance.post("/api/auth/logout");
-
-  //     if (data.success) {
-  //       setIsLoggedin(false);
-  //       setUserData(null);
-  //       setCurrentUserId(null);
-  //       setCartItems({});
-  //       localStorage.removeItem("token");
-  //       toast.success("Logged out successfully!");
-  //       navigate("/login");
-  //     }
-  //   } catch (error) {
-  //     toast.error(error.response?.data?.message || "Logout failed!");
-  //   }
-  // };
-
-   const handleLogout = async () => {
+  const handleLogout = async () => {
     try {
       await axiosInstance.post("/api/auth/logout");
 
@@ -196,7 +118,6 @@ const ShopContextProvider = (props) => {
 
   const isAdmin = userData?.role === "admin";
 
-  // CART LOGIC
   const addToCart = async (itemId, size) => {
     if (!size) {
       toast.error("Please select a size");
@@ -224,7 +145,7 @@ const ShopContextProvider = (props) => {
         }
       } catch (error) {
         toast.error(error.response?.data?.message || "Failed to add to cart");
-        // Revert local state on error
+
         setCartItems(cartItems);
       }
     } else {
@@ -268,9 +189,7 @@ const ShopContextProvider = (props) => {
           if (cartItems[items][size] > 0) {
             total += cartItems[items][size];
           }
-        } catch (error) {
-          console.error("Cart count error:", error);
-        }
+        } catch (error) {}
       }
     }
     return total;
@@ -286,30 +205,26 @@ const ShopContextProvider = (props) => {
             if (cartItems[id][size] > 0) {
               totalAmount += product.price * cartItems[id][size];
             }
-          } catch (error) {
-            console.error("Cart amount error:", error);
-          }
+          } catch (error) {}
         }
       }
     }
     return totalAmount;
   };
 
-  // FETCH PRODUCTS
   const getProductsData = async () => {
-  try {
-    const { data } = await axiosInstance.get("/api/product/list");
-    if (data.success) {
-      setProducts(data.products);
-    } else {
-      toast.error("Failed to load products");
+    try {
+      const { data } = await axiosInstance.get("/api/product/list");
+      if (data.success) {
+        setProducts(data.products);
+      } else {
+        toast.error("Failed to load products");
+      }
+    } catch (error) {
+      toast.error(error.response?.data?.message || "Failed to load products");
     }
-  } catch (error) {
-    toast.error(error.response?.data?.message || "Failed to load products");
-  }
-};
+  };
 
-  // FETCH CART
   const getUserCart = async () => {
     if (!isLoggedin) return;
 
@@ -323,7 +238,6 @@ const ShopContextProvider = (props) => {
     }
   };
 
-  // EFFECTS
   useEffect(() => {
     getProductsData();
     checkAuthStatus();
@@ -348,7 +262,9 @@ const ShopContextProvider = (props) => {
     getProductsData,
 
     isLoggedin,
+    setIsLoggedin,
     userData,
+    setUserData,
     currentUserId,
     handleLoginSuccess,
     handleLogout,

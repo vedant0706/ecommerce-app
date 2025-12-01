@@ -2,47 +2,78 @@ import React, { useContext, useState } from "react";
 import { assets } from "../assets/assets.js";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { ShopContext } from "../context/ShopContext.jsx";
+import { toast } from "react-toastify";
+import axios from "axios";
 
 const Navbar = () => {
   const [visible, setVisible] = useState(false);
-  const navigate = useNavigate(); // ✅ Use navigate here
+  const navigate = useNavigate();
 
   const {
+    backendUrl,
     setShowSearch,
+    userData,
+    setUserData,
     getCartCount,
     isLoggedin,
-    handleLogout,
+    setIsLoggedin,
   } = useContext(ShopContext);
 
+  const sendVerificationOtp = async () => {
+    try {
+      axios.defaults.withCredentials = true;
+      const { data } = await axios.post(
+        `${backendUrl}/api/auth/send-verify-otp`
+      );
+
+      if (data.success) {
+        navigate("/email-verify");
+        toast.success(data.message);
+      } else {
+        toast.error(data.message);
+      }
+    } catch (error) {
+      toast.error(error.message);
+    }
+  };
+
   const logout = async () => {
-    await handleLogout(); // Call logout
-    navigate("/login"); // ✅ Navigate after logout
+    try {
+      axios.defaults.withCredentials = true;
+      const { data } = await axios.post(`${backendUrl}/api/auth/logout`);
+
+      if (data.success) {
+        setIsLoggedin(false);
+        setUserData(null);
+        navigate("/login");
+        toast.success("Logged out successfully");
+      }
+    } catch (error) {
+      toast.error("Logout failed");
+    }
   };
 
   return (
     <div className="flex items-center justify-between py-5 font-medium">
       <Link to="/">
-        <img src={assets.nav1_logo} className="w-32" alt="" />
+        <img src={assets.nav1_logo} className="w-32" alt="Logo" />
       </Link>
+
       <ul className="hidden sm:flex gap-5 text-sm text-gray-700">
         <NavLink to="/" className="flex flex-col items-center gap-1">
           <p>HOME</p>
-          <hr className="w-2/4 border-none h-[1.5px] bg-gray-700 hidden" />
         </NavLink>
 
         <NavLink to="/collection" className="flex flex-col items-center gap-1">
           <p>COLLECTION</p>
-          <hr className="w-2/4 border-none h-[1.5px] bg-gray-700 hidden" />
         </NavLink>
 
         <NavLink to="/about" className="flex flex-col items-center gap-1">
           <p>ABOUT</p>
-          <hr className="w-2/4 border-none h-[1.5px] bg-gray-700 hidden" />
         </NavLink>
 
         <NavLink to="/contact" className="flex flex-col items-center gap-1">
           <p>CONTACT</p>
-          <hr className="w-2/4 border-none h-[1.5px] bg-gray-700 hidden" />
         </NavLink>
       </ul>
 
@@ -51,37 +82,47 @@ const Navbar = () => {
           onClick={() => setShowSearch(true)}
           src={assets.search_icon}
           className="w-5 cursor-pointer"
-          alt=""
+          alt="Search"
         />
 
-        <div className="group relative z-50">
+        <div className="group relative">
           <img
             src={assets.profile_icon}
             className="w-5 cursor-pointer"
-            alt=""
+            alt="Profile"
           />
 
-          {/* Dropdown menu - shows different content based on login status */}
-          <div className="group-hover:block hidden absolute dropdown-menu right-0 pt-4 z-50">
-            <div className="flex flex-col gap-2 w-36 py-3 px-5 bg-slate-100 text-gray-500 rounded shadow-xl z-50">
+          <div className="group-hover:block hidden absolute right-0 pt-4 z-50">
+            <div className="flex flex-col gap-2 w-40 py-3 px-5 bg-slate-100 text-gray-600 rounded shadow-lg">
               {isLoggedin ? (
-                // Show when user is logged in
                 <>
+                  {userData && !userData.isAccountVerified && (
+                    <p
+                      onClick={sendVerificationOtp}
+                      className="cursor-pointer hover:text-black transition-colors"
+                    >
+                      Verify Email
+                    </p>
+                  )}
+
                   <p
                     onClick={() => navigate("/orders")}
-                    className="cursor-pointer hover:text-black"
+                    className="cursor-pointer hover:text-black transition-colors"
                   >
                     Orders
                   </p>
-                  <p onClick={logout} className="cursor-pointer hover:text-black">
+
+                  <p
+                    onClick={logout}
+                    className="cursor-pointer hover:text-black transition-colors"
+                  >
                     Logout
                   </p>
                 </>
               ) : (
-                // Show when user is NOT logged in
                 <p
                   onClick={() => navigate("/login")}
-                  className="cursor-pointer hover:text-black"
+                  className="cursor-pointer hover:text-black transition-colors"
                 >
                   Login
                 </p>
@@ -91,21 +132,22 @@ const Navbar = () => {
         </div>
 
         <Link to="/cart" className="relative">
-          <img src={assets.cart_icon} className="w-5 min-w-5" alt="" />
-          <p className="absolute right-[-5px] bottom-[-5px] w-4 text-center leading-4 bg-black text-white aspect-sqare rounded-full text-[8px] ">
+          <img src={assets.cart_icon} className="w-5 min-w-5" alt="Cart" />
+          <p className="absolute right-[-5px] bottom-[-5px] w-4 text-center leading-4 bg-black text-white rounded-full text-[8px]">
             {getCartCount()}
           </p>
         </Link>
+
         <img
           onClick={() => setVisible(true)}
           src={assets.menu_icon}
           className="w-5 cursor-pointer sm:hidden"
-          alt=""
+          alt="Menu"
         />
       </div>
-      {/* Sidebar menu for small screens */}
+
       <div
-        className={`absolute top-0 right-0 bottom-0 overflow-hidden bg-white transition-all ${
+        className={`absolute top-0 right-0 bottom-0 overflow-hidden bg-white transition-all z-50 ${
           visible ? "w-full" : "w-0"
         }`}
       >
@@ -114,9 +156,14 @@ const Navbar = () => {
             onClick={() => setVisible(false)}
             className="flex items-center gap-4 p-3 cursor-pointer"
           >
-            <img src={assets.dropdown_icon} className="h-4 rotate-180" alt="" />
+            <img
+              src={assets.dropdown_icon}
+              className="h-4 rotate-180"
+              alt="Back"
+            />
             <p>Back</p>
           </div>
+
           <NavLink
             onClick={() => setVisible(false)}
             className="py-2 pl-6 border-t"
@@ -145,8 +192,7 @@ const Navbar = () => {
           >
             CONTACT
           </NavLink>
-          
-          {/* Mobile menu - Login/Logout section */}
+
           {isLoggedin ? (
             <>
               <NavLink
@@ -156,6 +202,19 @@ const Navbar = () => {
               >
                 ORDERS
               </NavLink>
+
+              {userData && !userData.isAccountVerified && (
+                <div
+                  onClick={() => {
+                    setVisible(false);
+                    sendVerificationOtp();
+                  }}
+                  className="py-2 pl-6 border-t cursor-pointer"
+                >
+                  VERIFY EMAIL
+                </div>
+              )}
+
               <div
                 onClick={() => {
                   setVisible(false);

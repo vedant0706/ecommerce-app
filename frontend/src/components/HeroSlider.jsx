@@ -2,7 +2,12 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/pagination";
 import { Autoplay, Pagination } from "swiper/modules";
-import { heroSlides1, heroSlides2, heroSlides3, heroSlides4 } from "../assets/assets.js";
+import {
+  heroSlides1,
+  heroSlides2,
+  heroSlides3,
+  heroSlides4,
+} from "../assets/assets.js";
 
 export default function HeroSlider() {
   return (

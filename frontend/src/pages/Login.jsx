@@ -50,8 +50,8 @@ const Login = () => {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen px-6 ssm:px-0 bg-gradient-to-br from-purple-900 to-purple-600 ">
-      <div className="bg-white p-10 rounded-lg shadow-lg w-full sm:w-96 text-black text-sm">
+    <div className="flex items-center justify-center min-h-screen px-6 ssm:px-0 text-white ">
+      <div className="bg-white p-10 rounded-lg shadow-2xl w-full sm:w-96 text-black text-sm">
         <h2 className="text-3xl font-semibold text-black text-center mb-3">
           {state === "Sign Up" ? "Create Account" : "Login"}
         </h2>
@@ -106,7 +106,7 @@ const Login = () => {
               Forgot Password ?
             </span>
           </p>
-          <button className="text-lg w-full py-2.5 rounded-full bg-gradient-to-r from-purple-900 to-purple-500 text-black hover:text-white hover:scale-y-105 font-medium cursor-pointer">
+          <button className="text-lg w-full py-2.5 rounded-full bg-black text-white hover:scale-y-110 font-medium cursor-pointer">
             {state}
           </button>
         </form>

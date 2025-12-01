@@ -7,7 +7,7 @@ const ProtectedRoute = ({ children }) => {
   const { isLoggedin, isLoading } = useContext(ShopContext);
 
   if (isLoading) {
-    return <div>Loading...</div>; // Or your loading component
+    return <div>Loading...</div>;
   }
 
   if (!isLoggedin) {
