@@ -26,6 +26,7 @@ const Login = () => {
         });
 
         if (data.success) {
+          toast.success(data.message || "Login successful");
           handleLoginSuccess();
           navigate("/");
         } else {
