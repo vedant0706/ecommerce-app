@@ -97,7 +97,7 @@ const ShopContextProvider = (props) => {
 
     await checkAuthStatus();
 
-    toast.success("Login successful!");
+    // toast.success("Login successful!");
     navigate("/");
   };
 

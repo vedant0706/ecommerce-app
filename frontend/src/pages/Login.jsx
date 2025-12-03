@@ -3,6 +3,7 @@ import { assets } from "../assets/assets.js";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { ShopContext } from "../context/ShopContext.jsx";
+import axios from "axios";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -18,6 +19,8 @@ const Login = () => {
     try {
       e.preventDefault();
 
+       axios.defaults.withCredentials = true;
+
       if (state === "Sign Up") {
         const { data } = await axiosInstance.post("/api/auth/register", {
           name,
@@ -28,6 +31,7 @@ const Login = () => {
         if (data.success) {
           toast.success(data.message || "Login successful");
           handleLoginSuccess();
+          navigate("/")
           
         } else {
           toast.error(data.message);
@@ -40,6 +44,7 @@ const Login = () => {
 
         if (data.success) {
           handleLoginSuccess();
+          navigate("/")
           
         } else {
           toast.error(data.message);
