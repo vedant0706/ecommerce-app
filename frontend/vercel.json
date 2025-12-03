@@ -2,7 +2,7 @@
   "rewrites": [
     {
       "source": "/api/(.*)",
-      "destination": "https://ecommerce-backend-app-arnj.onrender.com/api/$1"
+      "destination": "https://ecommerce-backend-app-arn1.onrender.com/api/$1"
     },
     {
       "source": "/((?!api/.*).*)",
@@ -13,10 +13,22 @@
     {
       "source": "/api/(.*)",
       "headers": [
-        { "key": "Access-Control-Allow-Credentials", "value": "true" },
-        { "key": "Access-Control-Allow-Origin", "value": "https://aura-ecommerce-app.vercel.app" }, 
-        { "key": "Access-Control-Allow-Methods", "value": "GET, POST, PUT, DELETE, OPTIONS" },
-        { "key": "Access-Control-Allow-Headers", "value": "Content-Type, Authorization" }
+        { 
+          "key": "Access-Control-Allow-Credentials", 
+          "value": "true" 
+        },
+        { 
+          "key": "Access-Control-Allow-Origin", 
+          "value": "https://aura-ecommerce-app.vercel.app" 
+        }, 
+        { 
+          "key": "Access-Control-Allow-Methods", 
+          "value": "GET, POST, PUT, DELETE, OPTIONS, PATCH" 
+        },
+        { 
+          "key": "Access-Control-Allow-Headers", 
+          "value": "Content-Type, Authorization, Cookie, token" 
+        }
       ]
     }
   ],
