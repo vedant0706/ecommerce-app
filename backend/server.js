@@ -9,6 +9,8 @@ import productRouter from "./routes/productRoute.js";
 import cartRouter from "./routes/cartRoute.js";
 import orderRouter from "./routes/orderRoute.js";
 
+import './pingBackend.js'
+
 const app = express();
 await connectDB();
 await connectCloudinary();
