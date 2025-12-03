@@ -28,7 +28,7 @@ const Login = () => {
         if (data.success) {
           toast.success(data.message || "Login successful");
           handleLoginSuccess();
-          navigate("/");
+          
         } else {
           toast.error(data.message);
         }
@@ -40,7 +40,7 @@ const Login = () => {
 
         if (data.success) {
           handleLoginSuccess();
-          navigate("/");
+          
         } else {
           toast.error(data.message);
         }
