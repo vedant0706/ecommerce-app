@@ -67,6 +67,7 @@ export const register = async (req, res) => {
       path: "/",
     });
 
+    // ✅ SEND EMAIL ASYNCHRONOUSLY (don't wait for it)
     const mailOptions = {
       from: process.env.SENDER_EMAIL,
       to: email,
@@ -74,8 +75,13 @@ export const register = async (req, res) => {
       text: `Welcome to AURA E-commerce website, Your current account has been created with email id: ${email}`,
     };
 
-    await transporter.sendMail(mailOptions);
+    // Send email in background - don't await
+    transporter.sendMail(mailOptions).catch(err => {
+      console.error('Email send failed:', err);
+      // Email failure won't break registration
+    });
 
+    // ✅ RESPOND IMMEDIATELY (don't wait for email)
     return res.json({ success: true, token: token });
   } catch (error) {
     res.json({ success: false, message: error.message });
