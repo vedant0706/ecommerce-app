@@ -82,7 +82,7 @@ export const register = async (req, res) => {
     });
 
     // ✅ RESPOND IMMEDIATELY (don't wait for email)
-    return res.json({ success: true, token: token });
+    return res.json({ success: true, message: "Login Successful", token: token });
   } catch (error) {
     res.json({ success: false, message: error.message });
   }
