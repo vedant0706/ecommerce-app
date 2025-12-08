@@ -8,7 +8,7 @@ import axios from "axios";
 const Login = () => {
   const navigate = useNavigate();
 
-  const { axiosInstance, handleLoginSuccess } = useContext(ShopContext);
+  const { axiosInstance, handleLoginSuccess, handleRegistrationSuccess } = useContext(ShopContext);
 
   const [state, setState] = useState("Sign Up");
   const [name, setName] = useState("");
@@ -29,8 +29,8 @@ const Login = () => {
         });
 
         if (data.success) {
-          toast.success(data.message || "Login successful");
-          handleLoginSuccess();
+          // toast.success(data.message || "Register successful");
+          handleRegistrationSuccess(),
           navigate("/")
           
         } else {

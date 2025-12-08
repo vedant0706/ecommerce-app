@@ -92,12 +92,21 @@ const ShopContextProvider = (props) => {
     } catch (error) {}
   };
 
+  const handleRegistrationSuccess = async () => {
+    await new Promise((resolve) => setTimeout(resolve, 200));
+
+    await checkAuthStatus();
+
+    toast.success("Registration Successful");
+    navigate("/");
+  }
+
   const handleLoginSuccess = async () => {
     await new Promise((resolve) => setTimeout(resolve, 200));
 
     await checkAuthStatus();
 
-    // toast.success("Login successful!");
+    toast.success("Login successful!");
     navigate("/");
   };
 
@@ -267,6 +276,7 @@ const ShopContextProvider = (props) => {
     setUserData,
     currentUserId,
     handleLoginSuccess,
+    handleRegistrationSuccess,
     handleLogout,
     checkAuthStatus,
     getUserData,
