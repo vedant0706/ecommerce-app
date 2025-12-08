@@ -1,15 +1,14 @@
-import React, { useContext, useEffect } from "react";
-import axios from "axios";
+import React, { useContext, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { ShopContext } from "../../context/ShopContext.jsx";
 
 const EmailVerify = () => {
-  axios.defaults.withCredentials = true;
-  const { backendUrl, isLoggedin, userData, getUserData } =
+  const { axiosInstance, isLoggedin, userData, getUserData } =
     useContext(ShopContext);
+
   const navigate = useNavigate();
-  const inputRefs = React.useRef([]);
+  const inputRefs = useRef([]);
 
   const handleInput = (e, index) => {
     if (e.target.value.length > 0 && index < inputRefs.current.length - 1) {
@@ -34,14 +33,17 @@ const EmailVerify = () => {
   };
 
   const onSubmitHandler = async (e) => {
+    e.preventDefault();
+
     try {
-      e.preventDefault();
-      const otpArray = inputRefs.current.map((e) => e.value);
+      const otpArray = inputRefs.current.map((input) => input.value);
       const otp = otpArray.join("");
 
-      const { data } = await axios.post(
-        backendUrl + "/api/auth/verify-account",
-        { otp }
+      // Correct axios call using axiosInstance (sends cookies on Vercel)
+      const { data } = await axiosInstance.post(
+        "/auth/verify-account",
+        { otp },
+        { withCredentials: true }
       );
 
       if (data.success) {
@@ -52,12 +54,18 @@ const EmailVerify = () => {
         toast.error(data.message);
       }
     } catch (error) {
-      toast.error(error.message);
+      toast.error(
+        error.response?.data?.message ||
+          error.message ||
+          "Verification failed"
+      );
     }
   };
 
   useEffect(() => {
-    isLoggedin && userData && userData.isAccountVerified && navigate("/");
+    if (isLoggedin && userData?.isAccountVerified) {
+      navigate("/");
+    }
   }, [isLoggedin, userData]);
 
   return (
@@ -72,6 +80,7 @@ const EmailVerify = () => {
         <p className="text-center mb-6 text-black">
           Enter the 6-digit code sent to your email id.
         </p>
+
         <div className="flex justify-between mb-8" onPaste={handlePaste}>
           {Array(6)
             .fill(0)
@@ -80,7 +89,7 @@ const EmailVerify = () => {
                 type="text"
                 maxLength="1"
                 key={index}
-                ref={(e) => (inputRefs.current[index] = e)}
+                ref={(el) => (inputRefs.current[index] = el)}
                 onInput={(e) => handleInput(e, index)}
                 onKeyDown={(e) => handleKeyDown(e, index)}
                 required
@@ -88,6 +97,7 @@ const EmailVerify = () => {
               />
             ))}
         </div>
+
         <button className="text-lg w-full py-3 bg-black text-white hover:scale-y-110 rounded-full cursor-pointer">
           Verify Email
         </button>
