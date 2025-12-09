@@ -2,11 +2,11 @@
   "rewrites": [
     {
       "source": "/api/auth/verify-email",
-      "destination": "https://ecommerce-backend-app-arnj.onrender.com/api/auth/verify-email"
+      "destination": "https://backend-aura-ecommerce-app.vercel.app/api/auth/verify-email"
     },
     {
       "source": "/api/:path*",
-      "destination": "https://ecommerce-backend-app-arnj.onrender.com/api/:path*"
+      "destination": "https://backend-aura-ecommerce-app.vercel.app/api/:path*"
     }
   ],
   "headers": [
