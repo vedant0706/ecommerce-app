@@ -187,7 +187,7 @@ const Navbar = () => {
           </NavLink>
           <NavLink
             onClick={() => setVisible(false)}
-            className="py-2 pl-6 border"
+            className="py-2 pl-6 border-t"
             to="/contact"
           >
             CONTACT
@@ -220,7 +220,7 @@ const Navbar = () => {
                   setVisible(false);
                   logout();
                 }}
-                className="py-2 pl-6 border-t cursor-pointer"
+                className="py-2 pl-6 border-t cursor-pointer border-b"
               >
                 LOGOUT
               </div>
