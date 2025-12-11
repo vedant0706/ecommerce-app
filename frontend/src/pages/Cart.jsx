@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
 const Cart = () => {
-  const { products, currency, cartItems, updateCart } =
+  const { products, currency, cartItems, updateCart, userData, isLoggedin } =
     useContext(ShopContext);
 
   const navigate = useNavigate();
@@ -45,6 +45,25 @@ const Cart = () => {
 
     // Update quantity
     updateCart(productId, size, newQuantity);
+  };
+
+  // Handle place order button click
+  const handlePlaceOrder = () => {
+    // Check if user is logged in
+    if (!isLoggedin) {
+      toast.error("Please login to place an order");
+      navigate("/login");
+      return;
+    }
+
+    // Check if email is verified
+    if (userData && !userData.isAccountVerified) {
+      toast.error("Please verify your email before placing an order");
+      return;
+    }
+
+    // If everything is fine, proceed to checkout
+    navigate("/place-order");
   };
 
   return (
@@ -107,7 +126,7 @@ const Cart = () => {
           <CartTotal />
           <div className="w-full text-end">
             <button
-              onClick={() => navigate("/place-order")}
+              onClick={handlePlaceOrder}
               className="bg-black text-white text-sm my-8 px-8 py-3 cursor-pointer"
             >
               PROCEED TO CHECKOUT
