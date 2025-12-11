@@ -7,6 +7,7 @@ import axios from "axios";
 
 const Navbar = () => {
   const [visible, setVisible] = useState(false);
+  const [profileDropdown, setProfileDropdown] = useState(false); // NEW: State for profile dropdown
   const navigate = useNavigate();
 
   const {
@@ -87,18 +88,27 @@ const Navbar = () => {
 
         <div className="group relative">
           <img
+            onClick={() => setProfileDropdown(!profileDropdown)} // NEW: Toggle on click
             src={assets.profile_icon}
             className="w-5 cursor-pointer"
             alt="Profile"
           />
 
-          <div className="group-hover:block hidden absolute right-0 pt-4 z-50">
+          {/* CHANGED: Added click state and made it work on both hover and click */}
+          <div
+            className={`${
+              profileDropdown ? "block" : "hidden"
+            } group-hover:block absolute right-0 pt-4 z-50`}
+          >
             <div className="flex flex-col gap-2 w-40 py-3 px-5 bg-slate-100 text-gray-600 rounded shadow-lg">
               {isLoggedin ? (
                 <>
                   {userData && !userData.isAccountVerified && (
                     <p
-                      onClick={sendVerificationOtp}
+                      onClick={() => {
+                        sendVerificationOtp();
+                        setProfileDropdown(false); // Close dropdown after click
+                      }}
                       className="cursor-pointer hover:text-black transition-colors"
                     >
                       Verify Email
@@ -106,14 +116,20 @@ const Navbar = () => {
                   )}
 
                   <p
-                    onClick={() => navigate("/orders")}
+                    onClick={() => {
+                      navigate("/orders");
+                      setProfileDropdown(false); // Close dropdown after click
+                    }}
                     className="cursor-pointer hover:text-black transition-colors"
                   >
                     Orders
                   </p>
 
                   <p
-                    onClick={logout}
+                    onClick={() => {
+                      logout();
+                      setProfileDropdown(false); // Close dropdown after click
+                    }}
                     className="cursor-pointer hover:text-black transition-colors"
                   >
                     Logout
@@ -121,7 +137,10 @@ const Navbar = () => {
                 </>
               ) : (
                 <p
-                  onClick={() => navigate("/login")}
+                  onClick={() => {
+                    navigate("/login");
+                    setProfileDropdown(false); // Close dropdown after click
+                  }}
                   className="cursor-pointer hover:text-black transition-colors"
                 >
                   Login
@@ -146,6 +165,7 @@ const Navbar = () => {
         />
       </div>
 
+      {/* Mobile Menu Sidebar */}
       <div
         className={`absolute top-0 right-0 bottom-0 overflow-hidden bg-white transition-all z-50 ${
           visible ? "w-full" : "w-0"
@@ -187,53 +207,11 @@ const Navbar = () => {
           </NavLink>
           <NavLink
             onClick={() => setVisible(false)}
-            className="py-2 pl-6 border-t"
+            className="py-2 pl-6 border-t border-b"
             to="/contact"
           >
             CONTACT
           </NavLink>
-
-          {isLoggedin ? (
-            <>
-              <NavLink
-                onClick={() => setVisible(false)}
-                className="py-2 pl-6 border-t"
-                to="/orders"
-              >
-                ORDERS
-              </NavLink>
-
-              {userData && !userData.isAccountVerified && (
-                <div
-                  onClick={() => {
-                    setVisible(false);
-                    sendVerificationOtp();
-                  }}
-                  className="py-2 pl-6 border-t cursor-pointer"
-                >
-                  VERIFY EMAIL
-                </div>
-              )}
-
-              <div
-                onClick={() => {
-                  setVisible(false);
-                  logout();
-                }}
-                className="py-2 pl-6 border-t cursor-pointer border-b"
-              >
-                LOGOUT
-              </div>
-            </>
-          ) : (
-            <NavLink
-              onClick={() => setVisible(false)}
-              className="py-2 pl-6 border-t"
-              to="/login"
-            >
-              LOGIN
-            </NavLink>
-          )}
         </div>
       </div>
     </div>

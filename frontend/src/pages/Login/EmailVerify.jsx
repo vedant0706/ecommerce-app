@@ -41,7 +41,7 @@ const EmailVerify = () => {
 
       // Correct axios call using axiosInstance (sends cookies on Vercel)
       const { data } = await axiosInstance.post(
-        "/auth/verify-account",
+        "/api/auth/verify-account",
         { otp },
         { withCredentials: true }
       );

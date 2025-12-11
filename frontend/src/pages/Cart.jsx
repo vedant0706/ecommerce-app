@@ -4,35 +4,48 @@ import Title from "../components/Title";
 import { assets } from "../assets/assets";
 import CartTotal from "../components/CartTotal";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const Cart = () => {
-  const { products, currency, cartItems, updateQuantity } =
+  const { products, currency, cartItems, updateCart } =
     useContext(ShopContext);
 
-    const navigate = useNavigate();
-
+  const navigate = useNavigate();
   const [cartData, setCartData] = useState([]);
 
-useEffect(() => {
-  if (!products || products.length === 0) {
-    setCartData([]);
-    return;
-  }
+  useEffect(() => {
+    if (!products || products.length === 0) {
+      setCartData([]);
+      return;
+    }
 
-  const tempData = [];
-  for (const productId in cartItems) {
-    for (const size in cartItems[productId]) {
-      if (cartItems[productId][size] > 0) {
-        tempData.push({
-          _id: productId,
-          size: size,
-          quantity: cartItems[productId][size],
-        });
+    const tempData = [];
+    for (const productId in cartItems) {
+      for (const size in cartItems[productId]) {
+        if (cartItems[productId][size] > 0) {
+          tempData.push({
+            _id: productId,
+            size: size,
+            quantity: cartItems[productId][size],
+          });
+        }
       }
     }
-  }
-  setCartData(tempData);
-}, [cartItems, products]);
+    setCartData(tempData);
+  }, [cartItems, products]);
+
+  // Handle quantity change
+  const handleQuantityChange = (e, productId, size) => {
+    const newQuantity = Number(e.target.value);
+
+    // If empty or 0, don't update
+    if (e.target.value === "" || newQuantity === 0) {
+      return;
+    }
+
+    // Update quantity
+    updateCart(productId, size, newQuantity);
+  };
 
   return (
     <div className="border-t pt-14">
@@ -73,22 +86,14 @@ useEffect(() => {
                 </div>
               </div>
               <input
-                onChange={(e) =>
-                  e.target.value === "" || e.target.value === "0"
-                    ? null
-                    : updateQuantity(
-                        item._id,
-                        item.size,
-                        Number(e.target.value)
-                      )
-                }
+                onChange={(e) => handleQuantityChange(e, item._id, item.size)}
                 type="number"
                 className="border max-w-10 sm:max-w-20 px-1 sm:px-2 py-1"
                 min={1}
                 defaultValue={item.quantity}
               />
               <img
-                onClick={() => updateQuantity(item._id, item.size, 0)}
+                onClick={() => updateCart(item._id, item.size, 0)}
                 src={assets.bin_icon}
                 className="w-4 mr-4 sm:w-5 cursor-pointer"
                 alt=""
