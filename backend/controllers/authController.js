@@ -124,12 +124,15 @@ export const login = async (req, res) => {
 
     // NEW: Send login notification email
     const now = new Date();
-    const time = now.toLocaleTimeString('en-US', { 
+    // Use Indian time zone
+    const time = now.toLocaleTimeString('en-IN', { 
+      timeZone: 'Asia/Kolkata',
       hour: '2-digit', 
       minute: '2-digit',
       hour12: true 
     });
-    const date = now.toLocaleDateString('en-US', { 
+    const date = now.toLocaleDateString('en-IN', { 
+      timeZone: 'Asia/Kolkata',
       year: 'numeric', 
       month: 'long', 
       day: 'numeric' 
@@ -162,35 +165,43 @@ export const login = async (req, res) => {
 
 export const logout = async (req, res) => {
   try {
-    // Get user email before clearing cookie
+    // Get user email before clearing cookie (with better error handling)
     const token = req.cookies?.token;
     let userEmail = null;
 
     if (token) {
       try {
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
-        const user = await userModel.findById(decoded.userId).select("email");
-        userEmail = user?.email;
+        if (decoded && decoded.userId) {
+          const user = await userModel.findById(decoded.userId).select("email");
+          userEmail = user?.email;
+        }
       } catch (err) {
-        console.error("Token verification failed during logout:", err);
+        // Token might be expired or invalid, but logout should still work
+        console.error("Token verification failed during logout:", err.message);
       }
     }
 
+    // Clear cookie regardless of email retrieval success
     res.clearCookie("token", {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
-      sameSite: process.env.NODE_ENV === "production" ? "none" : "strict",
+      sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+      path: "/",
     });
 
-    // NEW: Send logout notification email
+    // NEW: Send logout notification email (only if we got the email)
     if (userEmail) {
       const now = new Date();
-      const time = now.toLocaleTimeString('en-US', { 
+      // Use Indian time zone
+      const time = now.toLocaleTimeString('en-IN', { 
+        timeZone: 'Asia/Kolkata',
         hour: '2-digit', 
         minute: '2-digit',
         hour12: true 
       });
-      const date = now.toLocaleDateString('en-US', { 
+      const date = now.toLocaleDateString('en-IN', { 
+        timeZone: 'Asia/Kolkata',
         year: 'numeric', 
         month: 'long', 
         day: 'numeric' 
@@ -214,7 +225,9 @@ export const logout = async (req, res) => {
 
     return res.json({ success: true, message: "Logged Out" });
   } catch (error) {
-    return res.json({ success: false, message: error.message });
+    // Even if something fails, still return success for logout
+    console.error("Logout error:", error);
+    return res.json({ success: true, message: "Logged Out" });
   }
 };
 
