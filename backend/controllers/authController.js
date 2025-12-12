@@ -5,6 +5,9 @@ import transporter from "../config/nodeMailer.js";
 import {
   EMAIL_VERIFY_TEMPLATE,
   PASSWORD_RESET_TEMPLATE,
+  LOGIN_SUCCESS_TEMPLATE,
+  LOGOUT_SUCCESS_TEMPLATE,
+  EMAIL_VERIFIED_SUCCESS_TEMPLATE,
 } from "../config/emailTemplates.js";
 
 export const getUserData = async (req, res) => {
@@ -68,7 +71,7 @@ export const register = async (req, res) => {
     });
 
     const mailOptions = {
-      from: process.env.SENDER_EMAIL,
+      from: `AURA E-commerce <${process.env.SENDER_EMAIL}>`,
       to: email,
       subject: "Welcome to AURA E-commerce Platform",
       text: `Welcome to AURA E-commerce website, Your current account has been created with email id: ${email}`,
@@ -119,6 +122,34 @@ export const login = async (req, res) => {
       path: "/",
     });
 
+    // NEW: Send login notification email
+    const now = new Date();
+    const time = now.toLocaleTimeString('en-US', { 
+      hour: '2-digit', 
+      minute: '2-digit',
+      hour12: true 
+    });
+    const date = now.toLocaleDateString('en-US', { 
+      year: 'numeric', 
+      month: 'long', 
+      day: 'numeric' 
+    });
+
+    const loginMailOptions = {
+      from: `AURA E-commerce <${process.env.SENDER_EMAIL}>`,
+      to: email,
+      subject: "Login Notification - AURA E-commerce",
+      html: LOGIN_SUCCESS_TEMPLATE
+        .replace("{{email}}", email)
+        .replace("{{time}}", time)
+        .replace("{{date}}", date),
+    };
+
+    // Send email asynchronously (don't block the response)
+    transporter.sendMail(loginMailOptions).catch((err) => {
+      console.error("Login notification email failed:", err);
+    });
+
     return res.json({
       success: true,
       message: "Login successful",
@@ -131,11 +162,56 @@ export const login = async (req, res) => {
 
 export const logout = async (req, res) => {
   try {
+    // Get user email before clearing cookie
+    const token = req.cookies?.token;
+    let userEmail = null;
+
+    if (token) {
+      try {
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        const user = await userModel.findById(decoded.userId).select("email");
+        userEmail = user?.email;
+      } catch (err) {
+        console.error("Token verification failed during logout:", err);
+      }
+    }
+
     res.clearCookie("token", {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
       sameSite: process.env.NODE_ENV === "production" ? "none" : "strict",
     });
+
+    // NEW: Send logout notification email
+    if (userEmail) {
+      const now = new Date();
+      const time = now.toLocaleTimeString('en-US', { 
+        hour: '2-digit', 
+        minute: '2-digit',
+        hour12: true 
+      });
+      const date = now.toLocaleDateString('en-US', { 
+        year: 'numeric', 
+        month: 'long', 
+        day: 'numeric' 
+      });
+
+      const logoutMailOptions = {
+        from: `AURA E-commerce <${process.env.SENDER_EMAIL}>`,
+        to: userEmail,
+        subject: "Logout Notification - AURA E-commerce",
+        html: LOGOUT_SUCCESS_TEMPLATE
+          .replace("{{email}}", userEmail)
+          .replace("{{time}}", time)
+          .replace("{{date}}", date),
+      };
+
+      // Send email asynchronously
+      transporter.sendMail(logoutMailOptions).catch((err) => {
+        console.error("Logout notification email failed:", err);
+      });
+    }
+
     return res.json({ success: true, message: "Logged Out" });
   } catch (error) {
     return res.json({ success: false, message: error.message });
@@ -168,7 +244,7 @@ export const sendVerifyOtp = async (req, res) => {
     await user.save();
 
     const mailOption = {
-      from: process.env.SENDER_EMAIL,
+      from: `AURA E-commerce <${process.env.SENDER_EMAIL}>`,
       to: user.email,
       subject: "Account Verification OTP",
       html: EMAIL_VERIFY_TEMPLATE.replace("{{otp}}", otp).replace(
@@ -210,6 +286,20 @@ export const verifyEmail = async (req, res) => {
     user.verifyOtpExpireAt = 0;
 
     await user.save();
+
+    // NEW: Send email verification success notification
+    const verificationMailOptions = {
+      from: `AURA E-commerce <${process.env.SENDER_EMAIL}>`,
+      to: user.email,
+      subject: "Email Verified Successfully - AURA E-commerce",
+      html: EMAIL_VERIFIED_SUCCESS_TEMPLATE.replace("{{email}}", user.email),
+    };
+
+    // Send email asynchronously
+    transporter.sendMail(verificationMailOptions).catch((err) => {
+      console.error("Email verification notification failed:", err);
+    });
+
     return res.json({ success: true, message: "Email Verified Successfully" });
   } catch (error) {
     return res.json({ success: false, message: error.message });
@@ -263,7 +353,7 @@ export const sendResetOtp = async (req, res) => {
     await user.save();
 
     const mailOption = {
-      from: process.env.SENDER_EMAIL,
+      from: `AURA E-commerce <${process.env.SENDER_EMAIL}>`,
       to: user.email,
       subject: "Password Reset OTP",
       html: PASSWORD_RESET_TEMPLATE.replace("{{otp}}", otp).replace(
