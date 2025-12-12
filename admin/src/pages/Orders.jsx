@@ -20,7 +20,7 @@ const Orders = ({ token }) => {
         {},
         {
           headers: { token },
-          withCredentials: true, 
+          withCredentials: true,
         }
       );
       if (response.data.success) {
@@ -40,7 +40,7 @@ const Orders = ({ token }) => {
         { orderId, status: event.target.value },
         {
           headers: { token },
-          withCredentials: true, 
+          withCredentials: true,
         }
       );
       if (response.data.success) {
